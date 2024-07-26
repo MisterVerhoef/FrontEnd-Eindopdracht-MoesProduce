@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import './App.css'
 import FooterBar from "./components/footer/FooterBar.jsx";
 import NavBar from "./components/navbar/NavBar.jsx";
@@ -10,6 +10,7 @@ function App() {
   return (
     <>
         <NavBar />
+
         <Routes>
             {/* Add routes here */}
             <Route exact path="/" element={<Homepage/>} />
