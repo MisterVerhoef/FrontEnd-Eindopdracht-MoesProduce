@@ -11,7 +11,7 @@ function NavBar() {
                 <Link to="/">MoesProduce Logo</Link>
             </div>
             <ul className="navbar-links">
-                <li><Link to="/features">Features</Link></li>
+                <li><Link to="/adverts">Advertenties</Link></li>
                 {!isLoggedIn ? (
                     <>
                         <li><Link to="/login">Login</Link></li>
