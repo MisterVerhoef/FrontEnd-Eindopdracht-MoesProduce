@@ -1,0 +1,5 @@
+.navbar {
+    display: flex;
+    background-color: green;
+    border: 2px blue dotted;
+}

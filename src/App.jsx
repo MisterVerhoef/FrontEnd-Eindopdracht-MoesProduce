@@ -7,6 +7,7 @@ import Homepage from "./pages/homepage/Homepage.jsx";
 import LoginPage from "./pages/login/LoginPage.jsx";
 import ProfilePage from "./pages/profile/ProfilePage.jsx";
 import AdvertsPage from "./pages/adverts/AdvertsPage.jsx";
+import RegisterPage from "./pages/register/RegisterPage.jsx";
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
 
             <Route exact path="/" element={<Homepage/>} />
             <Route exact path="/login" element={<LoginPage/>} />
+            <Route exact path="/register" element={<RegisterPage/>} />
             {/*<Route exact path="/logout" element={<LogoutPage/>} />*/}
             <Route exact path="/adverts" element={<AdvertsPage/>} />
             <Route exact path="/profile" element={<ProfilePage/>} />
