@@ -1,6 +1,23 @@
 .navbar {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     background-color: green;
     border: 2px blue dotted;
+    justify-content: space-between;
+}
+
+.navbar a {
+    color: white;
+    padding: 8px;
+    text-decoration: none;
+}
+
+.navbar a:hover {
+    color: yellow;
+}
+
+.navbar-links {
+    display: flex;
+    flex-direction: row-reverse;
+
 }
