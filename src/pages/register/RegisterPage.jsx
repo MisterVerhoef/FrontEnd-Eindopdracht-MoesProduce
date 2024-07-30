@@ -16,10 +16,19 @@ function RegisterPage() {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)}/>
-            <input type="text" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)}/>
-            <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+        <form className='registerForm' onSubmit={handleSubmit}>
+            <input type="text"
+                   placeholder="Gebruikersnaam"
+                   value={username}
+                   onChange={(e) => setUsername(e.target.value)}/>
+            <input type="text"
+                   placeholder="Emailadres"
+                   value={email}
+                   onChange={(e) => setEmail(e.target.value)}/>
+            <input type="password"
+                   placeholder="Wachtwoord"
+                   value={password}
+                   onChange={(e) => setPassword(e.target.value)}/>
             <button type="submit">Registeer</button>
         </form>
     )

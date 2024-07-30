@@ -9,7 +9,7 @@
 .navbar a {
     color: white;
     padding: 8px;
-    text-decoration: none;
+
 }
 
 .navbar a:hover {
@@ -19,5 +19,6 @@
 .navbar-links {
     display: flex;
     flex-direction: row-reverse;
+    list-style-type: none;
 
 }

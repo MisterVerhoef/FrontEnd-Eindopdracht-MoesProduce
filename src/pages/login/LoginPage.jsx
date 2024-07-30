@@ -2,6 +2,7 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
+import './LoginPage.css'
 
 function LoginPage(){
 
@@ -20,6 +21,7 @@ function LoginPage(){
         }
     }
 return (
+    <div className="login-container">
     <form onSubmit={handleSubmit}>
         <input
             type="email"
@@ -35,6 +37,7 @@ return (
         />
         <button type="submit">Inloggen</button>
     </form>
+</div>
 )
 
 
