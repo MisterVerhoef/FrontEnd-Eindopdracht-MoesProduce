@@ -25,13 +25,13 @@ return (
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email"
+            placeholder="voer hier je e-mail in"
         />
         <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
+            placeholder="Voer hier je wachtwoord in"
         />
         <button type="submit">Inloggen</button>
     </form>

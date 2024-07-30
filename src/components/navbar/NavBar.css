@@ -1,5 +1,6 @@
 .navbar {
     display: flex;
+    flex-direction: column;
     background-color: green;
     border: 2px blue dotted;
 }

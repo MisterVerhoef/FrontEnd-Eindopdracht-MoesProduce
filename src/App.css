@@ -1,11 +1,20 @@
+
+
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
 }
 
 main {
   display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  flex-basis: auto;
   background-color: white;
+  color: #1a1a1a;
+  justify-content: center;
+  text-align: center;
 }
