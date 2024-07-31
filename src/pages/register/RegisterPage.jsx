@@ -16,21 +16,26 @@ function RegisterPage() {
     }
 
     return (
-        <form className='registerForm' onSubmit={handleSubmit}>
-            <input type="text"
-                   placeholder="Gebruikersnaam"
-                   value={username}
-                   onChange={(e) => setUsername(e.target.value)}/>
-            <input type="text"
-                   placeholder="Emailadres"
-                   value={email}
-                   onChange={(e) => setEmail(e.target.value)}/>
-            <input type="password"
-                   placeholder="Wachtwoord"
-                   value={password}
-                   onChange={(e) => setPassword(e.target.value)}/>
-            <button type="submit">Registeer</button>
-        </form>
+        <div className='outer-container' id='register-container'>
+        <h1>Registreer je hier voor een MoesProduce account</h1>
+
+        <div className='inner-form-container'>   <form className='registerForm' onSubmit={handleSubmit}>
+                <input type="text"
+                       placeholder="Gebruikersnaam"
+                       value={username}
+                       onChange={(e) => setUsername(e.target.value)}/>
+                <input type="text"
+                       placeholder="Emailadres"
+                       value={email}
+                       onChange={(e) => setEmail(e.target.value)}/>
+                <input type="password"
+                       placeholder="Wachtwoord"
+                       value={password}
+                       onChange={(e) => setPassword(e.target.value)}/>
+                <button type="submit">Registeer</button>
+            </form>
+        </div>
+        </div>
     )
 
 }

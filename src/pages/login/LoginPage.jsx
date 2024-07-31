@@ -21,7 +21,7 @@ function LoginPage(){
         }
     }
 return (
-    <div className="login-container">
+    <div className="inner-form-container" id="login-container">
         <h1>Login</h1>
     <form onSubmit={handleSubmit}>
         Voer hier je emailadres in om in te loggen.
