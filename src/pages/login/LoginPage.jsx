@@ -22,13 +22,16 @@ function LoginPage(){
     }
 return (
     <div className="login-container">
+        <h1>Login</h1>
     <form onSubmit={handleSubmit}>
+        Voer hier je emailadres in om in te loggen.
         <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="voer hier je e-mail in"
         />
+        Voer hier je wachtwoord in om in te loggen.
         <input
             type="password"
             value={password}
