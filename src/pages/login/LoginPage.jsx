@@ -21,6 +21,7 @@ function LoginPage(){
         }
     }
 return (
+    <div className="outer-form-container">
     <div className="inner-form-container" id="login-container">
         <h1>Login</h1>
     <form onSubmit={handleSubmit}>
@@ -41,6 +42,7 @@ return (
         <button type="submit">Inloggen</button>
     </form>
 </div>
+    </div>
 )
 
 

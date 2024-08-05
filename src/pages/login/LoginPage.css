@@ -1,3 +1,14 @@
+main {
+    background-image: url('src/assets/images/achtergrond-login-register.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .inner-form-container {
     flex-direction: column;
     align-items: center;
