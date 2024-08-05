@@ -16,18 +16,22 @@ function RegisterPage() {
     }
 
     return (
-        <div className='outer-container' id='register-container'>
-        <h1>Registreer je hier voor een MoesProduce account</h1>
 
-        <div className='inner-form-container'>   <form className='registerForm' onSubmit={handleSubmit}>
+
+        <div className='inner-form-container'>
+            <h2>Registreer je hier voor een MoesProduce account</h2>
+            <form className='registerForm' onSubmit={handleSubmit}>
+                Voer hier je gewenste gebruikersnaam in:
                 <input type="text"
                        placeholder="Gebruikersnaam"
                        value={username}
                        onChange={(e) => setUsername(e.target.value)}/>
-                <input type="text"
+                Voer hier je emailadres in:
+                <input type="email"
                        placeholder="Emailadres"
                        value={email}
                        onChange={(e) => setEmail(e.target.value)}/>
+                Voer hier je wachtwoord in:
                 <input type="password"
                        placeholder="Wachtwoord"
                        value={password}
@@ -35,8 +39,7 @@ function RegisterPage() {
                 <button type="submit">Registeer</button>
             </form>
         </div>
-        </div>
-    )
+)
 
 }
 
