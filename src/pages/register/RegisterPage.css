@@ -1,0 +1,35 @@
+/*.outer-container {*/
+/*    flex-direction: column;*/
+/*    align-items: center;*/
+/*    padding: 10px;*/
+/*    width: 90%;*/
+/*    max-width: 600px;*/
+/*    margin: 0 auto;*/
+/*    border-radius: 8px;*/
+/*    border: 2px red dotted;*/
+/*    background-color: lightgreen;*/
+/*    text-align: center;*/
+/*    color: darkorange;*/
+/*}*/
+
+/*form {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    justify-content: center;*/
+/*    border: 2px #535bf2 dotted;*/
+/*    justify-items: center;*/
+
+/*}*/
+
+/*form button {*/
+/*    width: 50%;*/
+/*    margin-top: 10px;*/
+/*    font-size: 18px;*/
+/*    font-weight: bold;*/
+/*    transition: background-color 0.3s ease;*/
+/*    padding: 10px;*/
+/*    border-radius: 8px;*/
+/*    background-color: #535bf2;*/
+/*    color: white;*/
+/*    cursor: pointer;*/
+/*}*/

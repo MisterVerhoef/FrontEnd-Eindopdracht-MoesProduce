@@ -1,0 +1,49 @@
+.navbar {
+    display: flex;
+    flex-direction: row;
+    background-color: forestgreen;
+    border: 2px blue dotted;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    width: 100%;
+    box-sizing: border-box;
+
+}
+
+.navbar a {
+    color: white;
+    padding: 8px;
+
+}
+
+.navbar a:hover {
+    color: yellow;
+}
+
+.navbar-links {
+    display: flex;
+    flex-direction: row-reverse;
+    list-style-type: none;
+
+}
+
+.home-icon {
+    height: 80px;
+    width: auto;
+    object-fit: contain;
+}
+
+.navbar-logo{
+    display: flex;
+    align-items: center;
+}
+
+.navbar-logo a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
