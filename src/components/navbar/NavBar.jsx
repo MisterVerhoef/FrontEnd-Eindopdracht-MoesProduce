@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {Link} from 'react-router-dom';
 import './NavBar.css';
+import homeIcon from '/src/assets/images/home-icon.png';
 
 function NavBar() {
 
@@ -9,7 +10,7 @@ function NavBar() {
     return (
         <nav className="navbar">
             <div className="navbar-logo">
-                <Link to="/">MoesProduce Logo</Link>
+                <Link to="/"><img src={homeIcon} alt="homeIcon" className="home-icon"/></Link>
             </div>
             <ul className="navbar-links">
                 <li><Link to="/adverts">Advertenties</Link></li>
