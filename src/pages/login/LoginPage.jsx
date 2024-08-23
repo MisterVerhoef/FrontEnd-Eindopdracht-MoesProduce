@@ -1,35 +1,40 @@
+
+import './LoginPage.css'
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../../services/api.js";
 import './LoginPage.css'
 
-function LoginPage() {
+function LoginPage({ setIsAuthenticated }) {
     const [usernameOrEmail, setUsernameOrEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
+    // const {setIsAuthenticated } = useAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
+        setIsLoading(true);
 
         try {
-            const response = await axios.post('http://localhost:8080/api/users/login',
-                { usernameOrEmail, password },
-                {
-                    withCredentials: true,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            );
+            const response = await api.post('/api/users/login', { usernameOrEmail, password });
+            console.log('Login response:', response.data);
 
-            // Assuming the backend returns a token in the response data
-            localStorage.setItem('token', response.data.token);
-            navigate('/');
+            if (response.data.token) {
+                localStorage.setItem('token', response.data.token);
+                api.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
+                setIsAuthenticated(true);
+                navigate('/');
+            } else {
+                setError('No token received from server');
+            }
         } catch (error) {
             console.error('Login failed:', error);
             setError('Foutieve gebruikersnaam/email of wachtwoord');
+        } finally {
+            setIsLoading(false);
         }
     }
 
@@ -48,6 +53,7 @@ function LoginPage() {
                             onChange={(e) => setUsernameOrEmail(e.target.value)}
                             placeholder="Voer hier je gebruikersnaam of e-mail in"
                             required
+                            disabled={isLoading}
                         />
                     </div>
                     <div>
@@ -59,13 +65,15 @@ function LoginPage() {
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="Voer hier je wachtwoord in"
                             required
+                            disabled={isLoading}
                         />
                     </div>
-                    <button type="submit">Inloggen</button>
+                    <button type="submit" disabled={isLoading}>
+                        {isLoading ? 'Bezig met inloggen...' : 'Inloggen'}
+                    </button>
                 </form>
             </div>
         </div>
     );
 }
-
 export default LoginPage;
