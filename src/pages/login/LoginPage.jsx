@@ -1,42 +1,36 @@
-
 import './LoginPage.css'
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/api.js";
-import './LoginPage.css'
+import { AuthContext } from "../../context/AuthContext.jsx";
 
-function LoginPage({ setIsAuthenticated }) {
+function LoginPage() {
     const [usernameOrEmail, setUsernameOrEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
-    // const {setIsAuthenticated } = useAuth();
+    const { login } = useContext(AuthContext);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
-        setIsLoading(true);
 
         try {
             const response = await api.post('/api/users/login', { usernameOrEmail, password });
             console.log('Login response:', response.data);
 
             if (response.data.token) {
-                localStorage.setItem('token', response.data.token);
-                api.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
-                setIsAuthenticated(true);
+                login(response.data.token);
+                console.log('Token stored and user authenticated');
                 navigate('/');
             } else {
                 setError('No token received from server');
             }
         } catch (error) {
             console.error('Login failed:', error);
-            setError('Foutieve gebruikersnaam/email of wachtwoord');
-        } finally {
-            setIsLoading(false);
+            setError('Invalid username/email or password');
         }
-    }
+    };
 
     return (
         <div className="outer-form-container">
@@ -53,7 +47,6 @@ function LoginPage({ setIsAuthenticated }) {
                             onChange={(e) => setUsernameOrEmail(e.target.value)}
                             placeholder="Voer hier je gebruikersnaam of e-mail in"
                             required
-                            disabled={isLoading}
                         />
                     </div>
                     <div>
@@ -65,15 +58,13 @@ function LoginPage({ setIsAuthenticated }) {
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="Voer hier je wachtwoord in"
                             required
-                            disabled={isLoading}
                         />
                     </div>
-                    <button type="submit" disabled={isLoading}>
-                        {isLoading ? 'Bezig met inloggen...' : 'Inloggen'}
-                    </button>
+                    <button type="submit">Inloggen</button>
                 </form>
             </div>
         </div>
     );
 }
+
 export default LoginPage;

@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import {useContext} from 'react'
 import './App.css'
 import FooterBar from "./components/footer/FooterBar.jsx";
 import NavBar from "./components/navbar/NavBar.jsx";
@@ -8,46 +8,33 @@ import LoginPage from "./pages/login/LoginPage.jsx";
 import ProfilePage from "./pages/profile/ProfilePage.jsx";
 import AdvertsPage from "./pages/adverts/AdvertsPage.jsx";
 import RegisterPage from "./pages/register/RegisterPage.jsx";
+import {AuthContext} from "./context/AuthContext.jsx";
 
 
 function App() {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    useEffect(() => {
+    const {isAuth, user, status} = useContext(AuthContext);
+    console.log('PrivateRoute - isAuthenticated:', isAuth);
 
-        const token = localStorage.getItem('token');
-        setIsAuthenticated(!!token);
-    }, []);
-
-
-    // eslint-disable-next-line react/prop-types
-    const PrivateRoute = ({ children }) => {
-        return isAuthenticated ? children : <Navigate to="/login" />;
-    };
 
     return (
         <>
-            <NavBar isAuthenticated={isAuthenticated} />
+            <NavBar/>
             <main>
                 <Routes>
-                    <Route path="/" element={<Homepage />} />
-                    <Route path="/login" element={<LoginPage setIsAuthenticated={setIsAuthenticated} />} />
-                    <Route path="/register" element={<RegisterPage />} />
-                    <Route path="/adverts" element={<AdvertsPage />} />
-                    <Route
-                        path="/profile"
-                        element={
-                            <PrivateRoute>
-                                <ProfilePage />
-                            </PrivateRoute>
-                        }
-                    />
-                    <Route path="*" element={<Navigate to="/" />} />
+                    <Route path="/" element={<Homepage/>}/>
+                    <Route path="/login" element={<LoginPage/>}/>
+                    <Route path="/register" element={<RegisterPage/>}/>
+                    <Route path="/adverts" element={<AdvertsPage/>}/>
+                    <Route path="/profile" element={isAuth ? <ProfilePage/> : <Navigate to="/login"/>}/>
+                    <Route path="*" element={<Navigate to="/"/>}/>
                 </Routes>
             </main>
-            <FooterBar />
+
+            <FooterBar/>
         </>
     )
 }
+
 
 export default App;
