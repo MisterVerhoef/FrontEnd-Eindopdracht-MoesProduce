@@ -1,37 +1,36 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import './LoginPage.css'
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import api from "../../services/api.js";
+import { AuthContext } from "../../context/AuthContext.jsx";
 
 function LoginPage() {
     const [usernameOrEmail, setUsernameOrEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    const { login } = useContext(AuthContext);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
 
         try {
-            const response = await axios.post('http://localhost:8080/api/users/login',
-                { usernameOrEmail, password },
-                {
-                    withCredentials: true,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            );
+            const response = await api.post('/api/users/login', { usernameOrEmail, password });
+            console.log('Login response:', response.data);
 
-            // Assuming the backend returns a token in the response data
-            localStorage.setItem('token', response.data.token);
-            navigate('/');
+            if (response.data.token) {
+                login(response.data.token);
+                console.log('Token stored and user authenticated');
+                navigate('/');
+            } else {
+                setError('No token received from server');
+            }
         } catch (error) {
             console.error('Login failed:', error);
-            setError('Foutieve gebruikersnaam/email of wachtwoord');
+            setError('Invalid username/email or password');
         }
-    }
+    };
 
     return (
         <div className="outer-form-container">
