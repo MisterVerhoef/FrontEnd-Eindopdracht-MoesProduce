@@ -1,5 +1,6 @@
-import {useEffect, useState} from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState, useContext } from "react";
+import { useNavigate, Navigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext.jsx";
 import api from "../../services/api.js";
 
 function ProfilePage() {
@@ -9,22 +10,35 @@ function ProfilePage() {
     const [error, setError] = useState('');
     const [isEditing, setIsEditing] = useState(false);
     const navigate = useNavigate();
+    const { isAuth } = useContext(AuthContext);
+    
+    console.log('ProfilePage - isAuth:', isAuth);
 
     useEffect(() => {
+        console.log("ProfilePage useEffect triggered");
+    //     if (isAuth) {
+    //         fetchProfile();
+    //     }
+    // }, [isAuth]);
         fetchProfile();
     }, []);
 
     const fetchProfile = async () => {
+        console.log("Fetching profile...");
         setIsLoading(true);
         try {
+            const token = localStorage.getItem('token');
+            console.log("Current token:", token);
             const response = await api.get('/api/users/profile');
+            console.log("Profile fetched successfully:", response.data);
             setProfile(response.data);
             setError('');
         } catch (error) {
             console.error('Fetching profile failed:', error);
+            console.error('Error response:', error.response);
             if (error.response && error.response.status === 401) {
                 setError('Your session has expired. Please log in again.');
-                navigate('/login');
+                // navigate('/login');
             } else {
                 setError('Failed to fetch profile. Please try again later.');
             }
@@ -60,7 +74,7 @@ function ProfilePage() {
             console.error('Updating profile failed:', error);
             if (error.response && error.response.status === 401) {
                 setError('Your session has expired. Please log in again.');
-                navigate('/login');
+                // navigate('/login');
             } else {
                 setError('Er is een fout opgetreden bij het bijwerken van het profiel. Probeer het later opnieuw.');
             }
@@ -68,6 +82,11 @@ function ProfilePage() {
             setIsLoading(false);
         }
     };
+
+    // if (!isAuth) {
+    //     console.log('User not authenticated, redirecting to login');
+    //     return <Navigate to="/login" />;
+    // }
 
     if (isLoading) return <div>Loading...</div>;
     if (error) return <div>{error}</div>;
