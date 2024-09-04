@@ -1,5 +1,6 @@
 import {createContext, useState, useEffect} from 'react';
 import {useNavigate} from "react-router-dom";
+import { jwtDecode } from 'jwt-decode';
 
 
 export const AuthContext = createContext({});
@@ -18,10 +19,12 @@ function AuthContextProvider({children}) {
     useEffect(() => {
         const checkAuth = () => {
             const token = localStorage.getItem('token');
+
             if (token) {
+                const decodedToken = jwtDecode(token);
                 setAuthState({
                     isAuth: true,
-                    user: null,
+                    user: decodedToken,
                     status: 'done',
                 });
             } else {
@@ -37,18 +40,21 @@ function AuthContextProvider({children}) {
     },
         []);
 
-    const login = (token) => {
-        localStorage.setItem('token', token);
+    const login = ( JWT ) => {
+        localStorage.setItem('token', JWT);
+
+        const decodedToken = jwtDecode(JWT);
         setAuthState({
             isAuth: true,
-            user: null,
+            user: decodedToken,
             status: 'done',
         });
         console.log('Login successful, token stored');
+        navigate('/');
     };
 
     const logout = () => {
-        localStorage.clear();
+        localStorage.removeItem('token');
         setAuthState({
             isAuth: false,
             user: null,
