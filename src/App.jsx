@@ -9,6 +9,7 @@ import ProfilePage from "./pages/profile/ProfilePage.jsx";
 import AdvertsPage from "./pages/adverts/AdvertsPage.jsx";
 import RegisterPage from "./pages/register/RegisterPage.jsx";
 import {AuthContext} from "./context/AuthContext.jsx";
+import CreateAdvert from "./pages/createAdvert/CreateAdvert.jsx";
 
 
 function App() {
@@ -26,8 +27,9 @@ function App() {
                     <Route path="/login" element={<LoginPage/>}/>
                     <Route path="/register" element={<RegisterPage/>}/>
                     <Route path="/adverts" element={<AdvertsPage/>}/>
-                    <Route path="/profile" element={<ProfilePage />} />
-                    {/*<Route path="/profile" element={isAuth ? <ProfilePage/> : <Navigate to="/login"/>}/>*/}
+                    <Route path="/creeradvert" element={<CreateAdvert/>}/>
+                    {/*<Route path="/creeradvert" element={isAuth ? <CreateAdvert/> : <Navigate to="/login"/>}/>*/}
+                    <Route path="/profile" element={isAuth ? <ProfilePage/> : <Navigate to="/login"/>}/>
                     <Route path="*" element={<Navigate to="/"/>}/>
                 </Routes>
             </main>

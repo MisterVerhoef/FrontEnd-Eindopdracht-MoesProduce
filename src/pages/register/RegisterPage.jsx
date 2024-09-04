@@ -8,11 +8,16 @@ function RegisterPage() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [isTermsAccepted, setIsTermsAccepted] = useState(false);
     const navigate = useNavigate();
 
     const validateForm = () => {
         if (!username || !email || !password) {
             setError('Alle velden zijn verplicht');
+            return false;
+        }
+        if (!isTermsAccepted) {
+            setError('Je moet akkoord gaan met de voorwaarden');
             return false;
         }
         if (password.length < 6) {
@@ -34,7 +39,8 @@ function RegisterPage() {
             const response = await api.post('/api/users/register', {
                 username,
                 email,
-                password
+                password,
+                termsAccepted: isTermsAccepted
             });
             console.log('Registration successful:', response.data);
             navigate('/login');
@@ -87,6 +93,17 @@ function RegisterPage() {
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
+                </div>
+                <div>
+                    <input
+                        type="checkbox"
+                        id="terms"
+                        checked={isTermsAccepted}
+                        onChange={(e) => setIsTermsAccepted(e.target.checked)}
+                    />
+                    <label htmlFor="terms">
+                        Ik ga akkoord met de voorwaarden
+                    </label>
                 </div>
                 <button type="submit" disabled={isLoading}>
                     {isLoading ? 'Bezig met registreren...' : 'Registreer'}
