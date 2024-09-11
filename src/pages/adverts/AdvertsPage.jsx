@@ -28,8 +28,9 @@ function AdvertsPage() {
     }
 
     return (
-        <div>
+        <div className="outer-form-container">
             <h1>Adverts</h1>
+            <div className="inner-form-container">
             {adverts.length > 0 ? (
                 <ul>
                     {adverts.map((advert) => (
@@ -44,6 +45,7 @@ function AdvertsPage() {
             ) : (
                 <p>No adverts available</p>
             )}
+            </div>
         </div>
     );
 }
