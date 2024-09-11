@@ -27,8 +27,7 @@ function App() {
                     <Route path="/login" element={<LoginPage/>}/>
                     <Route path="/register" element={<RegisterPage/>}/>
                     <Route path="/adverts" element={<AdvertsPage/>}/>
-                    <Route path="/creeradvert" element={<CreateAdvert/>}/>
-                    {/*<Route path="/creeradvert" element={isAuth ? <CreateAdvert/> : <Navigate to="/login"/>}/>*/}
+                    <Route path="/creeradvert" element={isAuth ? <CreateAdvert/> : <Navigate to="/login"/>}/>
                     <Route path="/profile" element={isAuth ? <ProfilePage/> : <Navigate to="/login"/>}/>
                     <Route path="*" element={<Navigate to="/"/>}/>
                 </Routes>
