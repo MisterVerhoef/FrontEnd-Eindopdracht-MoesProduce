@@ -1,8 +1,9 @@
 import {useEffect, useState} from "react";
 import api from "../../services/api.js";
-import "./AdvertsPage.css"
+import "./AllAdvertsPage.css"
+import {Link} from "react-router-dom";
 
-function AdvertsPage() {
+function AllAdvertsPage() {
 
     const [adverts, setAdverts] = useState([])
     const [loading, setLoading] = useState(true)
@@ -25,7 +26,7 @@ function AdvertsPage() {
     }, []);
 
     if (loading) {
-        return <p>Loading advertenties...</p>
+        return <p>Advertenties aan het laden...</p>
     }
 
     return (
@@ -35,6 +36,7 @@ function AdvertsPage() {
                 {adverts.length > 0 ? (
                     <ul className="advert-list-container" style={{listStyleType: 'none'}}>
                         {adverts.map((advert) => (
+                            <Link to={`/adverts/${advert.id}`} key={advert.id} className="advert-item-link">
                             <div key={advert.id} className="advert-item">
                                 <li key={advert.id}>
                                     <h2>{advert.title}</h2>
@@ -43,6 +45,7 @@ function AdvertsPage() {
                                     <p><strong>Date:</strong> {advert.createdDate}</p>
                             </li>
                             </div>
+                            </Link>
                             ))}
                     </ul>
                 ) : (
@@ -53,4 +56,4 @@ function AdvertsPage() {
     );
 }
 
-export default AdvertsPage;
+export default AllAdvertsPage;
