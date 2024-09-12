@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import api from "../../services/api.js";
+import "./AdvertsPage.css"
 
 function AdvertsPage() {
 
@@ -31,20 +32,22 @@ function AdvertsPage() {
         <div className="outer-form-container">
             <h1>Adverts</h1>
             <div className="inner-form-container">
-            {adverts.length > 0 ? (
-                <ul>
-                    {adverts.map((advert) => (
-                        <li key={advert.id}>
-                            <h2>{advert.title}</h2>
-                            <p>{advert.description}</p>
-                            <p><strong>Created by:</strong> {advert.username}</p>
-                            <p><strong>Date:</strong> {advert.createdDate}</p>
-                        </li>
-                    ))}
-                </ul>
-            ) : (
-                <p>No adverts available</p>
-            )}
+                {adverts.length > 0 ? (
+                    <ul className="advert-list-container" style={{listStyleType: 'none'}}>
+                        {adverts.map((advert) => (
+                            <div key={advert.id} className="advert-item">
+                                <li key={advert.id}>
+                                    <h2>{advert.title}</h2>
+                                    <p>{advert.description}</p>
+                                    <p><strong>Created by:</strong> {advert.username}</p>
+                                    <p><strong>Date:</strong> {advert.createdDate}</p>
+                            </li>
+                            </div>
+                            ))}
+                    </ul>
+                ) : (
+                    <p>No adverts available</p>
+                )}
             </div>
         </div>
     );

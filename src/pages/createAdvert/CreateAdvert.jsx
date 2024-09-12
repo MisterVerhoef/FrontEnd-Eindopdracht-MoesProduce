@@ -4,6 +4,7 @@ import api from "../../services/api.js";
 function CreateAdvert() {
     const [advertTitle, setAdvertTitle] = useState('');
     const [advertDescription, setAdvertDescription] = useState('');
+    const [message, setMessage] = useState('');
 
     // const [photos, setPhotos] = useState([])
 
@@ -21,6 +22,10 @@ function CreateAdvert() {
                 }
             });
             console.log('Advert created:', response.data);
+            setMessage('Advert created successfully!');
+            setAdvertTitle('');
+            setAdvertDescription('');
+            setTimeout(() => setMessage(''), 3000);
         } catch (error) {
             console.error('Creating advert failed:', error);
         }
@@ -30,6 +35,7 @@ function CreateAdvert() {
     return (
         <div className="outer-form-container">
             <h2>Plaats een advertentie</h2>
+            {message && <div className="message">{message}</div>}
             <div className="inner-form-container" id="create-advert-container">
                 <form onSubmit={handleSubmit}>
                     <input

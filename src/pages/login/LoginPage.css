@@ -14,7 +14,6 @@ main {
     align-items: center;
     padding: 10px;
     width: 90%;
-    max-width: 600px;
     margin: 0 auto;
     border-radius: 8px;
     border: 2px red dotted;
@@ -59,5 +58,5 @@ form input {
     margin-bottom: 10px;
     width: auto;
     box-sizing: border-box;
-    color: Black
+    color: black
 }

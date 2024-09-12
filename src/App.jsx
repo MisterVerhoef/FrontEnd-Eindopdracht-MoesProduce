@@ -10,6 +10,7 @@ import AdvertsPage from "./pages/adverts/AdvertsPage.jsx";
 import RegisterPage from "./pages/register/RegisterPage.jsx";
 import {AuthContext} from "./context/AuthContext.jsx";
 import CreateAdvert from "./pages/createAdvert/CreateAdvert.jsx";
+import AdminPage from "./pages/admin/AdminPage.jsx";
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
             <main>
                 <Routes>
                     <Route path="/" element={<Homepage/>}/>
+                    <Route path="admin" element={<AdminPage/>}/>
                     <Route path="/login" element={<LoginPage/>}/>
                     <Route path="/register" element={<RegisterPage/>}/>
                     <Route path="/adverts" element={<AdvertsPage/>}/>
