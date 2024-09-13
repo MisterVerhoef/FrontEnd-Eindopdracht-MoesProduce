@@ -20,6 +20,9 @@ function NavBar() {
             </div>
             <ul className="navbar-links">
                 <li>
+                    <Link to="/creeradvert">plaats advertentie</Link>
+                </li>
+                <li>
                     <Link to="/adverts">Advertenties</Link>
                 </li>
                 {!isAuth ? (

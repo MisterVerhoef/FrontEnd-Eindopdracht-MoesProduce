@@ -1,29 +1,52 @@
-
-            import {useState} from "react";
+import {useState} from "react";
+import api from "../../services/api.js";
 
 function CreateAdvert() {
     const [advertTitle, setAdvertTitle] = useState('');
     const [advertDescription, setAdvertDescription] = useState('');
+    const [message, setMessage] = useState('');
 
-    function handleSubmit(e) {
+    // const [photos, setPhotos] = useState([])
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Voeg hier uw submit logica toe
+        const advertData = {
+            title: advertTitle,
+            description: advertDescription,
+        };
+
+        try {
+            const response = await api.post('/api/adverts', advertData, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            console.log('Advert created:', response.data);
+            setMessage('Advert created successfully!');
+            setAdvertTitle('');
+            setAdvertDescription('');
+            setTimeout(() => setMessage(''), 3000);
+        } catch (error) {
+            console.error('Creating advert failed:', error);
+        }
+
     }
 
     return (
         <div className="outer-form-container">
             <h2>Plaats een advertentie</h2>
+            {message && <div className="message">{message}</div>}
             <div className="inner-form-container" id="create-advert-container">
                 <form onSubmit={handleSubmit}>
-                    <input 
-                        type="text" 
-                        placeholder="Titel" 
+                    <input
+                        type="text"
+                        placeholder="Titel"
                         value={advertTitle}
                         onChange={(e) => setAdvertTitle(e.target.value)}
                     />
-                    <textarea 
-                        placeholder="Omschrijving" 
-                        maxLength="255" 
+                    <textarea
+                        placeholder="Omschrijving"
+                        maxLength="255"
                         value={advertDescription}
                         onChange={(e) => setAdvertDescription(e.target.value)}
                         style={{
@@ -39,4 +62,5 @@ function CreateAdvert() {
         </div>
     )
 }
+
 export default CreateAdvert;

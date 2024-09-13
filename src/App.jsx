@@ -6,10 +6,12 @@ import {Navigate, Route, Routes} from "react-router-dom";
 import Homepage from "./pages/homepage/Homepage.jsx";
 import LoginPage from "./pages/login/LoginPage.jsx";
 import ProfilePage from "./pages/profile/ProfilePage.jsx";
-import AdvertsPage from "./pages/adverts/AdvertsPage.jsx";
+import AllAdvertsPage from "./pages/adverts/AllAdvertsPage.jsx";
 import RegisterPage from "./pages/register/RegisterPage.jsx";
 import {AuthContext} from "./context/AuthContext.jsx";
 import CreateAdvert from "./pages/createAdvert/CreateAdvert.jsx";
+import AdminPage from "./pages/admin/AdminPage.jsx";
+import AdvertPage from "./pages/advert/AdvertPage.jsx";
 
 
 function App() {
@@ -24,11 +26,12 @@ function App() {
             <main>
                 <Routes>
                     <Route path="/" element={<Homepage/>}/>
+                    <Route path="admin" element={<AdminPage/>}/>
                     <Route path="/login" element={<LoginPage/>}/>
+                    <Route path="/adverts/:id" element={<AdvertPage/>}/>
                     <Route path="/register" element={<RegisterPage/>}/>
-                    <Route path="/adverts" element={<AdvertsPage/>}/>
-                    <Route path="/creeradvert" element={<CreateAdvert/>}/>
-                    {/*<Route path="/creeradvert" element={isAuth ? <CreateAdvert/> : <Navigate to="/login"/>}/>*/}
+                    <Route path="/adverts" element={<AllAdvertsPage/>}/>
+                    <Route path="/creeradvert" element={isAuth ? <CreateAdvert/> : <Navigate to="/login"/>}/>
                     <Route path="/profile" element={isAuth ? <ProfilePage/> : <Navigate to="/login"/>}/>
                     <Route path="*" element={<Navigate to="/"/>}/>
                 </Routes>

@@ -93,10 +93,10 @@ function ProfilePage() {
     if (!profile) return <div>No profile data available</div>;
 
     return (
-        <div className='profile-container'>
-            <h2>Gebruikers Profiel</h2>
+        <div className='outer-form-container'>
+            <h2>Gebruikers Profiel van {profile.name}</h2>
             {error && <div className='error-message'>{error}</div>}
-            <div>
+            <div className="inner-form-container">
                 <p><strong>Gebruikersnaam:</strong> {profile.username}</p>
                 <p><strong>Email:</strong> {profile.email}</p>
             </div>
