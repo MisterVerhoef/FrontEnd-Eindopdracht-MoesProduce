@@ -26,13 +26,14 @@ function App() {
             <main>
                 <Routes>
                     <Route path="/" element={<Homepage/>}/>
-                    <Route path="admin" element={<AdminPage/>}/>
+
                     <Route path="/login" element={<LoginPage/>}/>
                     <Route path="/adverts/:id" element={<AdvertPage/>}/>
                     <Route path="/register" element={<RegisterPage/>}/>
                     <Route path="/adverts" element={<AllAdvertsPage/>}/>
                     <Route path="/creeradvert" element={isAuth ? <CreateAdvert/> : <Navigate to="/login"/>}/>
                     <Route path="/profile" element={isAuth ? <ProfilePage/> : <Navigate to="/login"/>}/>
+                    <Route path="/admin" element={isAuth ? <AdminPage/> : <Navigate to="/"/>}/>
                     <Route path="*" element={<Navigate to="/"/>}/>
                 </Routes>
             </main>
