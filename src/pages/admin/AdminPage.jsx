@@ -1,9 +1,15 @@
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import api from "../../services/api.js";
+import {AuthContext} from "../../context/AuthContext.jsx";
 
 function AdminPage(){
 
     const [users, setUsers] = useState([])
+    const { hasRole } = useContext(AuthContext);
+
+    if (!hasRole('ROLE_ADMIN')) {
+        return <div>Access Denied</div>;
+    }
 
     useEffect(() => {
        api.get('/api/admin/users')

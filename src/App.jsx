@@ -33,7 +33,7 @@ function App() {
                     <Route path="/adverts" element={<AllAdvertsPage/>}/>
                     <Route path="/creeradvert" element={isAuth ? <CreateAdvert/> : <Navigate to="/login"/>}/>
                     <Route path="/profile" element={isAuth ? <ProfilePage/> : <Navigate to="/login"/>}/>
-                    <Route path="/admin" element={isAuth ? <AdminPage/> : <Navigate to="/"/>}/>
+                    <Route path="/admin" element={isAuth && user.roles.includes('ROLE_ADMIN') ? <AdminPage/> : <Navigate to="/"/>}/>
                     <Route path="*" element={<Navigate to="/"/>}/>
                 </Routes>
             </main>
