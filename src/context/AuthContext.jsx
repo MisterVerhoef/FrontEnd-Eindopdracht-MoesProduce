@@ -50,7 +50,13 @@ function AuthContextProvider({children}) {
             status: 'done',
         });
         console.log('Login successful, token stored');
-        navigate('/');
+
+        if (decodedToken.roles && decodedToken.roles.includes('ADMIN')) {
+            navigate('/admin');
+        } else {
+            navigate('/');
+        }
+
     };
 
     const logout = () => {

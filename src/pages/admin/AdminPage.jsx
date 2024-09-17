@@ -17,8 +17,9 @@ function AdminPage(){
 
     return (
 
-        <div>
+        <div className="outer-container" id="admin-container">
             <h1>Admin Control</h1>
+            <div className="inner-form-container">
             <ul>
                 {users.map(user => (
                     <li key={user.id}>
@@ -26,6 +27,7 @@ function AdminPage(){
                     </li>
                 ))}
             </ul>
+            </div>
         </div>
     );
 }
