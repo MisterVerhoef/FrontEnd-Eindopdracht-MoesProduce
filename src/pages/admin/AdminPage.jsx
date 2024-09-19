@@ -28,23 +28,43 @@ function AdminPage() {
         const roleName = newRole.replace('ROLE_', '');
         const user = users.find(u => u.id === userId);
 
-        const isConfirmed = window.confirm(`Are you sure you want to change ${user.username}'s role from ${currentRole} to ${roleName}?`);
+        const isConfirmed = window.confirm(`Are you sure you want to change ${user.username}'s role from ${currentRole.replace('ROLE_', '')} to ${roleName}?`);
 
         if (!isConfirmed) {
-            return; // If not confirmed, exit the function without making any changes
+            return;
         }
 
         try {
             const response = await api.put(`/api/admin/users/${userId}/role?newRole=${roleName}`);
             console.log('Role update response:', response.data);
-            fetchUsers(); // Refresh the user list
+            fetchUsers();
         } catch (err) {
             console.error('Error updating role:', err);
             if (err.response) {
-                console.error('Error response:', err.response.data);
                 setError(`Failed to update user role: ${err.response.data.message || err.response.data}`);
             } else {
                 setError(`Failed to update user role: ${err.message}`);
+            }
+        }
+    };
+
+    const handleDeleteUser = async (userId, username) => {
+        const isConfirmed = window.confirm(`Are you sure you want to delete the user ${username}? This action cannot be undone.`);
+
+        if (!isConfirmed) {
+            return;
+        }
+
+        try {
+            await api.delete(`/api/users/${userId}`);
+            console.log('User deleted successfully');
+            fetchUsers();
+        } catch (err) {
+            console.error('Error deleting user:', err);
+            if (err.response) {
+                setError(`Failed to delete user: ${err.response.data.message || err.response.data}`);
+            } else {
+                setError(`Failed to delete user: ${err.message}`);
             }
         }
     };
@@ -79,11 +99,17 @@ function AdminPage() {
                                     value={user.roles[0]}
                                     onChange={(e) => handleRoleChange(user.id, e.target.value, user.roles[0])}
                                 >
-                                    <option>Kies een USER ROLE:</option>
+                                    <option>Kies een User Role:</option>
                                     <option value="ROLE_USER">User</option>
                                     <option value="ROLE_SELLER">Seller</option>
                                     <option value="ROLE_ADMIN">Admin</option>
                                 </select>
+                                <button
+                                    onClick={() => handleDeleteUser(user.id, user.username)}
+                                    className="delete-user-btn"
+                                >
+                                    Delete User
+                                </button>
                             </div>
                         </div>
                     ))}
