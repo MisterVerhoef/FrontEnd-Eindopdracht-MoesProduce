@@ -1,6 +1,7 @@
-import {useContext, useEffect, useState} from "react";
-import api from "../../services/api.js";
-import {AuthContext} from "../../context/AuthContext.jsx";
+import React, { useState, useEffect, useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext.jsx';
+import api from '../../services/api.js';
+import './AdminPage.css';
 
 function AdminPage() {
     const [users, setUsers] = useState([]);
@@ -23,16 +24,36 @@ function AdminPage() {
         }
     };
 
-    const handleRoleChange = async (userId, newRole) => {
+    const handleRoleChange = async (userId, newRole, currentRole) => {
+        const roleName = newRole.replace('ROLE_', '');
+        const user = users.find(u => u.id === userId);
+
+        const isConfirmed = window.confirm(`Are you sure you want to change ${user.username}'s role from ${currentRole} to ${roleName}?`);
+
+        if (!isConfirmed) {
+            return; // If not confirmed, exit the function without making any changes
+        }
+
         try {
-            await api.put(`/api/admin/users/${userId}/role`, { role: newRole });
-            fetchUsers();
+            const response = await api.put(`/api/admin/users/${userId}/role?newRole=${roleName}`);
+            console.log('Role update response:', response.data);
+            fetchUsers(); // Refresh the user list
         } catch (err) {
-            setError('Failed to update user role');
+            console.error('Error updating role:', err);
+            if (err.response) {
+                console.error('Error response:', err.response.data);
+                setError(`Failed to update user role: ${err.response.data.message || err.response.data}`);
+            } else {
+                setError(`Failed to update user role: ${err.message}`);
+            }
         }
     };
 
-    if (!hasRole('ADMIN')) {
+    const getRoleName = (role) => {
+        return role.replace('ROLE_', '');
+    };
+
+    if (!hasRole('ROLE_ADMIN')) {
         return <div className="access-denied">Access Denied. You do not have the ADMIN role.</div>;
     }
 
@@ -40,27 +61,28 @@ function AdminPage() {
     if (error) return <div className="error">Error: {error}</div>;
 
     return (
-        <div className="outer-form-container" id="admin-container">
+        <div className="admin-page">
             <header className="admin-header">
                 <h1>User Management</h1>
             </header>
-            <div className="inner-form-container">
+            <div className="admin-content">
                 <div className="user-list">
                     {users.map(user => (
                         <div key={user.id} className="user-card">
                             <div className="user-info">
                                 <h3>{user.username}</h3>
                                 <p>{user.email}</p>
-                                <p>Roles: {user.roles.join(', ')}</p>
+                                <p>Roles: {user.roles.map(getRoleName).join(', ')}</p>
                             </div>
                             <div className="user-actions">
                                 <select
                                     value={user.roles[0]}
-                                    onChange={(e) => handleRoleChange(user.id, e.target.value)}
+                                    onChange={(e) => handleRoleChange(user.id, e.target.value, user.roles[0])}
                                 >
-                                    <option value="USER">USER</option>
-                                    <option value="SELLER">SELLER</option>
-                                    <option value="ADMIN">ADMIN</option>
+                                    <option>Kies een USER ROLE:</option>
+                                    <option value="ROLE_USER">User</option>
+                                    <option value="ROLE_SELLER">Seller</option>
+                                    <option value="ROLE_ADMIN">Admin</option>
                                 </select>
                             </div>
                         </div>

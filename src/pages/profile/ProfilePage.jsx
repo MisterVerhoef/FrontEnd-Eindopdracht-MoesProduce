@@ -74,7 +74,7 @@ function ProfilePage() {
             console.error('Updating profile failed:', error);
             if (error.response && error.response.status === 401) {
                 setError('Your session has expired. Please log in again.');
-                // navigate('/login');
+                navigate('/login');
             } else {
                 setError('Er is een fout opgetreden bij het bijwerken van het profiel. Probeer het later opnieuw.');
             }

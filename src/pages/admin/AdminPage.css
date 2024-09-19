@@ -1,0 +1,82 @@
+.admin-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f5f5f5;
+}
+
+.admin-header {
+    padding: 1rem;
+    text-align: center;
+}
+
+.admin-header h1 {
+    margin: 0;
+}
+
+.admin-content {
+    flex: 1;
+    padding: 2rem;
+}
+
+.user-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.user-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    width: calc(33.333% - 1rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.user-info h3 {
+    margin-top: 0;
+    color: #2c3e50;
+}
+
+.user-info p {
+    margin: 0.5rem 0;
+    color: #34495e;
+}
+
+.user-actions select {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 1rem;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+    background-color: #ecf0f1;
+    color: #2c3e50;
+}
+
+.loading, .error, .access-denied {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-size: 1.2rem;
+}
+
+.error, .access-denied {
+    color: #e74c3c;
+}
+
+@media (max-width: 1200px) {
+    .user-card {
+        width: calc(50% - 1rem);
+    }
+}
+
+@media (max-width: 768px) {
+    .user-card {
+        width: 100%;
+    }
+}
