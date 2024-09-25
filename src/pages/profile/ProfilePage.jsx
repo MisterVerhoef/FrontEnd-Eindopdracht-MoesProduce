@@ -1,150 +1,179 @@
-import { useEffect, useState, useContext } from "react";
-import { useNavigate, Navigate } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext.jsx";
-import api from "../../services/api.js";
+import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext.jsx';
+import api from '../../services/api.js';
 
-function ProfilePage() {
+const ProfilePage = () => {
     const [profile, setProfile] = useState(null);
-    const [originalProfile, setOriginalProfile] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
     const [isEditing, setIsEditing] = useState(false);
+    const { isAuth, logout } = useContext(AuthContext);
     const navigate = useNavigate();
-    const { isAuth } = useContext(AuthContext);
-    
-    console.log('ProfilePage - isAuth:', isAuth);
 
     useEffect(() => {
-        console.log("ProfilePage useEffect triggered");
-    //     if (isAuth) {
-    //         fetchProfile();
-    //     }
-    // }, [isAuth]);
-        fetchProfile();
-    }, []);
+        if (isAuth) {
+            fetchProfile();
+        } else {
+            navigate('/login');
+        }
+    }, [isAuth, navigate]);
 
     const fetchProfile = async () => {
-        console.log("Fetching profile...");
         setIsLoading(true);
         try {
-            const token = localStorage.getItem('token');
-            console.log("Current token:", token);
             const response = await api.get('/api/users/profile');
-            console.log("Profile fetched successfully:", response.data);
             setProfile(response.data);
             setError('');
-        } catch (error) {
-            console.error('Fetching profile failed:', error);
-            console.error('Error response:', error.response);
-            if (error.response && error.response.status === 401) {
-                setError('Your session has expired. Please log in again.');
-                // navigate('/login');
-            } else {
-                setError('Failed to fetch profile. Please try again later.');
-            }
+        } catch (err) {
+            handleApiError(err);
         } finally {
             setIsLoading(false);
         }
     };
 
+    const handleApiError = (err) => {
+        console.error('API Error:', err);
+        if (err.response) {
+            switch (err.response.status) {
+                case 401:
+                    setError('Your session has expired. Please log in again.');
+                    logout();
+                    navigate('/login');
+                    break;
+                case 400:
+                    setError(err.response.data.message || 'Invalid data. Please check your inputs and try again.');
+                    break;
+                default:
+                    setError('Er ging iets fout. Probeer het later nog eens.');
+            }
+        } else if (err.request) {
+            setError('No response received from server. Please check your internet connection.');
+        } else {
+            setError('Er ging iets fout. Probeer het later nog eens.');
+        }
+    };
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setProfile({ ...profile, [name]: value });
-    };
-
-    const handleEdit = () => {
-        setOriginalProfile({...profile});
-        setIsEditing(true);
-    };
-
-    const handleCancel = () => {
-        setProfile(originalProfile);
-        setIsEditing(false);
+        setProfile(prev => ({ ...prev, [name]: value }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
         setError('');
+        setSuccessMessage('');
+
         try {
-            const response = await api.put('/api/users/profile', profile);
+            const response = await api.put('/api/users/profile', {
+                username: profile.username,
+                email: profile.email,
+                name: profile.name,
+                doB: profile.doB,
+                address: profile.address
+            });
+
             setProfile(response.data);
+            setSuccessMessage('Profiel is succesvol gewijzigd.');
             setIsEditing(false);
-        } catch (error) {
-            console.error('Updating profile failed:', error);
-            if (error.response && error.response.status === 401) {
-                setError('Your session has expired. Please log in again.');
-                navigate('/login');
-            } else {
-                setError('Er is een fout opgetreden bij het bijwerken van het profiel. Probeer het later opnieuw.');
-            }
+        } catch (err) {
+            handleApiError(err);
         } finally {
             setIsLoading(false);
         }
     };
 
-    // if (!isAuth) {
-    //     console.log('User not authenticated, redirecting to login');
-    //     return <Navigate to="/login" />;
-    // }
+    const handleEdit = () => setIsEditing(true);
+    const handleCancel = () => {
+        fetchProfile();
+        setIsEditing(false);
+    };
 
     if (isLoading) return <div>Loading...</div>;
-    if (error) return <div>{error}</div>;
     if (!profile) return <div>No profile data available</div>;
 
     return (
-        <div className='outer-form-container'>
-            <h2>Gebruikers Profiel van {profile.name}</h2>
-            {error && <div className='error-message'>{error}</div>}
+        <div className="outer-form-container">
+            <h2>User Profile</h2>
+            {error && <div className="error-message">{error}</div>}
+            {successMessage && <div className="success-message">{successMessage}</div>}
             <div className="inner-form-container">
-                <p><strong>Gebruikersnaam:</strong> {profile.username}</p>
-                <p><strong>Email:</strong> {profile.email}</p>
+                {isEditing ? (
+                    <form onSubmit={handleSubmit}>
+                        <div>
+                            <label htmlFor="username">Username:</label>
+                            <input
+                                type="text"
+                                id="username"
+                                name="username"
+                                value={profile.username}
+                                onChange={handleInputChange}
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="email">Email:</label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                value={profile.email}
+                                onChange={handleInputChange}
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="name">Name:</label>
+                            <input
+                                type="text"
+                                id="name"
+                                name="name"
+                                value={profile.name}
+                                onChange={handleInputChange}
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="doB">Date of Birth:</label>
+                            <input
+                                type="date"
+                                id="doB"
+                                name="doB"
+                                value={profile.doB || ''}
+                                onChange={handleInputChange}
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="address">Address:</label>
+                            <input
+                                type="text"
+                                id="address"
+                                name="address"
+                                value={profile.address}
+                                onChange={handleInputChange}
+                            />
+                        </div>
+                        <button type="submit" disabled={isLoading}>
+                            {isLoading ? 'Updating...' : 'Update Profile'}
+                        </button>
+                        <button type="button" onClick={handleCancel} disabled={isLoading}>
+                            Cancel
+                        </button>
+                    </form>
+                ) : (
+                    <div>
+                        <p><strong>Username:</strong> {profile.username}</p>
+                        <p><strong>Email:</strong> {profile.email}</p>
+                        <p><strong>Name:</strong> {profile.name || 'Not set'}</p>
+                        <p><strong>Date of Birth:</strong> {profile.doB || 'Not set'}</p>
+                        <p><strong>Address:</strong> {profile.address || 'Not set'}</p>
+                        <button onClick={handleEdit}>Edit Profile</button>
+                    </div>
+                )}
             </div>
-            {isEditing ? (
-                <form onSubmit={handleSubmit}>
-                    <div>
-                        <label htmlFor="name">Naam:</label>
-                        <input
-                            type="text"
-                            id="name"
-                            name="name"
-                            value={profile.name}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="doB">Geboortedatum:</label>
-                        <input
-                            type="date"
-                            id="doB"
-                            name="doB"
-                            value={profile.doB}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="address">Adres:</label>
-                        <input
-                            type="text"
-                            id="address"
-                            name="address"
-                            value={profile.address}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-                    <button type="submit">Opslaan</button>
-                    <button type="button" onClick={handleCancel}>Annuleren</button>
-                </form>
-            ) : (
-                <div>
-                    <p><strong>Naam:</strong> {profile.name || 'Niet ingesteld'}</p>
-                    <p><strong>Geboortedatum:</strong> {profile.doB || 'Niet ingesteld'}</p>
-                    <p><strong>Adres:</strong> {profile.address || 'Niet ingesteld'}</p>
-                    <button onClick={handleEdit}>Wijzigen</button>
-                </div>
-            )}
         </div>
     );
-}
+};
 
 export default ProfilePage;
