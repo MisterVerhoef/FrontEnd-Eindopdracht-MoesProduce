@@ -103,7 +103,7 @@ const ProfilePage = () => {
                 {isEditing ? (
                     <form onSubmit={handleSubmit}>
                         <div>
-                            <label htmlFor="username">Username:</label>
+                            <label htmlFor="username">Gebruikersnaam:</label>
                             <input
                                 type="text"
                                 id="username"
@@ -125,7 +125,7 @@ const ProfilePage = () => {
                             />
                         </div>
                         <div>
-                            <label htmlFor="name">Name:</label>
+                            <label htmlFor="name">Naam:</label>
                             <input
                                 type="text"
                                 id="name"
@@ -135,7 +135,7 @@ const ProfilePage = () => {
                             />
                         </div>
                         <div>
-                            <label htmlFor="doB">Date of Birth:</label>
+                            <label htmlFor="doB">Geboorte Datum:</label>
                             <input
                                 type="date"
                                 id="doB"
@@ -145,7 +145,7 @@ const ProfilePage = () => {
                             />
                         </div>
                         <div>
-                            <label htmlFor="address">Address:</label>
+                            <label htmlFor="address">Adres:</label>
                             <input
                                 type="text"
                                 id="address"
@@ -163,12 +163,12 @@ const ProfilePage = () => {
                     </form>
                 ) : (
                     <div>
-                        <p><strong>Username:</strong> {profile.username}</p>
+                        <p><strong>Gebruikersnaam:</strong> {profile.username}</p>
                         <p><strong>Email:</strong> {profile.email}</p>
-                        <p><strong>Name:</strong> {profile.name || 'Not set'}</p>
-                        <p><strong>Date of Birth:</strong> {profile.doB || 'Not set'}</p>
-                        <p><strong>Address:</strong> {profile.address || 'Not set'}</p>
-                        <button onClick={handleEdit}>Edit Profile</button>
+                        <p><strong>Naam:</strong> {profile.name || 'Not set'}</p>
+                        <p><strong>Geboorte datum:</strong> {profile.doB || 'Not set'}</p>
+                        <p><strong>Adres:</strong> {profile.address || 'Not set'}</p>
+                        <button onClick={handleEdit}>Profiel bewerken</button>
                     </div>
                 )}
             </div>
