@@ -1,12 +1,30 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import api from "../../services/api.js";
 
 function CreateAdvert() {
     const [advertTitle, setAdvertTitle] = useState('');
     const [advertDescription, setAdvertDescription] = useState('');
     const [message, setMessage] = useState('');
+    const [vegetables, setVegetables] = useState([]);
+    const [selectedVegetables, setSelectedVegetables] = useState([]);
 
-    // const [photos, setPhotos] = useState([])
+    useEffect(() => {
+        const fetchVegetables = async () => {
+            try {
+                const response = await api.get('/api/vegetables', {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`
+                    }
+
+                });console.log('Fetched vegetables:', response.data);
+                setVegetables(response.data);
+            } catch (error) {
+                console.error("Error fetching vegetables:", error);
+            }
+        };
+        fetchVegetables();
+    }, []);
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
