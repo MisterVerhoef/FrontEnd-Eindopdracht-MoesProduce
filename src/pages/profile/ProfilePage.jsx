@@ -9,6 +9,11 @@ const ProfilePage = () => {
     const [error, setError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [isEditing, setIsEditing] = useState(false);
+    const [passwordData, setPasswordData] = useState({
+        currentPassword: '',
+        newPassword: '',
+        confirmPassword: ''
+    });
     const { isAuth, logout } = useContext(AuthContext);
     const navigate = useNavigate();
 
@@ -34,30 +39,52 @@ const ProfilePage = () => {
     };
 
     const handleApiError = (err) => {
-        console.error('API Error:', err);
+        console.error('API Fout:', err);
         if (err.response) {
             switch (err.response.status) {
                 case 401:
-                    setError('Your session has expired. Please log in again.');
+                    setError('Uw sessie is verlopen. Log alstublieft opnieuw in.');
                     logout();
                     navigate('/login');
                     break;
+                case 409:
+                    setError(err.response.data || 'Gebruikersnaam of e-mail is al in gebruik.');
+                    break;
                 case 400:
-                    setError(err.response.data.message || 'Invalid data. Please check your inputs and try again.');
+                    setError(err.response.data || 'Ongeldige gegevens. Controleer uw invoer en probeer het opnieuw.');
                     break;
                 default:
-                    setError('Er ging iets fout. Probeer het later nog eens.');
+                    setError('Er is een fout opgetreden. Probeer het later opnieuw.');
             }
         } else if (err.request) {
-            setError('No response received from server. Please check your internet connection.');
+            setError('Geen reactie ontvangen van de server. Controleer uw internetverbinding.');
         } else {
-            setError('Er ging iets fout. Probeer het later nog eens.');
+            setError('Er is een onverwachte fout opgetreden. Probeer het opnieuw.');
         }
     };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setProfile(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleDateChange = (e) => {
+        const { value } = e.target;
+        // Convert dd-mm-yyyy to yyyy-mm-dd for backend
+        const [day, month, year] = value.split('-');
+        const formattedDate = `${year}-${month}-${day}`;
+        setProfile(prev => ({ ...prev, doB: formattedDate }));
+    };
+
+    const formatDateForDisplay = (dateString) => {
+        if (!dateString) return '';
+        const [year, month, day] = dateString.split('-');
+        return `${day}-${month}-${year}`;
+    };
+
+    const handlePasswordInputChange = (e) => {
+        const { name, value } = e.target;
+        setPasswordData(prev => ({ ...prev, [name]: value }));
     };
 
     const handleSubmit = async (e) => {
@@ -71,13 +98,39 @@ const ProfilePage = () => {
                 username: profile.username,
                 email: profile.email,
                 name: profile.name,
-                doB: profile.doB,
+                doB: profile.doB, // This is already in yyyy-mm-dd format
                 address: profile.address
             });
 
             setProfile(response.data);
-            setSuccessMessage('Profiel is succesvol gewijzigd.');
+            setSuccessMessage('Profiel succesvol bijgewerkt');
             setIsEditing(false);
+        } catch (err) {
+            handleApiError(err);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handlePasswordChange = async (e) => {
+        e.preventDefault();
+        if (passwordData.newPassword !== passwordData.confirmPassword) {
+            setError('Nieuwe wachtwoorden komen niet overeen');
+            return;
+        }
+
+        setIsLoading(true);
+        setError('');
+        setSuccessMessage('');
+
+        try {
+            await api.put('/api/users/change-password', {
+                currentPassword: passwordData.currentPassword,
+                newPassword: passwordData.newPassword
+            });
+
+            setSuccessMessage('Wachtwoord succesvol gewijzigd');
+            setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
         } catch (err) {
             handleApiError(err);
         } finally {
@@ -91,12 +144,12 @@ const ProfilePage = () => {
         setIsEditing(false);
     };
 
-    if (isLoading) return <div>Loading...</div>;
-    if (!profile) return <div>No profile data available</div>;
+    if (isLoading) return <div>Laden...</div>;
+    if (!profile) return <div>Geen profielgegevens beschikbaar</div>;
 
     return (
         <div className="outer-form-container">
-            <h2>User Profile</h2>
+            <h2>Gebruikersprofiel</h2>
             {error && <div className="error-message">{error}</div>}
             {successMessage && <div className="success-message">{successMessage}</div>}
             <div className="inner-form-container">
@@ -114,7 +167,7 @@ const ProfilePage = () => {
                             />
                         </div>
                         <div>
-                            <label htmlFor="email">Email:</label>
+                            <label htmlFor="email">E-mail:</label>
                             <input
                                 type="email"
                                 id="email"
@@ -135,13 +188,14 @@ const ProfilePage = () => {
                             />
                         </div>
                         <div>
-                            <label htmlFor="doB">Geboorte Datum:</label>
+                            <label htmlFor="doB">Geboortedatum:</label>
                             <input
-                                type="date"
+                                type="text"
                                 id="doB"
                                 name="doB"
-                                value={profile.doB || ''}
-                                onChange={handleInputChange}
+                                value={formatDateForDisplay(profile.doB)}
+                                onChange={handleDateChange}
+                                placeholder="dd-mm-yyyy"
                             />
                         </div>
                         <div>
@@ -155,22 +209,64 @@ const ProfilePage = () => {
                             />
                         </div>
                         <button type="submit" disabled={isLoading}>
-                            {isLoading ? 'Updating...' : 'Update Profile'}
+                            {isLoading ? 'Bijwerken...' : 'Profiel Bijwerken'}
                         </button>
                         <button type="button" onClick={handleCancel} disabled={isLoading}>
-                            Cancel
+                            Annuleren
                         </button>
                     </form>
                 ) : (
                     <div>
                         <p><strong>Gebruikersnaam:</strong> {profile.username}</p>
-                        <p><strong>Email:</strong> {profile.email}</p>
-                        <p><strong>Naam:</strong> {profile.name || 'Not set'}</p>
-                        <p><strong>Geboorte datum:</strong> {profile.doB || 'Not set'}</p>
-                        <p><strong>Adres:</strong> {profile.address || 'Not set'}</p>
-                        <button onClick={handleEdit}>Profiel bewerken</button>
+                        <p><strong>E-mail:</strong> {profile.email}</p>
+                        <p><strong>Naam:</strong> {profile.name || 'Niet ingesteld'}</p>
+                        <p><strong>Geboortedatum:</strong> {formatDateForDisplay(profile.doB) || 'Niet ingesteld'}</p>
+                        <p><strong>Adres:</strong> {profile.address || 'Niet ingesteld'}</p>
+                        <button onClick={handleEdit}>Profiel Bewerken</button>
                     </div>
                 )}
+            </div>
+
+            <div className="inner-form-container">
+                <h3>Wachtwoord Wijzigen</h3>
+                <form onSubmit={handlePasswordChange}>
+                    <div>
+                        <label htmlFor="currentPassword">Huidig Wachtwoord:</label>
+                        <input
+                            type="password"
+                            id="currentPassword"
+                            name="currentPassword"
+                            value={passwordData.currentPassword}
+                            onChange={handlePasswordInputChange}
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="newPassword">Nieuw Wachtwoord:</label>
+                        <input
+                            type="password"
+                            id="newPassword"
+                            name="newPassword"
+                            value={passwordData.newPassword}
+                            onChange={handlePasswordInputChange}
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="confirmPassword">Bevestig Nieuw Wachtwoord:</label>
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            name="confirmPassword"
+                            value={passwordData.confirmPassword}
+                            onChange={handlePasswordInputChange}
+                            required
+                        />
+                    </div>
+                    <button type="submit" disabled={isLoading}>
+                        {isLoading ? 'Wachtwoord Wijzigen...' : 'Wachtwoord Wijzigen'}
+                    </button>
+                </form>
             </div>
         </div>
     );
