@@ -25,12 +25,20 @@ function CreateAdvert() {
         fetchVegetables();
     }, []);
 
-
+    const handleVegetableChange = (e) => {
+        const { value, checked } = e.target;
+        if (checked) {
+            setSelectedVegetables([...selectedVegetables, value]);
+        } else {
+            setSelectedVegetables(selectedVegetables.filter(veg => veg !== value));
+        }
+    };
     const handleSubmit = async (e) => {
         e.preventDefault();
         const advertData = {
             title: advertTitle,
             description: advertDescription,
+            vegetables: selectedVegetables
         };
 
         try {
@@ -61,6 +69,7 @@ function CreateAdvert() {
                         placeholder="Titel"
                         value={advertTitle}
                         onChange={(e) => setAdvertTitle(e.target.value)}
+                        required
                     />
                     <textarea
                         placeholder="Omschrijving"
@@ -73,12 +82,29 @@ function CreateAdvert() {
                             padding: '10px',
                             resize: 'vertical'
                         }}
+                        required
                     />
+
+                    <div>
+                        <h3>Selecteer groenten:</h3>
+                        {vegetables.map((veg) => (
+                            <div key={veg.id}>
+                                <input
+                                    type="checkbox"
+                                    id={veg.name}
+                                    value={veg.name}
+                                    onChange={handleVegetableChange}
+                                />
+                                <label htmlFor={veg.name}>{veg.name}</label>
+                            </div>
+                        ))}
+                    </div>
+
                     <button type="submit">Plaats advertentie</button>
                 </form>
             </div>
         </div>
-    )
+    );
 }
 
 export default CreateAdvert;
