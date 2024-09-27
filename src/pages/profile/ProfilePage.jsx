@@ -1,150 +1,275 @@
-import { useEffect, useState, useContext } from "react";
-import { useNavigate, Navigate } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext.jsx";
-import api from "../../services/api.js";
+import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext.jsx';
+import api from '../../services/api.js';
 
-function ProfilePage() {
+const ProfilePage = () => {
     const [profile, setProfile] = useState(null);
-    const [originalProfile, setOriginalProfile] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
     const [isEditing, setIsEditing] = useState(false);
+    const [passwordData, setPasswordData] = useState({
+        currentPassword: '',
+        newPassword: '',
+        confirmPassword: ''
+    });
+    const { isAuth, logout } = useContext(AuthContext);
     const navigate = useNavigate();
-    const { isAuth } = useContext(AuthContext);
-    
-    console.log('ProfilePage - isAuth:', isAuth);
 
     useEffect(() => {
-        console.log("ProfilePage useEffect triggered");
-    //     if (isAuth) {
-    //         fetchProfile();
-    //     }
-    // }, [isAuth]);
-        fetchProfile();
-    }, []);
+        if (isAuth) {
+            fetchProfile();
+        } else {
+            navigate('/login');
+        }
+    }, [isAuth, navigate]);
 
     const fetchProfile = async () => {
-        console.log("Fetching profile...");
         setIsLoading(true);
         try {
-            const token = localStorage.getItem('token');
-            console.log("Current token:", token);
             const response = await api.get('/api/users/profile');
-            console.log("Profile fetched successfully:", response.data);
             setProfile(response.data);
             setError('');
-        } catch (error) {
-            console.error('Fetching profile failed:', error);
-            console.error('Error response:', error.response);
-            if (error.response && error.response.status === 401) {
-                setError('Your session has expired. Please log in again.');
-                // navigate('/login');
-            } else {
-                setError('Failed to fetch profile. Please try again later.');
-            }
+        } catch (err) {
+            handleApiError(err);
         } finally {
             setIsLoading(false);
         }
     };
 
+    const handleApiError = (err) => {
+        console.error('API Fout:', err);
+        if (err.response) {
+            switch (err.response.status) {
+                case 401:
+                    setError('Uw sessie is verlopen. Log alstublieft opnieuw in.');
+                    logout();
+                    navigate('/login');
+                    break;
+                case 409:
+                    setError(err.response.data || 'Gebruikersnaam of e-mail is al in gebruik.');
+                    break;
+                case 400:
+                    setError(err.response.data || 'Ongeldige gegevens. Controleer uw invoer en probeer het opnieuw.');
+                    break;
+                default:
+                    setError('Er is een fout opgetreden. Probeer het later opnieuw.');
+            }
+        } else if (err.request) {
+            setError('Geen reactie ontvangen van de server. Controleer uw internetverbinding.');
+        } else {
+            setError('Er is een onverwachte fout opgetreden. Probeer het opnieuw.');
+        }
+    };
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setProfile({ ...profile, [name]: value });
+        setProfile(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleEdit = () => {
-        setOriginalProfile({...profile});
-        setIsEditing(true);
+    const handleDateChange = (e) => {
+        const { value } = e.target;
+        // Convert dd-mm-yyyy to yyyy-mm-dd for backend
+        const [day, month, year] = value.split('-');
+        const formattedDate = `${year}-${month}-${day}`;
+        setProfile(prev => ({ ...prev, doB: formattedDate }));
     };
 
-    const handleCancel = () => {
-        setProfile(originalProfile);
-        setIsEditing(false);
+    const formatDateForDisplay = (dateString) => {
+        if (!dateString) return '';
+        const [year, month, day] = dateString.split('-');
+        return `${day}-${month}-${year}`;
+    };
+
+    const handlePasswordInputChange = (e) => {
+        const { name, value } = e.target;
+        setPasswordData(prev => ({ ...prev, [name]: value }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
         setError('');
+        setSuccessMessage('');
+
         try {
-            const response = await api.put('/api/users/profile', profile);
+            const response = await api.put('/api/users/profile', {
+                username: profile.username,
+                email: profile.email,
+                name: profile.name,
+                doB: profile.doB,
+                address: profile.address
+            });
+
             setProfile(response.data);
+            setSuccessMessage('Profiel succesvol bijgewerkt');
             setIsEditing(false);
-        } catch (error) {
-            console.error('Updating profile failed:', error);
-            if (error.response && error.response.status === 401) {
-                setError('Your session has expired. Please log in again.');
-                // navigate('/login');
-            } else {
-                setError('Er is een fout opgetreden bij het bijwerken van het profiel. Probeer het later opnieuw.');
-            }
+        } catch (err) {
+            handleApiError(err);
         } finally {
             setIsLoading(false);
         }
     };
 
-    // if (!isAuth) {
-    //     console.log('User not authenticated, redirecting to login');
-    //     return <Navigate to="/login" />;
-    // }
+    const handlePasswordChange = async (e) => {
+        e.preventDefault();
+        if (passwordData.newPassword !== passwordData.confirmPassword) {
+            setError('Nieuwe wachtwoorden komen niet overeen');
+            return;
+        }
 
-    if (isLoading) return <div>Loading...</div>;
-    if (error) return <div>{error}</div>;
-    if (!profile) return <div>No profile data available</div>;
+        setIsLoading(true);
+        setError('');
+        setSuccessMessage('');
+
+        try {
+            await api.put('/api/users/change-password', {
+                currentPassword: passwordData.currentPassword,
+                newPassword: passwordData.newPassword
+            });
+
+            setSuccessMessage('Wachtwoord succesvol gewijzigd');
+            setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
+        } catch (err) {
+            handleApiError(err);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleEdit = () => setIsEditing(true);
+    const handleCancel = () => {
+        fetchProfile();
+        setIsEditing(false);
+    };
+
+    if (isLoading) return <div>Laden...</div>;
+    if (!profile) return <div>Geen profielgegevens beschikbaar</div>;
 
     return (
-        <div className='outer-form-container'>
-            <h2>Gebruikers Profiel van {profile.name}</h2>
-            {error && <div className='error-message'>{error}</div>}
+        <div className="outer-form-container">
+            <h2>Gebruikersprofiel</h2>
+            {error && <div className="error-message">{error}</div>}
+            {successMessage && <div className="success-message">{successMessage}</div>}
             <div className="inner-form-container">
-                <p><strong>Gebruikersnaam:</strong> {profile.username}</p>
-                <p><strong>Email:</strong> {profile.email}</p>
+                {isEditing ? (
+                    <form onSubmit={handleSubmit}>
+                        <div>
+                            <label htmlFor="username">Gebruikersnaam:</label>
+                            <input
+                                type="text"
+                                id="username"
+                                name="username"
+                                value={profile.username}
+                                onChange={handleInputChange}
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="email">E-mail:</label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                value={profile.email}
+                                onChange={handleInputChange}
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="name">Naam:</label>
+                            <input
+                                type="text"
+                                id="name"
+                                name="name"
+                                value={profile.name}
+                                onChange={handleInputChange}
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="doB">Geboortedatum:</label>
+                            <input
+                                type="text"
+                                id="doB"
+                                name="doB"
+                                value={formatDateForDisplay(profile.doB)}
+                                onChange={handleDateChange}
+                                placeholder="dd-mm-yyyy"
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="address">Adres:</label>
+                            <input
+                                type="text"
+                                id="address"
+                                name="address"
+                                value={profile.address}
+                                onChange={handleInputChange}
+                            />
+                        </div>
+                        <button type="submit" disabled={isLoading}>
+                            {isLoading ? 'Bijwerken...' : 'Profiel Bijwerken'}
+                        </button>
+                        <button type="button" onClick={handleCancel} disabled={isLoading}>
+                            Annuleren
+                        </button>
+                    </form>
+                ) : (
+                    <div>
+                        <p><strong>Gebruikersnaam:</strong> {profile.username}</p>
+                        <p><strong>E-mail:</strong> {profile.email}</p>
+                        <p><strong>Naam:</strong> {profile.name || 'Niet ingesteld'}</p>
+                        <p><strong>Geboortedatum:</strong> {formatDateForDisplay(profile.doB) || 'Niet ingesteld'}</p>
+                        <p><strong>Adres:</strong> {profile.address || 'Niet ingesteld'}</p>
+                        <button onClick={handleEdit}>Profiel Bewerken</button>
+                    </div>
+                )}
             </div>
-            {isEditing ? (
-                <form onSubmit={handleSubmit}>
+
+            <div className="inner-form-container">
+                <h3>Wachtwoord Wijzigen</h3>
+                <form onSubmit={handlePasswordChange}>
                     <div>
-                        <label htmlFor="name">Naam:</label>
+                        <label htmlFor="currentPassword">Huidig Wachtwoord:</label>
                         <input
-                            type="text"
-                            id="name"
-                            name="name"
-                            value={profile.name}
-                            onChange={handleInputChange}
+                            type="password"
+                            id="currentPassword"
+                            name="currentPassword"
+                            value={passwordData.currentPassword}
+                            onChange={handlePasswordInputChange}
+                            required
                         />
                     </div>
                     <div>
-                        <label htmlFor="doB">Geboortedatum:</label>
+                        <label htmlFor="newPassword">Nieuw Wachtwoord:</label>
                         <input
-                            type="date"
-                            id="doB"
-                            name="doB"
-                            value={profile.doB}
-                            onChange={handleInputChange}
+                            type="password"
+                            id="newPassword"
+                            name="newPassword"
+                            value={passwordData.newPassword}
+                            onChange={handlePasswordInputChange}
+                            required
                         />
                     </div>
                     <div>
-                        <label htmlFor="address">Adres:</label>
+                        <label htmlFor="confirmPassword">Bevestig Nieuw Wachtwoord:</label>
                         <input
-                            type="text"
-                            id="address"
-                            name="address"
-                            value={profile.address}
-                            onChange={handleInputChange}
+                            type="password"
+                            id="confirmPassword"
+                            name="confirmPassword"
+                            value={passwordData.confirmPassword}
+                            onChange={handlePasswordInputChange}
+                            required
                         />
                     </div>
-                    <button type="submit">Opslaan</button>
-                    <button type="button" onClick={handleCancel}>Annuleren</button>
+                    <button type="submit" disabled={isLoading}>
+                        {isLoading ? 'Wachtwoord Wijzigen...' : 'Wachtwoord Wijzigen'}
+                    </button>
                 </form>
-            ) : (
-                <div>
-                    <p><strong>Naam:</strong> {profile.name || 'Niet ingesteld'}</p>
-                    <p><strong>Geboortedatum:</strong> {profile.doB || 'Niet ingesteld'}</p>
-                    <p><strong>Adres:</strong> {profile.address || 'Niet ingesteld'}</p>
-                    <button onClick={handleEdit}>Wijzigen</button>
-                </div>
-            )}
+            </div>
         </div>
     );
-}
+};
 
 export default ProfilePage;

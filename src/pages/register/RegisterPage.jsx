@@ -1,46 +1,24 @@
 import {useState} from "react";
+import {useForm} from "react-hook-form";
 import {useNavigate} from "react-router-dom";
 import api from "../../services/api.js";
 
 function RegisterPage() {
-    const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const {register, handleSubmit, formState: {errors}, watch} = useForm();
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const [isTermsAccepted, setIsTermsAccepted] = useState(false);
     const navigate = useNavigate();
 
-    const validateForm = () => {
-        if (!username || !email || !password) {
-            setError('Alle velden zijn verplicht');
-            return false;
-        }
-        if (!isTermsAccepted) {
-            setError('Je moet akkoord gaan met de voorwaarden');
-            return false;
-        }
-        if (password.length < 6) {
-            setError('Wachtwoord moet minstens 6 karakters lang zijn');
-            return false;
-        }
-        return true;
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const onSubmit = async (data) => {
         setError('');
-
-        if (!validateForm()) return;
-
         setIsLoading(true);
 
         try {
             const response = await api.post('/api/users/register', {
-                username,
-                email,
-                password,
-                termsAccepted: isTermsAccepted
+                username: data.username,
+                email: data.email,
+                password: data.password,
+                termsAccepted: data.termsAccepted
             });
             console.log('Registration successful:', response.data);
             navigate('/login');
@@ -60,28 +38,33 @@ function RegisterPage() {
         <div className='inner-form-container'>
             <h2>Registreer je hier voor een MoesProduce account</h2>
             {error && <div className='error-message'>{error}</div>}
-            <form className='registerForm' onSubmit={handleSubmit}>
+            <form className='registerForm' onSubmit={handleSubmit(onSubmit)}>
                 <div>
                     <label htmlFor="username">Voer hier je gewenste gebruikersnaam in:</label>
                     <input
-                        type="text"
                         id="username"
                         placeholder="Gebruikersnaam"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        required
+                        {...register("username", {
+                            required: "Gebruikersnaam is verplicht",
+                            minLength: {value: 3, message: "Gebruikersnaam moet minimaal 3 karakters lang zijn"}
+                        })}
                     />
+                    {errors.username && <span className="error-message">{errors.username.message}</span>}
                 </div>
                 <div>
                     <label htmlFor="email">Voer hier je emailadres in:</label>
                     <input
-                        type="email"
                         id="email"
                         placeholder="Emailadres"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
+                        {...register("email", {
+                            required: "Email is verplicht",
+                            pattern: {
+                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                message: "Ongeldig email adres"
+                            }
+                        })}
                     />
+                    {errors.email && <span className="error-message">{errors.email.message}</span>}
                 </div>
                 <div>
                     <label htmlFor="password">Voer hier je wachtwoord in:</label>
@@ -89,21 +72,42 @@ function RegisterPage() {
                         type="password"
                         id="password"
                         placeholder="Wachtwoord"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
+                        {...register("password", {
+                            required: "Wachtwoord is verplicht",
+                            minLength: {value: 6, message: "Wachtwoord moet minimaal 6 karakters lang zijn"}
+                        })}
                     />
+                    {errors.password && <span className="error-message">{errors.password.message}</span>}
+                </div>
+                <div>
+                    <label htmlFor="confirmPassword">Bevestig hier je wachtwoord:</label>
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        placeholder="Bevestig wachtwoord"
+                        {...register("confirmPassword", {
+                            required: "Bevestig je wachtwoord",
+                            validate: (val) => {
+                                if (watch('password') != val) {
+                                    return "Wachtwoorden komen niet overeen";
+                                }
+                            }
+                        })}
+                    />
+                    {errors.confirmPassword && <span className="error-message">{errors.confirmPassword.message}</span>}
                 </div>
                 <div>
                     <input
                         type="checkbox"
-                        id="terms"
-                        checked={isTermsAccepted}
-                        onChange={(e) => setIsTermsAccepted(e.target.checked)}
+                        id="termsAccepted"
+                        {...register("termsAccepted", {
+                            required: "Je moet akkoord gaan met de voorwaarden"
+                        })}
                     />
-                    <label htmlFor="terms">
+                    <label htmlFor="termsAccepted">
                         Ik ga akkoord met de voorwaarden
                     </label>
+                    {errors.termsAccepted && <span className="error-message">{errors.termsAccepted.message}</span>}
                 </div>
                 <button type="submit" disabled={isLoading}>
                     {isLoading ? 'Bezig met registreren...' : 'Registreer'}
