@@ -98,7 +98,7 @@ const ProfilePage = () => {
                 username: profile.username,
                 email: profile.email,
                 name: profile.name,
-                doB: profile.doB, // This is already in yyyy-mm-dd format
+                doB: profile.doB,
                 address: profile.address
             });
 
