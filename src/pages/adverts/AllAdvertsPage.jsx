@@ -43,6 +43,16 @@ function AllAdvertsPage() {
                                     <p>{advert.description}</p>
                                     <p><strong>Created by:</strong> {advert.username}</p>
                                     <p><strong>Date:</strong> {advert.createdDate}</p>
+                                    {advert.vegetables && advert.vegetables.length > 0 && (
+                                        <div>
+                                            <p><strong>Groenten:</strong></p>
+                                            <ul style={{listStyleType: 'disc', marginLeft: '20px'}}>
+                                                {advert.vegetables.map((veg, index) => (
+                                                    <li key={index}>{veg.name} ({veg.category})</li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                        )}
                             </li>
                             </div>
                             </Link>
