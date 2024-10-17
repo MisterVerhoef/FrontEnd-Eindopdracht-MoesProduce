@@ -33,12 +33,22 @@ function AdvertPage(){
     }
 
     return (
+
         <div className="outer-form-container">
             <div className="inner-form-container">
+
                 <h1>{advert.title}</h1>
                 <p>{advert.description}</p>
                 <p><strong>Created by:</strong> {advert.username}</p>
                 <p><strong>Date:</strong> {advert.createdDate}</p>
+
+                {advert.imageUrls && advert.imageUrls.length > 0 && (
+                    <div className="images-container">
+                        {advert.imageUrls.map((imageUrl, index) => (
+                            <img key={index} src={imageUrl} alt={`Advert image ${index + 1}`} className="advert-image"/>
+                        ))}
+                    </div>
+                )}
             </div>
         </div>
     );

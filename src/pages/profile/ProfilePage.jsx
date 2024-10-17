@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../context/AuthContext.jsx';
+import {useState, useEffect, useContext} from 'react';
+import {useNavigate} from 'react-router-dom';
+import {AuthContext} from '../../context/AuthContext.jsx';
 import api from '../../services/api.js';
 
 const ProfilePage = () => {
@@ -14,7 +14,8 @@ const ProfilePage = () => {
         newPassword: '',
         confirmPassword: ''
     });
-    const { isAuth, logout } = useContext(AuthContext);
+    const [selectedFile, setSelectedFile] = useState(null);
+    const {isAuth, logout} = useContext(AuthContext);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -64,16 +65,16 @@ const ProfilePage = () => {
     };
 
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setProfile(prev => ({ ...prev, [name]: value }));
+        const {name, value} = e.target;
+        setProfile(prev => ({...prev, [name]: value}));
     };
 
     const handleDateChange = (e) => {
-        const { value } = e.target;
+        const {value} = e.target;
         // Convert dd-mm-yyyy to yyyy-mm-dd for backend
         const [day, month, year] = value.split('-');
         const formattedDate = `${year}-${month}-${day}`;
-        setProfile(prev => ({ ...prev, doB: formattedDate }));
+        setProfile(prev => ({...prev, doB: formattedDate}));
     };
 
     const formatDateForDisplay = (dateString) => {
@@ -83,8 +84,8 @@ const ProfilePage = () => {
     };
 
     const handlePasswordInputChange = (e) => {
-        const { name, value } = e.target;
-        setPasswordData(prev => ({ ...prev, [name]: value }));
+        const {name, value} = e.target;
+        setPasswordData(prev => ({...prev, [name]: value}));
     };
 
     const handleSubmit = async (e) => {
@@ -130,7 +131,7 @@ const ProfilePage = () => {
             });
 
             setSuccessMessage('Wachtwoord succesvol gewijzigd');
-            setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
+            setPasswordData({currentPassword: '', newPassword: '', confirmPassword: ''});
         } catch (err) {
             handleApiError(err);
         } finally {
@@ -144,6 +145,41 @@ const ProfilePage = () => {
         setIsEditing(false);
     };
 
+    const handleFileSelect = (event) => {
+
+        setSelectedFile(event.target.files[0]);
+
+    };
+
+    const handleFileUpload = async () => {
+        if (!selectedFile) {
+            setError('Selecteer een bestand om te uploaden');
+            return;
+
+        }
+
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+
+        setIsLoading(true);
+        setError('');
+        setSuccessMessage('');
+
+        try {
+            const response = await api.post('/api/uploads/profile', formData, {
+                headers: {'Content-Type': 'multipart/form-data'}
+            });
+            setSuccessMessage('Profile image uploaded successfully!');
+            setProfile(prev => ({...prev, profileImageUrl: response.data.fileName}));
+            setSelectedFile(null);
+        } catch (err) {
+            handleApiError(err);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+
     if (isLoading) return <div>Laden...</div>;
     if (!profile) return <div>Geen profielgegevens beschikbaar</div>;
 
@@ -152,6 +188,24 @@ const ProfilePage = () => {
             <h2>Gebruikersprofiel</h2>
             {error && <div className="error-message">{error}</div>}
             {successMessage && <div className="success-message">{successMessage}</div>}
+            <div className="inner-form-container">
+                <h3>Profielfoto</h3>
+                {profile.profileImageUrl && (
+                    <img
+                        src={`http://localhost:8080/uploads/${profile.profileImageUrl}`}
+                        alt="Profile"
+                        style={{width: '200px', height: '200px', objectFit: 'cover'}}
+                    />
+                )}
+                <input
+                    type="file"
+                    onChange={handleFileSelect}
+                    accept="image/*"
+                />
+                <button onClick={handleFileUpload} disabled={!selectedFile || isLoading}>
+                    {isLoading ? 'Uploading...' : 'Upload Profielfoto'}
+                </button>
+            </div>
             <div className="inner-form-container">
                 {isEditing ? (
                     <form onSubmit={handleSubmit}>
