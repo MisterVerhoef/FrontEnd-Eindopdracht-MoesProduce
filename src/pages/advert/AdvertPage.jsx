@@ -1,6 +1,7 @@
 import api from "../../services/api.js";
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
+import "./AdvertPage.css"
 
 function AdvertPage(){
 

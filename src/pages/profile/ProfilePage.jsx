@@ -166,12 +166,14 @@ const ProfilePage = () => {
         setSuccessMessage('');
 
         try {
-            const response = await api.post('/api/uploads/profile', formData, {
+            await api.post('/api/uploads/profile', formData, {
                 headers: {'Content-Type': 'multipart/form-data'}
             });
-            setSuccessMessage('Profile image uploaded successfully!');
-            setProfile(prev => ({...prev, profileImageUrl: response.data.fileName}));
+            setSuccessMessage('Profielfoto succesvol geupload!');
             setSelectedFile(null);
+
+            await fetchProfile(); // Refresh the profile data after successful upload
+
         } catch (err) {
             handleApiError(err);
         } finally {
@@ -189,13 +191,15 @@ const ProfilePage = () => {
             {error && <div className="error-message">{error}</div>}
             {successMessage && <div className="success-message">{successMessage}</div>}
             <div className="inner-form-container">
-                <h3>Profielfoto</h3>
-                {profile.profileImageUrl && (
+                <h2>{profile.username}</h2>
+                {profile.profileImageUrl ? (
                     <img
-                        src={`http://localhost:8080/uploads/${profile.profileImageUrl}`}
-                        alt="Profile"
+                        src={`${profile.profileImageUrl}?t=${new Date().getTime()}`}
+                        alt="Profielfoto"
                         style={{width: '200px', height: '200px', objectFit: 'cover'}}
                     />
+                ) : (
+                    <div>Geen profielfoto beschikbaar.</div>
                 )}
                 <input
                     type="file"

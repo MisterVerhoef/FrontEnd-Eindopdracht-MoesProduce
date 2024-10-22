@@ -31,7 +31,7 @@ function AllAdvertsPage() {
 
     return (
         <div className="outer-form-container">
-            <h1>Adverts</h1>
+            <h1>Aangeboden Produce</h1>
             <div className="inner-form-container">
                 {adverts.length > 0 ? (
                     <ul className="advert-list-container" style={{listStyleType: 'none'}}>

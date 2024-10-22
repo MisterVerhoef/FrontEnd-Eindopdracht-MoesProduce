@@ -3,12 +3,17 @@ import {Link} from 'react-router-dom';
 import './NavBar.css';
 import homeIcon from '/src/assets/images/home-icon.png';
 import { AuthContext } from "../../context/AuthContext.jsx";
-import {useContext} from "react";
+import {useContext, useState} from "react";
 
 function NavBar() {
     const { isAuth, logout } = useContext(AuthContext);
+    const [searchQuery, setSearchQuery] = useState('');
     console.log('NavBar - isAuthenticated:', isAuth);
-    // const navigate = useNavigate();
+
+    const handleSearch = (event) => {
+        event.preventDefault();
+        history.push(`/search?query=${encodeURIComponent(searchQuery)}`);
+    };
 
 
     return (
@@ -17,6 +22,14 @@ function NavBar() {
                 <Link to="/">
                     <img src={homeIcon} alt="homeIcon" className="home-icon"/>
                 </Link>
+                <form onSubmit={handleSearch}>
+                    <input type="text"
+                           placeholder="Zoeken..."
+                    value={searchQuery}
+                           onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                    <button type="submit">Zoeken</button>
+                </form>
             </div>
             <ul className="navbar-links">
                 <li>
