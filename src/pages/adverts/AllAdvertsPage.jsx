@@ -37,26 +37,28 @@ function AllAdvertsPage() {
                     <ul className="advert-list-container" style={{listStyleType: 'none'}}>
                         {adverts.map((advert) => (
                             <Link to={`/adverts/${advert.id}`} key={advert.id} className="advert-item-link">
-                            <div key={advert.id} className="advert-item">
-                                <li key={advert.id}>
-                                    <h2>{advert.title}</h2>
-                                    <p>{advert.description}</p>
-                                    <p><strong>Created by:</strong> {advert.username}</p>
-                                    <p><strong>Date:</strong> {advert.createdDate}</p>
-                                    {advert.vegetables && advert.vegetables.length > 0 && (
-                                        <div>
-                                            <p><strong>Groenten:</strong></p>
-                                            <ul style={{listStyleType: 'disc', marginLeft: '20px'}}>
-                                                {advert.vegetables.map((veg, index) => (
-                                                    <li key={index}>{veg.name} ({veg.category})</li>
-                                                ))}
-                                            </ul>
-                                        </div>
+                                <div key={advert.id} className="advert-item">
+                                    <li key={advert.id}>
+                                        <h2>{advert.title}</h2>
+                                        <p>{advert.description}</p>
+                                        <p><strong>Created by:</strong> {advert.username}</p>
+                                        <p><strong>Date:</strong> {advert.createdDate}</p>
+                                        {advert.vegetables && advert.vegetables.length > 0 && (
+                                            <div>
+                                                <p><strong>Groenten:</strong></p>
+                                                <ul style={{listStyleType: 'disc', marginLeft: '20px'}}>
+                                                    {advert.vegetables.map((veg, index) => (
+                                                        <li key={index}>{veg.name} ({veg.category})</li>
+                                                    ))}
+                                                </ul>
+                                            </div>
                                         )}
-                            </li>
-                            </div>
+                                    </li>
+                                    <p>Deze advertentie is {advert.viewCount} keer bekeken.</p>
+                                </div>
+
                             </Link>
-                            ))}
+                        ))}
                     </ul>
                 ) : (
                     <p>No adverts available</p>

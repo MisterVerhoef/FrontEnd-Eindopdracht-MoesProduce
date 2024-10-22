@@ -48,11 +48,16 @@ function AdvertPage(){
                         {advert.imageUrls.map((imageUrl, index) => (
                             <img key={index} src={imageUrl} alt={`Advert image ${index + 1}`} className="advert-image"/>
                         ))}
+
                     </div>
+
                 )}
+                <p>Deze advertentie is {advert.viewCount} keer bekeken.</p>
             </div>
+
         </div>
     );
 
 }
+
 export default AdvertPage;

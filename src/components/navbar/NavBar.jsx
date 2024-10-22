@@ -8,6 +8,7 @@ import {useContext, useState} from "react";
 function NavBar() {
     const { isAuth, logout } = useContext(AuthContext);
     const [searchQuery, setSearchQuery] = useState('');
+    // const { history } = useHistory();
     console.log('NavBar - isAuthenticated:', isAuth);
 
     const handleSearch = (event) => {
