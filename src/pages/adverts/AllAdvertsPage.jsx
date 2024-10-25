@@ -13,6 +13,7 @@ function AllAdvertsPage() {
         const fetchAdverts = async () => {
             try {
                 const response = await api.get('/api/adverts');
+                console.log("Response data:", response.data);
                 setAdverts(response.data);
                 setLoading(false);
             } catch (error) {

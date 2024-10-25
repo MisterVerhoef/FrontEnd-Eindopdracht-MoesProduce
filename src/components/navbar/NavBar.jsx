@@ -23,14 +23,16 @@ function NavBar() {
                 <Link to="/">
                     <img src={homeIcon} alt="homeIcon" className="home-icon"/>
                 </Link>
-                <form onSubmit={handleSearch}>
-                    <input type="text"
-                           placeholder="Zoeken..."
-                    value={searchQuery}
-                           onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                    <button type="submit">Zoeken</button>
-                </form>
+                {/*<div className="navSearchBar">*/}
+                {/*<form onSubmit={handleSearch}>*/}
+                {/*    <input type="text"*/}
+                {/*           placeholder="Zoeken..."*/}
+                {/*    value={searchQuery}*/}
+                {/*           onChange={(e) => setSearchQuery(e.target.value)}*/}
+                {/*    />*/}
+                {/*    <button type="submit">Zoeken</button>*/}
+                {/*</form>*/}
+                {/*</div>*/}
             </div>
             <ul className="navbar-links">
                 <li>

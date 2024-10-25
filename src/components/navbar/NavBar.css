@@ -47,3 +47,10 @@
     align-items: center;
     text-decoration: none;
 }
+
+.navSearchBar {
+    display: flex;
+    align-items: center;
+    border: yellow;
+
+}
