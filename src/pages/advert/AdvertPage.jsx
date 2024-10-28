@@ -40,8 +40,8 @@ function AdvertPage(){
 
                 <h1>{advert.title}</h1>
                 <p>{advert.description}</p>
-                <p><strong>Created by:</strong> {advert.username}</p>
-                <p><strong>Date:</strong> {advert.createdDate}</p>
+                <p><strong>Aangemaakt door:</strong> {advert.username}</p>
+                <p><strong>Geplaatst op:</strong> {advert.createdDate}</p>
 
                 {advert.imageUrls && advert.imageUrls.length > 0 && (
                     <div className="images-container">

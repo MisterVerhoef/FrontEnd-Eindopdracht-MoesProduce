@@ -42,8 +42,8 @@ function AllAdvertsPage() {
                                     <li key={advert.id}>
                                         <h2>{advert.title}</h2>
                                         <p>{advert.description}</p>
-                                        <p><strong>Created by:</strong> {advert.username}</p>
-                                        <p><strong>Date:</strong> {advert.createdDate}</p>
+                                        <p><strong>Aangemaakt door:</strong> {advert.username}</p>
+                                        <p><strong>Geplaatst op:</strong> {advert.createdDate}</p>
                                         {advert.vegetables && advert.vegetables.length > 0 && (
                                             <div>
                                                 <p><strong>Groenten:</strong></p>
