@@ -1,0 +1,16 @@
+.advert-card {
+    border: 1px solid #ccc;
+    padding: 16px;
+    margin: 16px;
+    text-align: center;
+}
+
+.advert-card img {
+    max-width: 20%;
+    height: auto;
+}
+
+.advert-card-link {
+    text-decoration: none;
+    color: inherit;
+}

@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import api from "../../services/api.js";
 import "./AllAdvertsPage.css"
-import {Link} from "react-router-dom";
+import AdvertCard from "../../components/AdvertCard/AdvertCard.jsx";
 
 function AllAdvertsPage() {
 
@@ -12,7 +12,8 @@ function AllAdvertsPage() {
 
         const fetchAdverts = async () => {
             try {
-                const response = await api.get('/api/adverts');
+                const response = await api.get(`/api/adverts`);
+                console.log("Response data:", response.data);
                 setAdverts(response.data);
                 setLoading(false);
             } catch (error) {
@@ -31,25 +32,14 @@ function AllAdvertsPage() {
 
     return (
         <div className="outer-form-container">
-            <h1>Adverts</h1>
+            <h1>Aangeboden Produce</h1>
             <div className="inner-form-container">
                 {adverts.length > 0 ? (
-                    <ul className="advert-list-container" style={{listStyleType: 'none'}}>
-                        {adverts.map((advert) => (
-                            <Link to={`/adverts/${advert.id}`} key={advert.id} className="advert-item-link">
-                            <div key={advert.id} className="advert-item">
-                                <li key={advert.id}>
-                                    <h2>{advert.title}</h2>
-                                    <p>{advert.description}</p>
-                                    <p><strong>Created by:</strong> {advert.username}</p>
-                                    <p><strong>Date:</strong> {advert.createdDate}</p>
-                            </li>
-                            </div>
-                            </Link>
-                            ))}
-                    </ul>
+                    adverts.map((advert) => (
+                        <AdvertCard key={advert.id} advert={advert} />
+                    ))
                 ) : (
-                    <p>No adverts available</p>
+                    <p>Geen advertenties beschikbaar.</p>
                 )}
             </div>
         </div>

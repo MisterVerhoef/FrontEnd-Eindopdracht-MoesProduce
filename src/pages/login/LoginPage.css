@@ -9,6 +9,18 @@ main {
     align-items: center;
 }
 
+.outer-form-container {
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    width: 90%;
+    margin: 0 auto;
+    border-radius: 8px;
+    border: 2px red dotted;
+    background-color: lightgreen;
+    text-align: center;
+}
+
 .inner-form-container {
     flex-direction:column;
     align-items: center;
@@ -59,4 +71,19 @@ form input {
     width: auto;
     box-sizing: border-box;
     color: black
+}
+
+.vegetable-categories {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 kolommen */
+    gap: 20px;
+}
+
+.category-section {
+    margin-bottom: 20px;
+}
+
+select {
+    width: 100%;
+    height: auto;
 }
