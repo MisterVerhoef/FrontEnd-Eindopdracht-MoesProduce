@@ -1,7 +1,6 @@
 import {useEffect, useState} from "react";
 import api from "../../services/api.js";
 import "./AllAdvertsPage.css"
-import {useParams} from "react-router-dom";
 import AdvertCard from "../../components/AdvertCard/AdvertCard.jsx";
 
 function AllAdvertsPage() {
