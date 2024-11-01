@@ -1,4 +1,4 @@
-import {useContext} from 'react'
+
 import './App.css'
 import FooterBar from "./components/footer/FooterBar.jsx";
 import NavBar from "./components/navbar/NavBar.jsx";
@@ -17,6 +17,7 @@ function App() {
             <FooterBar/>
         </div>
     )
+
 }
 
 

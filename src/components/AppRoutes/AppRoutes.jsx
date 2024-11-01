@@ -6,7 +6,7 @@ import RegisterPage from "../../pages/register/RegisterPage.jsx";
 import AllAdvertsPage from "../../pages/adverts/AllAdvertsPage.jsx";
 import ProfilePage from "../../pages/profile/ProfilePage.jsx";
 import CreateAdvert from "../../pages/createAdvert/CreateAdvert.jsx";
-import {AuthContext} from "./context/AuthContext.jsx";
+import {AuthContext} from "../../context/AuthContext.jsx";
 import {useContext} from "react";
 
 
