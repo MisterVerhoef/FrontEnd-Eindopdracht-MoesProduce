@@ -8,6 +8,7 @@ import ProfilePage from "../../pages/profile/ProfilePage.jsx";
 import CreateAdvert from "../../pages/createAdvert/CreateAdvert.jsx";
 import {AuthContext} from "../../context/AuthContext.jsx";
 import {useContext} from "react";
+import AdminPage from "../../pages/admin/AdminPage.jsx";
 
 
 const AppRoutes = () => {

@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import api from "../../services/api.js";
 // import {Link} from "react-router-dom";
 import AdvertCard from "../../components/AdvertCard/AdvertCard.jsx";
+import "./Homepage.css"
 
 function Homepage() {
 
@@ -33,8 +34,8 @@ function Homepage() {
 
 
     return (
-        <div className='outer-container'>
-            <img src={moesProduceLogo} alt="MoesProduce logo"/>
+        <div className='inner-container'>
+            <img src={moesProduceLogo}  id="logo" className="logo" alt="MoesProduce logo"/>
             <h2>De plek voor al uw Moes overproduce.</h2>
             <div className="inner-form-container">
                         {adverts.length > 0 ? (

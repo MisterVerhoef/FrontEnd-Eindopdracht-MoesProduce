@@ -1,4 +1,3 @@
-
 import './App.css'
 import FooterBar from "./components/footer/FooterBar.jsx";
 import NavBar from "./components/navbar/NavBar.jsx";
@@ -9,12 +8,16 @@ function App() {
 
 
     return (
-        <div className="App-container">
-            <NavBar/>
+        <div className="outer-container">
+            <header>
+                <NavBar/>
+            </header>
             <main>
-                <AppRoutes />
+                <AppRoutes/>
             </main>
-            <FooterBar/>
+            <footer>
+                <FooterBar/>
+            </footer>
         </div>
     )
 

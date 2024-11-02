@@ -37,28 +37,26 @@ function AdvertPage(){
 
     return (
 
-        <div className="outer-form-container">
+
+        <div className="inner-form-container">
             <h1>Advertentie Details</h1>
-            <div className="inner-form-container">
-                    <AdvertCard advert={advert} />
+            <AdvertCard advert={advert}/>
 
 
-                    <div className="additional-images-container">
-                        <h2>Meer afbeeldingen</h2>
+            <div className="additional-images-container">
+                <h2>Meer afbeeldingen</h2>
 
-                        <div className="images-container">
+                <div className="images-container">
 
-                            {advert.imageUrls.map((imageUrl, index) => (
-                                <img key={index} src={imageUrl} alt={`Advert image ${index + 1}`}
-                                     className="advert-image"/>
-                            ))}
-                        </div>
-                        </div>
+                    {advert.imageUrls.map((imageUrl, index) => (
+                        <img key={index} src={imageUrl} alt={`Advert image ${index + 1}`}
+                             className="advert-image"/>
+                    ))}
+                </div>
+            </div>
 
 
-                    </div>
-
-                    </div>
+</div>
                     );
 
                 }

@@ -31,19 +31,19 @@ function AllAdvertsPage() {
     }
 
     return (
-        <div className="outer-form-container">
+
+        <div className="inner-form-container">
             <h1>Aangeboden Produce</h1>
-            <div className="inner-form-container">
-                {adverts.length > 0 ? (
-                    adverts.map((advert) => (
-                        <AdvertCard key={advert.id} advert={advert} />
-                    ))
-                ) : (
-                    <p>Geen advertenties beschikbaar.</p>
-                )}
-            </div>
+            {adverts.length > 0 ? (
+                adverts.map((advert) => (
+                    <AdvertCard key={advert.id} advert={advert}/>
+                ))
+            ) : (
+                <p>Geen advertenties beschikbaar.</p>
+            )}
         </div>
-    );
+)
+    ;
 }
 
 export default AllAdvertsPage;

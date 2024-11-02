@@ -35,7 +35,7 @@ function RegisterPage() {
     };
 
     return (
-        <div className='inner-form-container'>
+        <section className='inner-container'>
             <h2>Registreer je hier voor een MoesProduce account</h2>
             {error && <div className='error-message'>{error}</div>}
             <form className='registerForm' onSubmit={handleSubmit(onSubmit)}>
@@ -113,7 +113,7 @@ function RegisterPage() {
                     {isLoading ? 'Bezig met registreren...' : 'Registreer'}
                 </button>
             </form>
-        </div>
+        </section>
     );
 }
 
