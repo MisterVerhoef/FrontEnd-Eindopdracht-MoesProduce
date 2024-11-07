@@ -26,7 +26,7 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-form {
+.inner-form-container form {
     display: flex;
     padding: 20px;
     margin: 10px;
@@ -39,7 +39,7 @@ form {
 
 }
 
-form button {
+.inner-form-container button {
     width: 50%;
     margin-top: 10px;
     font-size: 18px;
@@ -52,7 +52,7 @@ form button {
     cursor: pointer;
 }
 
-form input {
+.inner-form-container form input {
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 4px;

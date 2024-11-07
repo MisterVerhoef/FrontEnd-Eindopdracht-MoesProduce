@@ -1,69 +1,56 @@
-
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './NavBar.css';
 import homeIcon from '/src/assets/images/home-icon.png';
 import { AuthContext } from "../../context/AuthContext.jsx";
-import {useContext, useState} from "react";
+import { useContext, useState } from "react";
 
 function NavBar() {
     const { isAuth, logout } = useContext(AuthContext);
     const [searchQuery, setSearchQuery] = useState('');
-    // const { history } = useHistory();
-    console.log('NavBar - isAuthenticated:', isAuth);
 
     const handleSearch = (event) => {
         event.preventDefault();
-        history.push(`/search?query=${encodeURIComponent(searchQuery)}`);
+        console.log(`Search query: ${searchQuery}`);
     };
 
-
     return (
-        <header>
-        <nav className="navbar">
-            <div className="navbar-logo">
+        <header className="navbar">
+            <section className="navbar-section navbar-logo">
                 <Link to="/">
-                    <img src={homeIcon} alt="homeIcon" className="home-icon"/>
+                    <img src={homeIcon} alt="Home" className="home-icon" />
                 </Link>
-                <div className="navSearchBar">
-                <form onSubmit={handleSearch}>
-                    <input type="text"
-                           placeholder="Zoeken..."
-                    value={searchQuery}
-                           onChange={(e) => setSearchQuery(e.target.value)}
+            </section>
+
+            <section className="navbar-section navbar-search">
+                <form onSubmit={handleSearch} className="search-form">
+                    <input
+                        type="text"
+                        placeholder="Zoeken..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="search-input"
                     />
-                    <button type="submit">Zoeken</button>
+                    <button type="submit" className="search-button">Zoeken</button>
                 </form>
-                </div>
-            </div>
-            <ul className="navbar-links">
-                <li>
-                    <Link to="/creeradvert">plaats advertentie</Link>
-                </li>
-                <li>
-                    <Link to="/adverts">Advertenties</Link>
-                </li>
-                {!isAuth ? (
-                    <>
-                        <li>
-                            <Link to="/login">Login</Link>
-                        </li>
-                        <li>
-                            <Link to="/register">Register</Link>
-                        </li>
-                    </>
-                ) : (
-                    <>
-                        <li>
-                            <Link to="/profile">Profile</Link>
-                        </li>
-                        <li>
-                            <button onClick={logout}>Logout
-                            </button>
-                        </li>
-                    </>
-                )}
-            </ul>
-        </nav>
+            </section>
+
+            <nav className="navbar-section navbar-links">
+                <ul>
+                    <li><Link to="/creeradvert">Plaats Advertentie</Link></li>
+                    <li><Link to="/adverts">Advertenties</Link></li>
+                    {!isAuth ? (
+                        <>
+                            <li><Link to="/login">Login</Link></li>
+                            <li><Link to="/register">Register</Link></li>
+                        </>
+                    ) : (
+                        <>
+                            <li><Link to="/profile">Profile</Link></li>
+                            <li><button onClick={logout} className="logout-button">Logout</button></li>
+                        </>
+                    )}
+                </ul>
+            </nav>
         </header>
     );
 }

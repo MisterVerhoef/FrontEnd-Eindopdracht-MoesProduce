@@ -7,10 +7,14 @@ const api = axios.create({
 
 api.interceptors.request.use(
     (config) => {
+        console.log('Interceptor called');
         const token = localStorage.getItem('token');
+        console.log('Token from localStorage:', token);
+        console.log('Token being sent:', token);
         if (token) {
             config.headers['Authorization'] = `Bearer ${token}`;
         }
+        console.log('Request config:', config);
         return config;
     },
     (error) => {
@@ -22,7 +26,7 @@ api.interceptors.response.use(
     (response) => response,
     (error) => {
         if (error.response && error.response.status === 401) {
-            // Clear token and redirect to login page
+
             localStorage.removeItem('token');
             window.location = '/login';
         }

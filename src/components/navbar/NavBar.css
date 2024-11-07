@@ -1,13 +1,10 @@
-/*.header {*/
-/*    padding: 1rem;*/
-/*}*/
-
 /*.navbar {*/
 /*    display: flex;*/
 /*    flex-direction: row;*/
 /*    background-color: forestgreen;*/
-/*    border: 2px blue dotted;*/
+/*    border: 2px blue dotted; /*/
 /*    justify-content: space-between;*/
+/*    align-items: center;*/
 /*    position: fixed;*/
 /*    top: 0;*/
 /*    left: 0;*/
@@ -15,46 +12,200 @@
 /*    z-index: 1000;*/
 /*    width: 100%;*/
 /*    box-sizing: border-box;*/
-
+/*    height: 80px;*/
+/*    padding: 0 20px;*/
 /*}*/
 
-/*.navbar a {*/
-/*    color: white;*/
-/*    padding: 8px;*/
-
+/*.navbar-logo {*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    flex: 0 1 auto;*/
 /*}*/
 
-/*.navbar a:hover {*/
-/*    color: yellow;*/
+/*.home-icon {*/
+/*    width: 50px;*/
+/*    height: auto;*/
+/*margin-right: 20px;*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*.navSearchBar {*/
+/*    flex: 1;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    margin: 0 20px;*/
 /*}*/
 
 /*.navbar-links {*/
 /*    display: flex;*/
-/*    flex-direction: row-reverse;*/
 /*    list-style-type: none;*/
-
+/*    margin: 0;*/
+/*    padding: 0;*/
+/*    flex: 0 1 auto;*/
 /*}*/
 
-.home-icon {
-    height: 80px;
-    width: auto;
-    object-fit: contain;
+/*.navbar-links li {*/
+/*    margin-left: 20px;*/
+/*}*/
+
+/*.navbar-links a {*/
+/*    color: white;*/
+/*    text-decoration: none;*/
+/*    font-size: 16px;*/
+/*}*/
+
+/*.navbar-links button {*/
+/*    background: none;*/
+/*    border: none;*/
+/*    color: white;*/
+/*    cursor: pointer;*/
+/*    font-size: 16px;*/
+/*    padding: 0;*/
+/*}*/
+
+/*.navSearchBar form {*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    width: 100%;*/
+/*    max-width: 500px;*/
+/*    margin: 0 auto;*/
+/*}*/
+
+/*.navSearchBar input[type="text"] {*/
+/*    flex: 1;*/
+/*    padding: 8px;*/
+/*    border: 1px solid #ccc;*/
+/*    border-radius: 4px 0 0 4px;*/
+/*    font-size: 14px;*/
+/*}*/
+
+/*.navSearchBar button {*/
+/*    padding: 8px 12px;*/
+/*    background-color: #4CAF50;*/
+/*    color: white;*/
+/*    border: none;*/
+/*    border-radius: 0 4px 4px 0;*/
+/*    cursor: pointer;*/
+/*    font-size: 14px;*/
+/*    white-space: nowrap;*/
+/*}*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.navbar-logo{
+.navbar {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    background-color: #228B22;
+    padding: 10px 20px;
+    height: auto;
+    width: 100%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
 }
 
-.navbar-logo a {
+/* Logo styling */
+.navbar-logo .home-icon {
+    width: 50px;
+    height: auto;
+}
+
+/* Zoekbalk styling */
+.navbar-search {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    max-width: 500px;
+}
+
+.search-form {
     display: flex;
     align-items: center;
+    max-width: 100%;
+    width: 100%;
+}
+
+.search-input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px;
+    font-size: 16px;
+    min-width: 0;
+}
+
+.search-button {
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    font-size: 16px;
+    white-space: nowrap;
+}
+
+.search-button:hover {
+    background-color: #45A049;
+}
+
+/* Navigatielinks styling */
+.navbar-links ul {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+
+.navbar-links a, .logout-button {
+    color: white;
     text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s ease;
 }
 
-.navSearchBar {
-    display: flex;
-    align-items: center;
-    border: yellow;
+.navbar-links a:hover, .logout-button:hover {
+    color: #FFD700;
+}
 
+.logout-button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* Responsieve layout voor mobiel */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        height: auto;
+        padding: 15px;
+    }
+
+    .navbar-search {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    /* Zorg ervoor dat de zoekknop onder het zoekveld komt op kleine schermen */
+    .search-form {
+        flex-direction: column;
+    }
+
+    .search-button {
+        width: 100%;
+        border-radius: 4px;
+        margin-top: 5px;
+    }
+
+    .navbar-links ul {
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+    }
 }

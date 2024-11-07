@@ -9,9 +9,7 @@ function App() {
 
     return (
         <div className="outer-container">
-            <header>
                 <NavBar/>
-            </header>
             <main>
                 <AppRoutes/>
             </main>
