@@ -29,24 +29,29 @@ function Homepage() {
     }, []);
 
     if (loading) {
-        return <p>Advertenties aan het laden...</p>
+        return <section className="loading-section"><p>Advertenties aan het laden...</p></section>;
     }
 
 
     return (
-        <div className='inner-container'>
-            <img src={moesProduceLogo}  id="logo" className="logo" alt="MoesProduce logo"/>
-            <h2>De plek voor al uw Moes overproduce.</h2>
-            <div className="inner-form-container">
-                        {adverts.length > 0 ? (
-                            adverts.map((advert) => (
-                                <AdvertCard key={advert.id} advert={advert} />
-                            ))
+        <section className='inner-container'>
+            <header className="homepage-header">
+                <img src={moesProduceLogo} id="logo" className="logo" alt="MoesProduce logo"/>
+                <h2>De plek voor al uw Moes overproduce.</h2>
+            </header>
+
+            <section className="inner-form-container">
+                {adverts.length > 0 ? (
+                    adverts.map((advert) => (
+                        <article key={advert.id} className="advert-card">
+                            <AdvertCard advert={advert}/>
+                        </article>
+                    ))
                 ) : (
-                    <p>No adverts available</p>
+                    <p>Geen advertenties beschikbaar</p>
                 )}
-            </div>
-        </div>
+            </section>
+        </section>
     );
 }
 

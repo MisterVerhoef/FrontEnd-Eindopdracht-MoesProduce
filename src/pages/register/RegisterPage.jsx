@@ -36,82 +36,87 @@ function RegisterPage() {
 
     return (
         <section className='inner-container'>
-            <h2>Registreer je hier voor een MoesProduce account</h2>
+            <header>
+                <h2>Registreer je hier voor een MoesProduce account</h2>
+            </header>
             {error && <div className='error-message'>{error}</div>}
             <form className='registerForm' onSubmit={handleSubmit(onSubmit)}>
-                <div>
-                    <label htmlFor="username">Voer hier je gewenste gebruikersnaam in:</label>
-                    <input
-                        id="username"
-                        placeholder="Gebruikersnaam"
-                        {...register("username", {
-                            required: "Gebruikersnaam is verplicht",
-                            minLength: {value: 3, message: "Gebruikersnaam moet minimaal 3 karakters lang zijn"}
-                        })}
-                    />
-                    {errors.username && <span className="error-message">{errors.username.message}</span>}
-                </div>
-                <div>
-                    <label htmlFor="email">Voer hier je emailadres in:</label>
-                    <input
-                        id="email"
-                        placeholder="Emailadres"
-                        {...register("email", {
-                            required: "Email is verplicht",
-                            pattern: {
-                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                message: "Ongeldig email adres"
-                            }
-                        })}
-                    />
-                    {errors.email && <span className="error-message">{errors.email.message}</span>}
-                </div>
-                <div>
-                    <label htmlFor="password">Voer hier je wachtwoord in:</label>
-                    <input
-                        type="password"
-                        id="password"
-                        placeholder="Wachtwoord"
-                        {...register("password", {
-                            required: "Wachtwoord is verplicht",
-                            minLength: {value: 6, message: "Wachtwoord moet minimaal 6 karakters lang zijn"}
-                        })}
-                    />
-                    {errors.password && <span className="error-message">{errors.password.message}</span>}
-                </div>
-                <div>
-                    <label htmlFor="confirmPassword">Bevestig hier je wachtwoord:</label>
-                    <input
-                        type="password"
-                        id="confirmPassword"
-                        placeholder="Bevestig wachtwoord"
-                        {...register("confirmPassword", {
-                            required: "Bevestig je wachtwoord",
-                            validate: (val) => {
-                                if (watch('password') != val) {
-                                    return "Wachtwoorden komen niet overeen";
+                <fieldset>
+                    <legend>Registreer Informatie</legend>
+                    <div>
+                        <label htmlFor="username">Gebruikersnaam:</label>
+                        <input
+                            id="username"
+                            placeholder="Gebruikersnaam"
+                            {...register("username", {
+                                required: "Gebruikersnaam is verplicht",
+                                minLength: { value: 3, message: "Gebruikersnaam moet minimaal 3 karakters lang zijn" }
+                            })}
+                        />
+                        {errors.username && <span className="error-message">{errors.username.message}</span>}
+                    </div>
+                    <div>
+                        <label htmlFor="email">Emailadres:</label>
+                        <input
+                            id="email"
+                            placeholder="Emailadres"
+                            {...register("email", {
+                                required: "Email is verplicht",
+                                pattern: {
+                                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                    message: "Ongeldig email adres"
                                 }
-                            }
-                        })}
-                    />
-                    {errors.confirmPassword && <span className="error-message">{errors.confirmPassword.message}</span>}
-                </div>
-                <div>
-                    <input
-                        type="checkbox"
-                        id="termsAccepted"
-                        {...register("termsAccepted", {
-                            required: "Je moet akkoord gaan met de voorwaarden"
-                        })}
-                    />
-                    <label htmlFor="termsAccepted">
-                        Ik ga akkoord met de voorwaarden
-                    </label>
-                    {errors.termsAccepted && <span className="error-message">{errors.termsAccepted.message}</span>}
-                </div>
-                <button type="submit" disabled={isLoading}>
-                    {isLoading ? 'Bezig met registreren...' : 'Registreer'}
-                </button>
+                            })}
+                        />
+                        {errors.email && <span className="error-message">{errors.email.message}</span>}
+                    </div>
+                    <div>
+                        <label htmlFor="password">Wachtwoord:</label>
+                        <input
+                            type="password"
+                            id="password"
+                            placeholder="Wachtwoord"
+                            {...register("password", {
+                                required: "Wachtwoord is verplicht",
+                                minLength: { value: 6, message: "Wachtwoord moet minimaal 6 karakters lang zijn" }
+                            })}
+                        />
+                        {errors.password && <span className="error-message">{errors.password.message}</span>}
+                    </div>
+                    <div>
+                        <label htmlFor="confirmPassword">Bevestig wachtwoord:</label>
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            placeholder="Bevestig wachtwoord"
+                            {...register("confirmPassword", {
+                                required: "Bevestig je wachtwoord",
+                                validate: (val) => {
+                                    if (watch('password') !== val) {
+                                        return "Wachtwoorden komen niet overeen";
+                                    }
+                                }
+                            })}
+                        />
+                        {errors.confirmPassword && <span className="error-message">{errors.confirmPassword.message}</span>}
+                    </div>
+                    <div>
+                        <input
+                            type="checkbox"
+                            id="termsAccepted"
+                            {...register("termsAccepted", {
+                                required: "Je moet akkoord gaan met de voorwaarden"
+                            })}
+                        />
+                        <label htmlFor="termsAccepted">
+                            Ik ga akkoord met de voorwaarden
+                        </label>
+                        {errors.termsAccepted && <span className="error-message">{errors.termsAccepted.message}</span>}
+                    </div>
+                    <button type="submit" disabled={isLoading}>
+                        {isLoading ? 'Bezig met registreren...' : 'Registreer'}
+                    </button>
+                </fieldset>
             </form>
         </section>
     );

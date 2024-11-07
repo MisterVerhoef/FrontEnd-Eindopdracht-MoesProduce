@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import api from "../../services/api.js";
 
 function CreateAdvert() {
@@ -27,7 +27,6 @@ function CreateAdvert() {
         fetchVegetables();
     }, []);
 
-    // Categorieën van groenten
     const vegetableCategories = {
         Bladgroenten: ['Andijvie', 'Boerenkool', 'Spinazie', 'Sla', 'Snijbiet', 'Rucola'],
         Koolsoorten: ['Bloemkool', 'Broccoli', 'Savooiekool', 'Spruitjes', 'Witte kool'],
@@ -40,7 +39,6 @@ function CreateAdvert() {
         "Exotische gewassen": ['Aubergine', 'Okra', 'Paksoi'],
     };
 
-    // Functie om de geselecteerde groenten op te slaan als objecten met name en category
     const handleVegetableChange = (category, event) => {
         const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
         const vegetableObjects = selectedOptions.map(option => ({
@@ -59,7 +57,7 @@ function CreateAdvert() {
 
         const previews = files.map(file => URL.createObjectURL(file));
         setPreviewImages(previews);
-    }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -84,7 +82,6 @@ function CreateAdvert() {
             });
             console.log('Advert created:', response.data);
             setMessage('Advertentie succesvol geplaatst!');
-            // Reset form
             setAdvertTitle('');
             setAdvertDescription('');
             setSelectedVegetables({});
@@ -106,73 +103,90 @@ function CreateAdvert() {
             {message && <div className="message">{message}</div>}
             <section className="inner-form-container" id="create-advert-container">
                 <form onSubmit={handleSubmit}>
-                    <input
-                        type="text"
-                        placeholder="Titel"
-                        value={advertTitle}
-                        onChange={(e) => setAdvertTitle(e.target.value)}
-                    />
-                    <textarea
-                        placeholder="Omschrijving"
-                        maxLength="255"
-                        value={advertDescription}
-                        onChange={(e) => setAdvertDescription(e.target.value)}
-                        style={{
-                            width: '100%',
-                            height: '150px',
-                            padding: '10px',
-                            resize: 'vertical'
-                        }}
-                    />
-                    <div className="image-upload-section">
+                    <fieldset>
+                        <legend>Advertentiegegevens</legend>
+                        <label htmlFor="title">Titel</label>
+                        <input
+                            type="text"
+                            id="title"
+                            placeholder="Titel"
+                            value={advertTitle}
+                            onChange={(e) => setAdvertTitle(e.target.value)}
+                        />
+                        <label htmlFor="description">Omschrijving</label>
+                        <textarea
+                            id="description"
+                            placeholder="Omschrijving"
+                            maxLength="255"
+                            value={advertDescription}
+                            onChange={(e) => setAdvertDescription(e.target.value)}
+                            style={{
+                                width: '100%',
+                                height: '150px',
+                                padding: '10px',
+                                resize: 'vertical'
+                            }}
+                        />
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Afbeeldingen</legend>
+                        <label htmlFor="images">Upload afbeeldingen</label>
                         <input
                             type="file"
+                            id="images"
                             multiple
                             accept="image/*"
                             onChange={handleImageChange}
                         />
                         <div className="image-previews">
                             {previewImages.map((preview, index) => (
-                                <img
-                                    key={index}
-                                    src={preview}
-                                    alt={`Preview ${index + 1}`}
-                                    style={{width: '100px', height: '100px', objectFit: 'cover', margin: '5px'}}
-                                />
+                                <figure key={index}>
+                                    <img
+                                        src={preview}
+                                        alt={`Preview ${index + 1}`}
+                                        style={{ width: '100px', height: '100px', objectFit: 'cover', margin: '5px' }}
+                                    />
+                                    <figcaption>Afbeelding {index + 1}</figcaption>
+                                </figure>
                             ))}
                         </div>
-                    </div>
-                    {/* Dropdowns per categorie */}
-                    <div className="vegetable-categories">
-                        {Object.keys(vegetableCategories).map(category => (
-                            <div key={category} className="category-section">
-                                <label style={{
-                                    fontWeight: 'bold',
-                                    color: 'orange',
-                                    display: 'block',
-                                    marginBottom: '10px'
-                                }}>
-                                    {category}
-                                </label>
-                                <select
-                                    multiple
-                                    onChange={(e) => handleVegetableChange(category, e)}
-                                    value={selectedVegetables[category]?.map(v => v.name) || []}
-                                    style={{
-                                        width: '100%',
-                                        height: '100px',
-                                        marginBottom: '20px'
-                                    }}
-                                >
-                                    {vegetableCategories[category].map(vegetable => (
-                                        <option key={vegetable} value={vegetable}>
-                                            {vegetable}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-                        ))}
-                    </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Selecteer groenten</legend>
+                        <div className="vegetable-categories">
+                            {Object.keys(vegetableCategories).map(category => (
+                                <section key={category} className="category-section">
+                                    <label htmlFor={`select-${category}`} style={{
+                                        fontWeight: 'bold',
+                                        color: 'orange',
+                                        display: 'block',
+                                        marginBottom: '10px'
+                                    }}>
+                                        {category}
+                                    </label>
+                                    <select
+                                        id={`select-${category}`}
+                                        multiple
+                                        onChange={(e) => handleVegetableChange(category, e)}
+                                        value={selectedVegetables[category]?.map(v => v.name) || []}
+                                        style={{
+                                            width: '100%',
+                                            height: '100px',
+                                            marginBottom: '20px'
+                                        }}
+                                    >
+                                        {vegetableCategories[category].map(vegetable => (
+                                            <option key={vegetable} value={vegetable}>
+                                                {vegetable}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </section>
+                            ))}
+                        </div>
+                    </fieldset>
 
                     <button type="submit">Plaats advertentie</button>
                 </form>

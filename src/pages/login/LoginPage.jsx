@@ -36,41 +36,46 @@ function LoginPage() {
     };
 
     return (
-        <div className="outer-form-container">
-            <div className="inner-form-container" id="login-container">
-                <h1>Login</h1>
+        <section className="outer-form-container">
+            <article className="inner-form-container" id="login-container">
+                <header>
+                    <h1>Login</h1>
+                </header>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     {error && <div className="error-message">{error}</div>}
-                    <div>
-                        <label htmlFor="usernameOrEmail">Voer hier je gebruikersnaam of emailadres in om in te loggen.</label>
-                        <input
-                            id="usernameOrEmail"
-                            type="text"
-                            placeholder="Voer hier je gebruikersnaam of e-mail in"
-                            {...register("usernameOrEmail", {
-                                required: "Gebruikersnaam of email is verplicht"
-                            })}
-                        />
-                        {errors.usernameOrEmail && <span className="error-message">{errors.usernameOrEmail.message}</span>}
-                    </div>
-                    <div>
-                        <label htmlFor="password">Voer hier je wachtwoord in om in te loggen.</label>
-                        <input
-                            id="password"
-                            type="password"
-                            placeholder="Voer hier je wachtwoord in"
-                            {...register("password", {
-                                required: "Wachtwoord is verplicht"
-                            })}
-                        />
-                        {errors.password && <span className="error-message">{errors.password.message}</span>}
-                    </div>
+                    <fieldset>
+                        <legend>Inloggegevens</legend>
+                        <div>
+                            <label htmlFor="usernameOrEmail">Gebruikersnaam of email:</label>
+                            <input
+                                id="usernameOrEmail"
+                                type="text"
+                                placeholder="Voer hier je gebruikersnaam of E-mail in"
+                                {...register("usernameOrEmail", {
+                                    required: "Gebruikersnaam of email is verplicht"
+                                })}
+                            />
+                            {errors.usernameOrEmail && <span className="error-message">{errors.usernameOrEmail.message}</span>}
+                        </div>
+                        <div>
+                            <label htmlFor="password">Wachtwoord:</label>
+                            <input
+                                id="password"
+                                type="password"
+                                placeholder="Voer hier je wachtwoord in"
+                                {...register("password", {
+                                    required: "Wachtwoord is verplicht"
+                                })}
+                            />
+                            {errors.password && <span className="error-message">{errors.password.message}</span>}
+                        </div>
+                    </fieldset>
                     <button type="submit" disabled={isLoading}>
                         {isLoading ? 'Bezig met inloggen...' : 'Inloggen'}
                     </button>
                 </form>
-            </div>
-        </div>
+            </article>
+        </section>
     );
 }
 

@@ -182,24 +182,31 @@ const ProfilePage = () => {
     };
 
 
-    if (isLoading) return <div>Laden...</div>;
-    if (!profile) return <div>Geen profielgegevens beschikbaar</div>;
+    if (isLoading) return <section className="loading">Laden...</section>;
+    if (!profile) return <section>Geen profielgegevens beschikbaar</section>;
 
     return (
-        <div className="outer-form-container">
-            <h2>Gebruikersprofiel</h2>
+        <section className="outer-form-container">
+            <header>
+                <h2>Gebruikersprofiel</h2>
+            </header>
+
             {error && <div className="error-message">{error}</div>}
             {successMessage && <div className="success-message">{successMessage}</div>}
-            <div className="inner-form-container">
+
+            <article className="inner-form-container">
                 <h2>{profile.username}</h2>
                 {profile.profileImageUrl ? (
-                    <img
-                        src={`${profile.profileImageUrl}?t=${new Date().getTime()}`}
-                        alt="Profielfoto"
-                        style={{width: '200px', height: '200px', objectFit: 'cover'}}
-                    />
+                    <figure>
+                        <img
+                            src={`${profile.profileImageUrl}?t=${new Date().getTime()}`}
+                            alt="Profielfoto"
+                            style={{ width: '200px', height: '200px', objectFit: 'cover' }}
+                        />
+                        <figcaption>Huidige profielfoto</figcaption>
+                    </figure>
                 ) : (
-                    <div>Geen profielfoto beschikbaar.</div>
+                    <p>Geen profielfoto beschikbaar.</p>
                 )}
                 <input
                     type="file"
@@ -209,69 +216,73 @@ const ProfilePage = () => {
                 <button onClick={handleFileUpload} disabled={!selectedFile || isLoading}>
                     {isLoading ? 'Uploading...' : 'Upload Profielfoto'}
                 </button>
-            </div>
-            <div className="inner-form-container">
+            </article>
+
+            <article className="inner-form-container">
                 {isEditing ? (
                     <form onSubmit={handleSubmit}>
-                        <div>
-                            <label htmlFor="username">Gebruikersnaam:</label>
-                            <input
-                                type="text"
-                                id="username"
-                                name="username"
-                                value={profile.username}
-                                onChange={handleInputChange}
-                                required
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="email">E-mail:</label>
-                            <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                value={profile.email}
-                                onChange={handleInputChange}
-                                required
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="name">Naam:</label>
-                            <input
-                                type="text"
-                                id="name"
-                                name="name"
-                                value={profile.name}
-                                onChange={handleInputChange}
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="doB">Geboortedatum:</label>
-                            <input
-                                type="text"
-                                id="doB"
-                                name="doB"
-                                value={formatDateForDisplay(profile.doB)}
-                                onChange={handleDateChange}
-                                placeholder="dd-mm-yyyy"
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="address">Adres:</label>
-                            <input
-                                type="text"
-                                id="address"
-                                name="address"
-                                value={profile.address}
-                                onChange={handleInputChange}
-                            />
-                        </div>
-                        <button type="submit" disabled={isLoading}>
-                            {isLoading ? 'Bijwerken...' : 'Profiel Bijwerken'}
-                        </button>
-                        <button type="button" onClick={handleCancel} disabled={isLoading}>
-                            Annuleren
-                        </button>
+                        <fieldset>
+                            <legend>Profielinformatie Bewerken</legend>
+                            <div>
+                                <label htmlFor="username">Gebruikersnaam:</label>
+                                <input
+                                    type="text"
+                                    id="username"
+                                    name="username"
+                                    value={profile.username}
+                                    onChange={handleInputChange}
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="email">E-mail:</label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    value={profile.email}
+                                    onChange={handleInputChange}
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="name">Naam:</label>
+                                <input
+                                    type="text"
+                                    id="name"
+                                    name="name"
+                                    value={profile.name}
+                                    onChange={handleInputChange}
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="doB">Geboortedatum:</label>
+                                <input
+                                    type="text"
+                                    id="doB"
+                                    name="doB"
+                                    value={formatDateForDisplay(profile.doB)}
+                                    onChange={handleDateChange}
+                                    placeholder="dd-mm-yyyy"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="address">Adres:</label>
+                                <input
+                                    type="text"
+                                    id="address"
+                                    name="address"
+                                    value={profile.address}
+                                    onChange={handleInputChange}
+                                />
+                            </div>
+                            <button type="submit" disabled={isLoading}>
+                                {isLoading ? 'Bijwerken...' : 'Profiel Bijwerken'}
+                            </button>
+                            <button type="button" onClick={handleCancel} disabled={isLoading}>
+                                Annuleren
+                            </button>
+                        </fieldset>
                     </form>
                 ) : (
                     <div>
@@ -283,51 +294,57 @@ const ProfilePage = () => {
                         <button onClick={handleEdit}>Profiel Bewerken</button>
                     </div>
                 )}
-            </div>
+            </article>
 
-            <div className="inner-form-container">
-                <h3>Wachtwoord Wijzigen</h3>
+            <article className="inner-form-container">
+                <header>
+                    <h3>Wachtwoord Wijzigen</h3>
+                </header>
                 <form onSubmit={handlePasswordChange}>
-                    <div>
-                        <label htmlFor="currentPassword">Huidig Wachtwoord:</label>
-                        <input
-                            type="password"
-                            id="currentPassword"
-                            name="currentPassword"
-                            value={passwordData.currentPassword}
-                            onChange={handlePasswordInputChange}
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="newPassword">Nieuw Wachtwoord:</label>
-                        <input
-                            type="password"
-                            id="newPassword"
-                            name="newPassword"
-                            value={passwordData.newPassword}
-                            onChange={handlePasswordInputChange}
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="confirmPassword">Bevestig Nieuw Wachtwoord:</label>
-                        <input
-                            type="password"
-                            id="confirmPassword"
-                            name="confirmPassword"
-                            value={passwordData.confirmPassword}
-                            onChange={handlePasswordInputChange}
-                            required
-                        />
-                    </div>
-                    <button type="submit" disabled={isLoading}>
-                        {isLoading ? 'Wachtwoord Wijzigen...' : 'Wachtwoord Wijzigen'}
-                    </button>
+                    <fieldset>
+                        <legend>Wachtwoord Wijzigen</legend>
+                        <div>
+                            <label htmlFor="currentPassword">Huidig Wachtwoord:</label>
+                            <input
+                                type="password"
+                                id="currentPassword"
+                                name="currentPassword"
+                                value={passwordData.currentPassword}
+                                onChange={handlePasswordInputChange}
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="newPassword">Nieuw Wachtwoord:</label>
+                            <input
+                                type="password"
+                                id="newPassword"
+                                name="newPassword"
+                                value={passwordData.newPassword}
+                                onChange={handlePasswordInputChange}
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="confirmPassword">Bevestig Nieuw Wachtwoord:</label>
+                            <input
+                                type="password"
+                                id="confirmPassword"
+                                name="confirmPassword"
+                                value={passwordData.confirmPassword}
+                                onChange={handlePasswordInputChange}
+                                required
+                            />
+                        </div>
+                        <button type="submit" disabled={isLoading}>
+                            {isLoading ? 'Wachtwoord Wijzigen...' : 'Wachtwoord Wijzigen'}
+                        </button>
+                    </fieldset>
                 </form>
-            </div>
-        </div>
+            </article>
+        </section>
     );
 };
+
 
 export default ProfilePage;
