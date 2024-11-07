@@ -27,23 +27,29 @@ function AllAdvertsPage() {
     }, []);
 
     if (loading) {
-        return <p>Advertenties aan het laden...</p>
+        return <section className="loading-section"><p>Advertenties aan het laden...</p></section>;
     }
 
     return (
 
-        <div className="inner-form-container">
-            <h1>Aangeboden Produce</h1>
-            {adverts.length > 0 ? (
-                adverts.map((advert) => (
-                    <AdvertCard key={advert.id} advert={advert}/>
-                ))
-            ) : (
-                <p>Geen advertenties beschikbaar.</p>
-            )}
-        </div>
-)
-    ;
-}
+        <section className="inner-form-container">
+            <header>
+                <h1>Aangeboden Produce</h1>
+            </header>
 
-export default AllAdvertsPage;
+            {adverts.length > 0 ? (
+                      <section className="advert-list">
+                                    {adverts.map((advert) => (
+                                        <article key={advert.id} className="advert-card">
+                                            <AdvertCard advert={advert} />
+                                        </article>
+                                    ))}
+                                </section>
+                            ) : (
+                                <p>Geen advertenties beschikbaar.</p>
+                            )}
+                        </section>
+            );
+            }
+
+            export default AllAdvertsPage;

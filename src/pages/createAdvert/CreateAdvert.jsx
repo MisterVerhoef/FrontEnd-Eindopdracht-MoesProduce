@@ -98,10 +98,13 @@ function CreateAdvert() {
     };
 
     return (
-        <div className="outer-form-container">
-            <h2>Plaats een advertentie</h2>
+        <section className="outer-form-container">
+            <header>
+                <h2>Plaats een advertentie</h2>
+            </header>
+
             {message && <div className="message">{message}</div>}
-            <div className="inner-form-container" id="create-advert-container">
+            <section className="inner-form-container" id="create-advert-container">
                 <form onSubmit={handleSubmit}>
                     <input
                         type="text"
@@ -173,8 +176,8 @@ function CreateAdvert() {
 
                     <button type="submit">Plaats advertentie</button>
                 </form>
-            </div>
-        </div>
+            </section>
+        </section>
     );
 }
 

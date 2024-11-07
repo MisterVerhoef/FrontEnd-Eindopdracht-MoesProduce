@@ -29,22 +29,28 @@ function AdvertPage(){
     }, [id]);
 
     if(isLoading){
-        return <div>advertentie aan het laden...</div>;
+        return <section>advertentie aan het laden...</section>;
     }
     if(!advert) {
-        return <div>Advertentie bestaat niet meer.</div>;
+        return <section>Advertentie bestaat niet meer.</section>;
     }
 
     return (
 
 
-        <div className="inner-form-container">
-            <h1>Advertentie Details</h1>
+        <article className="inner-form-container">
+            <header>
+                <h1>Advertentie Details</h1>
+            </header>
+
             <AdvertCard advert={advert}/>
 
 
-            <div className="additional-images-container">
-                <h2>Meer afbeeldingen</h2>
+            <section className="additional-images-container">
+                <header>
+                    <h2>Meer afbeeldingen</h2>
+                </header>
+
 
                 <div className="images-container">
 
@@ -53,10 +59,8 @@ function AdvertPage(){
                              className="advert-image"/>
                     ))}
                 </div>
-            </div>
-
-
-</div>
+            </section>
+</article>
                     );
 
                 }
