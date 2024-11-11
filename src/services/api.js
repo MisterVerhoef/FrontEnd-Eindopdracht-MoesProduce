@@ -34,4 +34,12 @@ api.interceptors.response.use(
     }
 );
 
+export const searchAdverts = async (query) => {
+    return await api.get('/api/adverts/search', {
+        params: {
+            query: query,
+        }
+    });
+}
+
 export default api;

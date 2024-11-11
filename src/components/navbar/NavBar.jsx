@@ -2,16 +2,12 @@ import { Link } from 'react-router-dom';
 import './NavBar.css';
 import homeIcon from '/src/assets/images/home-icon.png';
 import { AuthContext } from "../../context/AuthContext.jsx";
-import { useContext, useState } from "react";
+import { useContext } from "react";
+import SearchBar from "../searchBar/SearchBar.jsx";
 
 function NavBar() {
     const { isAuth, logout } = useContext(AuthContext);
-    const [searchQuery, setSearchQuery] = useState('');
 
-    const handleSearch = (event) => {
-        event.preventDefault();
-        console.log(`Search query: ${searchQuery}`);
-    };
 
     return (
         <header className="navbar">
@@ -22,16 +18,7 @@ function NavBar() {
             </section>
 
             <section className="navbar-section navbar-search">
-                <form onSubmit={handleSearch} className="search-form">
-                    <input
-                        type="text"
-                        placeholder="Zoeken..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        className="search-input"
-                    />
-                    <button type="submit" className="search-button">Zoeken</button>
-                </form>
+              <SearchBar/>
             </section>
 
             <nav className="navbar-section navbar-links">
