@@ -9,6 +9,7 @@ import CreateAdvert from "../../pages/createAdvert/CreateAdvert.jsx";
 import {AuthContext} from "../../context/AuthContext.jsx";
 import {useContext} from "react";
 import AdminPage from "../../pages/admin/AdminPage.jsx";
+import SearchResultsPage from "../../pages/search/SearchResultsPage.jsx";
 
 
 const AppRoutes = () => {
@@ -19,6 +20,7 @@ const AppRoutes = () => {
             <Route path="/" element={<Homepage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/adverts/:id" element={<AdvertPage />} />
+            <Route path="/search" element={<SearchResultsPage /> } />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/adverts" element={<AllAdvertsPage />} />
             <Route path="/creeradvert" element={isAuth ? <CreateAdvert /> : <Navigate to="/login" />} />
