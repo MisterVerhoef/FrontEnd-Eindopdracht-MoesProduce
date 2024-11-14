@@ -34,6 +34,13 @@ api.interceptors.response.use(
     }
 );
 
+export const loginUser = async (data) => {
+    return await api.post('/api/users/login', {
+        usernameOrEmail: data.usernameOrEmail,
+        password: data.password
+    });
+};
+
 export const searchAdverts = async (query) => {
     return await api.get('/api/adverts/search', {
         params: {

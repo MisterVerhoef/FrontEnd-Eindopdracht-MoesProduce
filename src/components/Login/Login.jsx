@@ -1,7 +1,7 @@
 import {useForm} from "react-hook-form";
 import {useContext, useState} from "react";
 import {AuthContext} from "../../context/AuthContext.jsx";
-import api from "../../services/api.js";
+import {loginUser} from "../../services/api.js";
 
 
 function Login() {
@@ -16,10 +16,8 @@ function Login() {
         setIsLoading(true);
 
         try {
-            const response = await api.post('/api/users/login', {
-                usernameOrEmail: data.usernameOrEmail,
-                password: data.password
-            });
+            const response = await loginUser(data);
+
             console.log('Login response:', response.data);
 
             if (response.data.token) {
