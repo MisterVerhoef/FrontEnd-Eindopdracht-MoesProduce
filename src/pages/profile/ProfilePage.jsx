@@ -186,7 +186,7 @@ const ProfilePage = () => {
     if (!profile) return <section>Geen profielgegevens beschikbaar</section>;
 
     return (
-        <section className="outer-form-container">
+        <section className="inner-container">
             <header>
                 <h2>Gebruikersprofiel</h2>
             </header>

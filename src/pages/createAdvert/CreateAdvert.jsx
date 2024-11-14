@@ -99,7 +99,7 @@ function CreateAdvert() {
     };
 
     return (
-        <section className="outer-form-container">
+        <section className="inner-container">
             <header>
                 <h2>Plaats een advertentie</h2>
             </header>
