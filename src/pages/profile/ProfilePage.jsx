@@ -190,7 +190,21 @@ const ProfilePage = () => {
             <header>
                 <h2>Gebruikersprofiel</h2>
             </header>
-
+            <aside className="sidebar">
+                <nav>
+                    <ul>
+                        <li><a href="/profile">Mijn Profiel</a></li>
+                        <li><a href="/messages">Berichten</a></li>
+                        <li><a href="/place-advertisement">Plaats een advertentie</a></li>
+                        <li><a href="/email-preferences">Email Voorkeuren</a></li>
+                        <li><a href="/ratings">Beoordelingen</a></li>
+                        <li><a href="/saved-ads">Opgeslagen Advertenties</a></li>
+                        <li><a href="/advertisements">Advertenties</a></li>
+                        <li><a href="/account-details">Inloggegevens</a></li>
+                        <li><a href="/logout">Uitloggen</a></li>
+                    </ul>
+                </nav>
+            </aside>
             {error && <div className="error-message">{error}</div>}
             {successMessage && <div className="success-message">{successMessage}</div>}
 
@@ -201,7 +215,7 @@ const ProfilePage = () => {
                         <img
                             src={`${profile.profileImageUrl}?t=${new Date().getTime()}`}
                             alt="Profielfoto"
-                            style={{ width: '200px', height: '200px', objectFit: 'cover' }}
+                            style={{width: '200px', height: '200px', objectFit: 'cover'}}
                         />
                         <figcaption>Huidige profielfoto</figcaption>
                     </figure>

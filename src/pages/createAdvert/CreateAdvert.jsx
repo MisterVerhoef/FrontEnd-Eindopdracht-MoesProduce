@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import api from "../../services/api.js";
+import '../../App.css';
+import './CreateAdvert.css';
 
 function CreateAdvert() {
     const [advertTitle, setAdvertTitle] = useState('');
     const [advertDescription, setAdvertDescription] = useState('');
     const [message, setMessage] = useState('');
     const [vegetables, setVegetables] = useState([]);
-    const [selectedVegetables, setSelectedVegetables] = useState({});
+    const [selectedVegetables, setSelectedVegetables] = useState([]);
     const [selectedImages, setSelectedImages] = useState([]);
     const [previewImages, setPreviewImages] = useState([]);
+    const [expandedCategory, setExpandedCategory] = useState('');
 
     useEffect(() => {
         const fetchVegetables = async () => {
@@ -18,7 +21,6 @@ function CreateAdvert() {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
                     }
                 });
-                console.log('Fetched vegetables:', response.data);
                 setVegetables(response.data);
             } catch (error) {
                 console.error("Error fetching vegetables:", error);
@@ -39,16 +41,21 @@ function CreateAdvert() {
         "Exotische gewassen": ['Aubergine', 'Okra', 'Paksoi'],
     };
 
+    const handleCategoryClick = (category) => {
+        if (expandedCategory === category) {
+            setExpandedCategory(''); // Collapse if already open
+        } else {
+            setExpandedCategory(category); // Expand the selected category
+        }
+    };
+
     const handleVegetableChange = (category, event) => {
         const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
-        const vegetableObjects = selectedOptions.map(option => ({
-            name: option,
-            category: category
-        }));
-        setSelectedVegetables(prevState => ({
-            ...prevState,
-            [category]: vegetableObjects
-        }));
+        setSelectedVegetables(prevState => {
+            const otherVegetables = prevState.filter(v => v.category !== category);
+            const newVegetables = selectedOptions.map(option => ({ name: option, category }));
+            return [...otherVegetables, ...newVegetables];
+        });
     };
 
     const handleImageChange = (e) => {
@@ -62,12 +69,10 @@ function CreateAdvert() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const allSelectedVegetables = Object.values(selectedVegetables).flat();
-
         const formData = new FormData();
         formData.append('title', advertTitle);
         formData.append('description', advertDescription);
-        formData.append('vegetables', JSON.stringify(allSelectedVegetables));
+        formData.append('vegetables', JSON.stringify(selectedVegetables));
 
         selectedImages.forEach((image, index) => {
             formData.append(`images`, image);
@@ -80,11 +85,10 @@ function CreateAdvert() {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            console.log('Advert created:', response.data);
             setMessage('Advertentie succesvol geplaatst!');
             setAdvertTitle('');
             setAdvertDescription('');
-            setSelectedVegetables({});
+            setSelectedVegetables([]);
             setSelectedImages([]);
             setPreviewImages([]);
             setTimeout(() => setMessage(''), 3000);
@@ -103,92 +107,102 @@ function CreateAdvert() {
             {message && <div className="message">{message}</div>}
             <section className="inner-form-container" id="create-advert-container">
                 <form onSubmit={handleSubmit}>
-                    <fieldset>
-                        <legend>Advertentiegegevens</legend>
-                        <label htmlFor="title">Titel</label>
-                        <input
-                            type="text"
-                            id="title"
-                            placeholder="Titel"
-                            value={advertTitle}
-                            onChange={(e) => setAdvertTitle(e.target.value)}
-                        />
-                        <label htmlFor="description">Omschrijving</label>
-                        <textarea
-                            id="description"
-                            placeholder="Omschrijving"
-                            maxLength="255"
-                            value={advertDescription}
-                            onChange={(e) => setAdvertDescription(e.target.value)}
-                            style={{
-                                width: '100%',
-                                height: '150px',
-                                padding: '10px',
-                                resize: 'vertical'
-                            }}
-                        />
-                    </fieldset>
+                    <div className="form-main-content">
+                        <section className="card">
+                            <header className="card-header">
+                                <h3>Advertentiegegevens</h3>
+                            </header>
+                            <div className="card-content">
+                                <label htmlFor="title">Titel</label>
+                                <input
+                                    type="text"
+                                    id="title"
+                                    placeholder="Titel"
+                                    value={advertTitle}
+                                    onChange={(e) => setAdvertTitle(e.target.value)}
+                                    required
+                                />
+                                <label htmlFor="description">Omschrijving</label>
+                                <textarea
+                                    id="description"
+                                    placeholder="Omschrijving"
+                                    maxLength="255"
+                                    value={advertDescription}
+                                    onChange={(e) => setAdvertDescription(e.target.value)}
+                                    required
+                                    style={{
+                                        width: '100%',
+                                        height: '150px',
+                                        padding: '10px',
+                                        resize: 'vertical'
+                                    }}
+                                />
+                            </div>
+                        </section>
 
-                    <fieldset>
-                        <legend>Afbeeldingen</legend>
-                        <label htmlFor="images">Upload afbeeldingen</label>
-                        <input
-                            type="file"
-                            id="images"
-                            multiple
-                            accept="image/*"
-                            onChange={handleImageChange}
-                        />
-                        <div className="image-previews">
-                            {previewImages.map((preview, index) => (
-                                <figure key={index}>
-                                    <img
-                                        src={preview}
-                                        alt={`Preview ${index + 1}`}
-                                        style={{ width: '100px', height: '100px', objectFit: 'cover', margin: '5px' }}
-                                    />
-                                    <figcaption>Afbeelding {index + 1}</figcaption>
-                                </figure>
-                            ))}
-                        </div>
-                    </fieldset>
+                        <section className="card">
+                            <header className="card-header">
+                                <h3>Afbeeldingen</h3>
+                            </header>
+                            <div className="card-content">
+                                <label htmlFor="images">Upload afbeeldingen</label>
+                                <input
+                                    type="file"
+                                    id="images"
+                                    multiple
+                                    accept="image/*"
+                                    onChange={handleImageChange}
+                                />
+                                <div className="image-previews">
+                                    {previewImages.map((preview, index) => (
+                                        <figure key={index} className="image-preview">
+                                            <img
+                                                src={preview}
+                                                alt={`Preview ${index + 1}`}
+                                                style={{ width: '100px', height: '100px', objectFit: 'cover', margin: '5px' }}
+                                            />
+                                            <figcaption>Afbeelding {index + 1}</figcaption>
+                                        </figure>
+                                    ))}
+                                </div>
+                            </div>
+                        </section>
+                    </div>
 
-                    <fieldset>
-                        <legend>Selecteer groenten</legend>
-                        <div className="vegetable-categories">
+                    <section className="card vegetable-section">
+                        <header className="card-header">
+                            <h3>Selecteer groenten</h3>
+                        </header>
+                        <div className="card-content">
                             {Object.keys(vegetableCategories).map(category => (
-                                <section key={category} className="category-section">
-                                    <label htmlFor={`select-${category}`} style={{
-                                        fontWeight: 'bold',
-                                        color: 'orange',
-                                        display: 'block',
-                                        marginBottom: '10px'
-                                    }}>
-                                        {category}
-                                    </label>
-                                    <select
-                                        id={`select-${category}`}
-                                        multiple
-                                        onChange={(e) => handleVegetableChange(category, e)}
-                                        value={selectedVegetables[category]?.map(v => v.name) || []}
-                                        style={{
-                                            width: '100%',
-                                            height: '100px',
-                                            marginBottom: '20px'
-                                        }}
+                                <div key={category} className="category-dropdown">
+                                    <button
+                                        type="button"
+                                        className="category-button"
+                                        onClick={() => handleCategoryClick(category)}
                                     >
-                                        {vegetableCategories[category].map(vegetable => (
-                                            <option key={vegetable} value={vegetable}>
-                                                {vegetable}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </section>
+                                        {category}
+                                    </button>
+                                    {expandedCategory === category && (
+                                        <select
+                                            multiple
+                                            onChange={(e) => handleVegetableChange(category, e)}
+                                            value={selectedVegetables.filter(v => v.category === category).map(v => v.name)}
+                                            className="vegetable-select"
+                                        >
+                                            {vegetableCategories[category].map(vegetable => (
+                                                <option key={vegetable} value={vegetable}>
+                                                    {vegetable}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    )}
+                                </div>
                             ))}
                         </div>
-                    </fieldset>
+                    </section>
 
-                    <button type="submit">Plaats advertentie</button>
+                    <button type="submit" className="submit-button">Plaats advertentie</button>
                 </form>
             </section>
         </section>

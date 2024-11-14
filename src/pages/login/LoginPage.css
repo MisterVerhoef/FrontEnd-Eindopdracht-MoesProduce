@@ -26,7 +26,7 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.inner-form-container form {
+.inner-loginForm-container form {
     display: flex;
     padding: 20px;
     margin: 10px;
@@ -39,7 +39,7 @@
 
 }
 
-.inner-form-container button {
+.inner-loginForm-container button {
     width: 50%;
     margin-top: 10px;
     font-size: 18px;
@@ -52,7 +52,7 @@
     cursor: pointer;
 }
 
-.inner-form-container form input {
+.inner-loginForm-container form input {
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -61,16 +61,6 @@
     width: auto;
     box-sizing: border-box;
     color: black
-}
-
-.vegetable-categories {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 kolommen */
-    gap: 20px;
-}
-
-.category-section {
-    margin-bottom: 20px;
 }
 
 select {

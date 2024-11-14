@@ -37,7 +37,7 @@ function LoginPage() {
 
     return (
         <section className="outer-form-container">
-            <article className="inner-form-container" id="login-container">
+            <article className="inner-loginForm-container" id="login-container">
                 <header>
                     <h1>Login</h1>
                 </header>
