@@ -1,7 +1,7 @@
 import {useState} from "react";
 import {useForm} from "react-hook-form";
 import {useNavigate} from "react-router-dom";
-import api from "../../services/api.js";
+import {registerUser} from "../../services/api.js";
 
 function RegisterPage() {
     const {register, handleSubmit, formState: {errors}, watch} = useForm();
@@ -14,12 +14,8 @@ function RegisterPage() {
         setIsLoading(true);
 
         try {
-            const response = await api.post('/api/users/register', {
-                username: data.username,
-                email: data.email,
-                password: data.password,
-                termsAccepted: data.termsAccepted
-            });
+            const response = await registerUser(data);
+
             console.log('Registration successful:', response.data);
             navigate('/login');
         } catch (error) {

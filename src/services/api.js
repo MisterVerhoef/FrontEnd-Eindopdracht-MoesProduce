@@ -47,6 +47,18 @@ export const searchAdverts = async (query) => {
             query: query,
         }
     });
-}
+};
+
+
+export const registerUser = async (data) => {
+    return await api.post('/api/users/register', {
+        username: data.username,
+        email: data.email,
+        password: data.password,
+        termsAccepted: data.termsAccepted
+    });
+
+};
+
 
 export default api;
