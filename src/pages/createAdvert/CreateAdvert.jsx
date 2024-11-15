@@ -58,6 +58,17 @@ function CreateAdvert() {
         });
     };
 
+    const handleCheckboxChange = (category, vegetable) => {
+        setSelectedVegetables(prevState => {
+            const exists = prevState.find(v => v.name === vegetable && v.category === category);
+            if (exists) {
+                return prevState.filter(v => !(v.name === vegetable && v.category === category));
+            } else {
+                return [...prevState, { name: vegetable, category }];
+            }
+        });
+    };
+
     const handleImageChange = (e) => {
         const files = Array.from(e.target.files);
         setSelectedImages(files);
@@ -109,7 +120,7 @@ function CreateAdvert() {
                 <form onSubmit={handleSubmit}>
                     <div className="advert-container">
                         <div className="left-section">
-                            <section className="card">
+                            <section className="card advert-card">
                                 <header className="card-header">
                                     <h3>Advertentiegegevens</h3>
                                 </header>
@@ -141,7 +152,7 @@ function CreateAdvert() {
                                 </div>
                             </section>
 
-                            <section className="card">
+                            <section className="card advert-card">
                                 <header className="card-header">
                                     <h3>Afbeeldingen</h3>
                                 </header>
@@ -170,7 +181,7 @@ function CreateAdvert() {
                             </section>
                         </div>
 
-                        <section className="card vegetable-section">
+                        <section className="card vegetable-section advert-card">
                             <header className="card-header">
                                 <h3>Selecteer groenten</h3>
                             </header>
@@ -185,18 +196,19 @@ function CreateAdvert() {
                                             {category}
                                         </button>
                                         {expandedCategory === category && (
-                                            <select
-                                                multiple
-                                                onChange={(e) => handleVegetableChange(category, e)}
-                                                value={selectedVegetables.filter(v => v.category === category).map(v => v.name)}
-                                                className="vegetable-select"
-                                            >
+                                            <div className="vegetable-checkboxes">
                                                 {vegetableCategories[category].map(vegetable => (
-                                                    <option key={vegetable} value={vegetable}>
-                                                        {vegetable}
-                                                    </option>
+                                                    <div key={vegetable} className="vegetable-option">
+                                                        <input
+                                                            type="checkbox"
+                                                            id={`${category}-${vegetable}`}
+                                                            checked={selectedVegetables.some(v => v.name === vegetable && v.category === category)}
+                                                            onChange={() => handleCheckboxChange(category, vegetable)}
+                                                        />
+                                                        <label htmlFor={`${category}-${vegetable}`}>{vegetable}</label>
+                                                    </div>
                                                 ))}
-                                            </select>
+                                            </div>
                                         )}
                                     </div>
                                 ))}
