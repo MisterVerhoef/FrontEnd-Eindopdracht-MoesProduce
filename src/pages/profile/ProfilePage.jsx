@@ -2,6 +2,7 @@ import {useState, useEffect, useContext} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {AuthContext} from '../../context/AuthContext.jsx';
 import api from '../../services/api.js';
+import "./ProfilePage.css";
 
 const ProfilePage = () => {
     const [profile, setProfile] = useState(null);
@@ -188,174 +189,178 @@ const ProfilePage = () => {
     return (
         <section className="inner-container">
             <header>
-                <h2>Gebruikersprofiel</h2>
+                <h2>Gebruikersprofiel van {profile.name}</h2>
             </header>
-            <aside className="sidebar">
-                <nav>
-                    <ul>
-                        <li><a href="/profile">Mijn Profiel</a></li>
-                        <li><a href="/messages">Berichten</a></li>
-                        <li><a href="/place-advertisement">Plaats een advertentie</a></li>
-                        <li><a href="/email-preferences">Email Voorkeuren</a></li>
-                        <li><a href="/ratings">Beoordelingen</a></li>
-                        <li><a href="/saved-ads">Opgeslagen Advertenties</a></li>
-                        <li><a href="/advertisements">Advertenties</a></li>
-                        <li><a href="/account-details">Inloggegevens</a></li>
-                        <li><a href="/logout">Uitloggen</a></li>
+            <section className="profile-container">
+
+                <aside className="sidebar">
+                    <nav>
+                        <ul>
+                            <li><a href="/profile">Mijn Profiel</a></li>
+                            <li><a href="/">Plaats een advertentie</a></li>
+                            <li><a href="/saved-ads">Opgeslagen Advertenties</a></li>
+                            <li><a href="/advertisements">Advertenties</a></li>
+                            <li><a href="/account-details">Inloggegevens</a></li>
+                            <li>
+                                <button onClick={logout} className="logout-button">Uitloggen</button>
+                            </li>
+
                     </ul>
                 </nav>
             </aside>
-            {error && <div className="error-message">{error}</div>}
-            {successMessage && <div className="success-message">{successMessage}</div>}
+                {error && <div className="error-message">{error}</div>}
+                {successMessage && <div className="success-message">{successMessage}</div>}
 
-            <article className="inner-form-container">
-                <h2>{profile.username}</h2>
-                {profile.profileImageUrl ? (
-                    <figure>
-                        <img
-                            src={`${profile.profileImageUrl}?t=${new Date().getTime()}`}
-                            alt="Profielfoto"
-                            style={{width: '200px', height: '200px', objectFit: 'cover'}}
-                        />
-                        <figcaption>Huidige profielfoto</figcaption>
-                    </figure>
-                ) : (
-                    <p>Geen profielfoto beschikbaar.</p>
-                )}
-                <input
-                    type="file"
-                    onChange={handleFileSelect}
-                    accept="image/*"
-                />
-                <button onClick={handleFileUpload} disabled={!selectedFile || isLoading}>
-                    {isLoading ? 'Uploading...' : 'Upload Profielfoto'}
-                </button>
-            </article>
+                <article className="inner-form-container">
+                    <h2>{profile.username}</h2>
+                    {profile.profileImageUrl ? (
+                        <figure>
+                            <img
+                                src={`${profile.profileImageUrl}?t=${new Date().getTime()}`}
+                                alt="Profielfoto"
+                                style={{width: '200px', height: '200px', objectFit: 'cover'}}
+                            />
+                            <figcaption>Huidige profielfoto</figcaption>
+                        </figure>
+                    ) : (
+                        <p>Geen profielfoto beschikbaar.</p>
+                    )}
+                    <input
+                        type="file"
+                        onChange={handleFileSelect}
+                        accept="image/*"
+                    />
+                    <button onClick={handleFileUpload} disabled={!selectedFile || isLoading}>
+                        {isLoading ? 'Uploading...' : 'Upload Profielfoto'}
+                    </button>
+                </article>
 
-            <article className="inner-form-container">
-                {isEditing ? (
-                    <form onSubmit={handleSubmit}>
+                <article className="inner-form-container">
+                    {isEditing ? (
+                        <form onSubmit={handleSubmit}>
+                            <fieldset>
+                                <legend>Profielinformatie Bewerken</legend>
+                                <div>
+                                    <label htmlFor="username">Gebruikersnaam:</label>
+                                    <input
+                                        type="text"
+                                        id="username"
+                                        name="username"
+                                        value={profile.username}
+                                        onChange={handleInputChange}
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label htmlFor="email">E-mail:</label>
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        name="email"
+                                        value={profile.email}
+                                        onChange={handleInputChange}
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label htmlFor="name">Naam:</label>
+                                    <input
+                                        type="text"
+                                        id="name"
+                                        name="name"
+                                        value={profile.name}
+                                        onChange={handleInputChange}
+                                    />
+                                </div>
+                                <div>
+                                    <label htmlFor="doB">Geboortedatum:</label>
+                                    <input
+                                        type="text"
+                                        id="doB"
+                                        name="doB"
+                                        value={formatDateForDisplay(profile.doB)}
+                                        onChange={handleDateChange}
+                                        placeholder="dd-mm-yyyy"
+                                    />
+                                </div>
+                                <div>
+                                    <label htmlFor="address">Adres:</label>
+                                    <input
+                                        type="text"
+                                        id="address"
+                                        name="address"
+                                        value={profile.address}
+                                        onChange={handleInputChange}
+                                    />
+                                </div>
+                                <button type="submit" disabled={isLoading}>
+                                    {isLoading ? 'Bijwerken...' : 'Profiel Bijwerken'}
+                                </button>
+                                <button type="button" onClick={handleCancel} disabled={isLoading}>
+                                    Annuleren
+                                </button>
+                            </fieldset>
+                        </form>
+                    ) : (
+                        <div>
+                            <p><strong>Gebruikersnaam:</strong> {profile.username}</p>
+                            <p><strong>E-mail:</strong> {profile.email}</p>
+                            <p><strong>Naam:</strong> {profile.name || 'Niet ingesteld'}</p>
+                            <p><strong>Geboortedatum:</strong> {formatDateForDisplay(profile.doB) || 'Niet ingesteld'}
+                            </p>
+                            <p><strong>Adres:</strong> {profile.address || 'Niet ingesteld'}</p>
+                            <button onClick={handleEdit}>Profiel Bewerken</button>
+                        </div>
+                    )}
+                </article>
+
+                <article className="inner-form-container">
+                    <header>
+                        <h3>Wachtwoord Wijzigen</h3>
+                    </header>
+                    <form onSubmit={handlePasswordChange}>
                         <fieldset>
-                            <legend>Profielinformatie Bewerken</legend>
+                            <legend>Wachtwoord Wijzigen</legend>
                             <div>
-                                <label htmlFor="username">Gebruikersnaam:</label>
+                                <label htmlFor="currentPassword">Huidig Wachtwoord:</label>
                                 <input
-                                    type="text"
-                                    id="username"
-                                    name="username"
-                                    value={profile.username}
-                                    onChange={handleInputChange}
+                                    type="password"
+                                    id="currentPassword"
+                                    name="currentPassword"
+                                    value={passwordData.currentPassword}
+                                    onChange={handlePasswordInputChange}
                                     required
                                 />
                             </div>
                             <div>
-                                <label htmlFor="email">E-mail:</label>
+                                <label htmlFor="newPassword">Nieuw Wachtwoord:</label>
                                 <input
-                                    type="email"
-                                    id="email"
-                                    name="email"
-                                    value={profile.email}
-                                    onChange={handleInputChange}
+                                    type="password"
+                                    id="newPassword"
+                                    name="newPassword"
+                                    value={passwordData.newPassword}
+                                    onChange={handlePasswordInputChange}
                                     required
                                 />
                             </div>
                             <div>
-                                <label htmlFor="name">Naam:</label>
+                                <label htmlFor="confirmPassword">Bevestig Nieuw Wachtwoord:</label>
                                 <input
-                                    type="text"
-                                    id="name"
-                                    name="name"
-                                    value={profile.name}
-                                    onChange={handleInputChange}
-                                />
-                            </div>
-                            <div>
-                                <label htmlFor="doB">Geboortedatum:</label>
-                                <input
-                                    type="text"
-                                    id="doB"
-                                    name="doB"
-                                    value={formatDateForDisplay(profile.doB)}
-                                    onChange={handleDateChange}
-                                    placeholder="dd-mm-yyyy"
-                                />
-                            </div>
-                            <div>
-                                <label htmlFor="address">Adres:</label>
-                                <input
-                                    type="text"
-                                    id="address"
-                                    name="address"
-                                    value={profile.address}
-                                    onChange={handleInputChange}
+                                    type="password"
+                                    id="confirmPassword"
+                                    name="confirmPassword"
+                                    value={passwordData.confirmPassword}
+                                    onChange={handlePasswordInputChange}
+                                    required
                                 />
                             </div>
                             <button type="submit" disabled={isLoading}>
-                                {isLoading ? 'Bijwerken...' : 'Profiel Bijwerken'}
-                            </button>
-                            <button type="button" onClick={handleCancel} disabled={isLoading}>
-                                Annuleren
+                                {isLoading ? 'Wachtwoord Wijzigen...' : 'Wachtwoord Wijzigen'}
                             </button>
                         </fieldset>
                     </form>
-                ) : (
-                    <div>
-                        <p><strong>Gebruikersnaam:</strong> {profile.username}</p>
-                        <p><strong>E-mail:</strong> {profile.email}</p>
-                        <p><strong>Naam:</strong> {profile.name || 'Niet ingesteld'}</p>
-                        <p><strong>Geboortedatum:</strong> {formatDateForDisplay(profile.doB) || 'Niet ingesteld'}</p>
-                        <p><strong>Adres:</strong> {profile.address || 'Niet ingesteld'}</p>
-                        <button onClick={handleEdit}>Profiel Bewerken</button>
-                    </div>
-                )}
-            </article>
-
-            <article className="inner-form-container">
-                <header>
-                    <h3>Wachtwoord Wijzigen</h3>
-                </header>
-                <form onSubmit={handlePasswordChange}>
-                    <fieldset>
-                        <legend>Wachtwoord Wijzigen</legend>
-                        <div>
-                            <label htmlFor="currentPassword">Huidig Wachtwoord:</label>
-                            <input
-                                type="password"
-                                id="currentPassword"
-                                name="currentPassword"
-                                value={passwordData.currentPassword}
-                                onChange={handlePasswordInputChange}
-                                required
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="newPassword">Nieuw Wachtwoord:</label>
-                            <input
-                                type="password"
-                                id="newPassword"
-                                name="newPassword"
-                                value={passwordData.newPassword}
-                                onChange={handlePasswordInputChange}
-                                required
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="confirmPassword">Bevestig Nieuw Wachtwoord:</label>
-                            <input
-                                type="password"
-                                id="confirmPassword"
-                                name="confirmPassword"
-                                value={passwordData.confirmPassword}
-                                onChange={handlePasswordInputChange}
-                                required
-                            />
-                        </div>
-                        <button type="submit" disabled={isLoading}>
-                            {isLoading ? 'Wachtwoord Wijzigen...' : 'Wachtwoord Wijzigen'}
-                        </button>
-                    </fieldset>
-                </form>
-            </article>
+                </article>
+            </section>
         </section>
     );
 };

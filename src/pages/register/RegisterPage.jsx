@@ -1,10 +1,12 @@
-import {useState} from "react";
-import {useForm} from "react-hook-form";
-import {useNavigate} from "react-router-dom";
-import {registerUser} from "../../services/api.js";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { registerUser } from "../../services/api.js";
+import '../../App.css';
+import './RegisterPage.css';
 
 function RegisterPage() {
-    const {register, handleSubmit, formState: {errors}, watch} = useForm();
+    const { register, handleSubmit, formState: { errors }, watch } = useForm();
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
@@ -32,6 +34,7 @@ function RegisterPage() {
 
     return (
         <section className='inner-container'>
+            <section className='register-form-container'>
             <header>
                 <h2>Registreer je hier voor een MoesProduce account</h2>
             </header>
@@ -39,7 +42,7 @@ function RegisterPage() {
             <form className='registerForm' onSubmit={handleSubmit(onSubmit)}>
                 <fieldset>
                     <legend>Registreer Informatie</legend>
-                    <div>
+                    <div className='form-group'>
                         <label htmlFor="username">Gebruikersnaam:</label>
                         <input
                             id="username"
@@ -51,7 +54,7 @@ function RegisterPage() {
                         />
                         {errors.username && <span className="error-message">{errors.username.message}</span>}
                     </div>
-                    <div>
+                    <div className='form-group'>
                         <label htmlFor="email">Emailadres:</label>
                         <input
                             id="email"
@@ -66,7 +69,7 @@ function RegisterPage() {
                         />
                         {errors.email && <span className="error-message">{errors.email.message}</span>}
                     </div>
-                    <div>
+                    <div className='form-group'>
                         <label htmlFor="password">Wachtwoord:</label>
                         <input
                             type="password"
@@ -79,7 +82,7 @@ function RegisterPage() {
                         />
                         {errors.password && <span className="error-message">{errors.password.message}</span>}
                     </div>
-                    <div>
+                    <div className='form-group'>
                         <label htmlFor="confirmPassword">Bevestig wachtwoord:</label>
                         <input
                             type="password"
@@ -96,7 +99,7 @@ function RegisterPage() {
                         />
                         {errors.confirmPassword && <span className="error-message">{errors.confirmPassword.message}</span>}
                     </div>
-                    <div>
+                    <div className='form-group checkbox-group'>
                         <input
                             type="checkbox"
                             id="termsAccepted"
@@ -109,11 +112,12 @@ function RegisterPage() {
                         </label>
                         {errors.termsAccepted && <span className="error-message">{errors.termsAccepted.message}</span>}
                     </div>
-                    <button type="submit" disabled={isLoading}>
+                    <button type="submit" className="submit-button" disabled={isLoading}>
                         {isLoading ? 'Bezig met registreren...' : 'Registreer'}
                     </button>
                 </fieldset>
             </form>
+            </section>
         </section>
     );
 }
