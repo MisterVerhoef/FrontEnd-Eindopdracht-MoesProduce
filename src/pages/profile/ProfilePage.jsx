@@ -1,7 +1,7 @@
 import {useState, useEffect, useContext} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {AuthContext} from '../../context/AuthContext.jsx';
-import api from '../../services/api.js';
+import api, {changePassword} from '../../services/api.js';
 import "./ProfilePage.css";
 
 const ProfilePage = () => {
@@ -126,13 +126,10 @@ const ProfilePage = () => {
         setSuccessMessage('');
 
         try {
-            await api.put('/api/users/change-password', {
-                currentPassword: passwordData.currentPassword,
-                newPassword: passwordData.newPassword
-            });
 
-            setSuccessMessage('Wachtwoord succesvol gewijzigd');
-            setPasswordData({currentPassword: '', newPassword: '', confirmPassword: ''});
+             await changePassword(passwordData);
+                setSuccessMessage('Wachtwoord succesvol gewijzigd');
+                setPasswordData({currentPassword: '', newPassword: '', confirmPassword: ''});
         } catch (err) {
             handleApiError(err);
         } finally {

@@ -59,6 +59,12 @@ export const registerUser = async (data) => {
     });
 
 };
+export const changePassword = async (data) => {
+    return await api.put('/api/users/change-password', {
+        currentPassword: data.currentPassword,
+        newPassword: data.newPassword
+    });
+};
 
 
 export default api;
