@@ -1,5 +1,5 @@
 import {useState, useEffect, useContext} from 'react';
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {AuthContext} from '../../context/AuthContext.jsx';
 import api, {changePassword} from '../../services/api.js';
 import "./ProfilePage.css";
@@ -170,7 +170,7 @@ const ProfilePage = () => {
             setSuccessMessage('Profielfoto succesvol geupload!');
             setSelectedFile(null);
 
-            await fetchProfile(); // Refresh the profile data after successful upload
+            await fetchProfile();
 
         } catch (err) {
             handleApiError(err);
@@ -189,22 +189,20 @@ const ProfilePage = () => {
                 <h2>Gebruikersprofiel van {profile.name}</h2>
             </header>
             <section className="profile-container">
-
                 <aside className="sidebar">
                     <nav>
                         <ul>
-                            <li><a href="/profile">Mijn Profiel</a></li>
-                            <li><a href="/">Plaats een advertentie</a></li>
-                            <li><a href="/saved-ads">Opgeslagen Advertenties</a></li>
-                            <li><a href="/advertisements">Advertenties</a></li>
-                            <li><a href="/account-details">Inloggegevens</a></li>
-                            <li>
-                                <button onClick={logout} className="logout-button">Uitloggen</button>
-                            </li>
+                                <li><Link to="/profile">Mijn Profiel</Link></li>
+                                <li><Link to="/saved-ads">Opgeslagen Advertenties</Link></li>
+                                <li><Link to="/adverts">Advertenties</Link></li>
+                                <li><Link to="/account-details">Inloggegevens</Link></li>
+                                <li>
+                                    <button onClick={logout} className="logout-button">Uitloggen</button>
+                                </li>
+                            </ul>
+                    </nav>
+                </aside>
 
-                    </ul>
-                </nav>
-            </aside>
                 {error && <div className="error-message">{error}</div>}
                 {successMessage && <div className="success-message">{successMessage}</div>}
 

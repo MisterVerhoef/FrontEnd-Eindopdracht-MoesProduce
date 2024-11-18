@@ -10,6 +10,7 @@ import {AuthContext} from "../../context/AuthContext.jsx";
 import {useContext} from "react";
 import AdminPage from "../../pages/admin/AdminPage.jsx";
 import SearchResultsPage from "../../pages/search/SearchResultsPage.jsx";
+import ProfilePageTest from "../../pages/profile/ProfilePageTest.jsx";
 
 
 const AppRoutes = () => {
@@ -24,7 +25,9 @@ const AppRoutes = () => {
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/adverts" element={<AllAdvertsPage />} />
             <Route path="/creeradvert" element={isAuth ? <CreateAdvert /> : <Navigate to="/login" />} />
-            <Route path="/profile" element={isAuth ? <ProfilePage /> : <Navigate to="/login" />} />
+            {/*<Route path="/profile" element={isAuth ? <ProfilePage /> : <Navigate to="/login" />} />*/}
+            <Route path="/profile/*" element={isAuth ? <ProfilePageTest /> : <Navigate to="/login" />} />
+            {/*<Route path="/account-details" element={<ProfilePage />} />*/}
             <Route path="/admin" element={isAuth && user.roles.includes('ROLE_ADMIN') ? <AdminPage /> : <Navigate to="/" />} />
             <Route path="*" element={<Navigate to="/" />} />
         </Routes>
