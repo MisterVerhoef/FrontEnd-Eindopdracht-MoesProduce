@@ -6,6 +6,7 @@ import './ProfilePage.css';
 import MyProfile from '../../components/profileSections/MyProfile.jsx';
 import ChangePassword from "../../components/profileSections/ChangePassword.jsx";
 import EditProfile from "../../components/profileSections/EditProfile.jsx";
+import UserAdverts from "../../components/profileSections/UserAdverts.jsx";
 // import ProfileSectionsStyle from '../../components/profileSections/ProfileSectionsStyle.css'
 
 function ProfilePageTest() {
@@ -68,8 +69,8 @@ function ProfilePageTest() {
                         <ul>
                             <li><Link to="/profile">Mijn Profiel</Link></li>
                             <li><Link to="/profile/edit-profile">Profiel Aanpassen</Link></li>
-                            <li><Link to="/saved-ads">Opgeslagen Advertenties</Link></li>
-                            <li><Link to="/advertisements">Advertenties</Link></li>
+                            <li><Link to="/profile/saved-ads">Opgeslagen Advertenties</Link></li>
+                            <li><Link to="/profile/user-adverts">Mijn Advertenties</Link></li>
                             <li><Link to="/profile/account-details">Inloggegevens</Link></li>
                             <li>
                                 <button onClick={logout} className="logout-button">Uitloggen</button>
@@ -90,6 +91,7 @@ function ProfilePageTest() {
                                 setSuccessMessage={(message) => console.log(message)}
                                 setError={setError}
                             />} />
+                        <Route path="/user-adverts" element={<UserAdverts />} />
                         <Route path="/account-details" element={<ChangePassword />} />
                     </Routes>
                 </article>
