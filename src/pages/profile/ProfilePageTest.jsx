@@ -5,6 +5,8 @@ import api from '../../services/api.js';
 import './ProfilePage.css';
 import MyProfile from '../../components/profileSections/MyProfile.jsx';
 import ChangePassword from "../../components/profileSections/ChangePassword.jsx";
+import EditProfile from "../../components/profileSections/EditProfile.jsx";
+// import ProfileSectionsStyle from '../../components/profileSections/ProfileSectionsStyle.css'
 
 function ProfilePageTest() {
     const [profile, setProfile] = useState(null);
@@ -56,10 +58,11 @@ function ProfilePageTest() {
 
     return (
         <section className="inner-container">
+        <section className="outer-profile-container">
             <header>
                 <h2>Gebruikersprofiel van {profile ? profile.name : ''}</h2>
             </header>
-            <section className="profile-container">
+            <section className="sidebar-container">
                 <aside className="sidebar">
                     <nav>
                         <ul>
@@ -75,16 +78,24 @@ function ProfilePageTest() {
                     </nav>
                 </aside>
 
-                <article className="inner-form-container">
+                <article className="inner-profile-container">
                     {error && <div className="error-message">{error}</div>}
 
                     <Routes>
                         <Route path="/" element={<MyProfile profile={profile} />} />
+                        <Route path="/edit-profile" element={
+                            <EditProfile
+                                profile={profile}
+                                setProfile={setProfile}
+                                setSuccessMessage={(message) => console.log(message)}
+                                setError={setError}
+                            />} />
                         <Route path="/account-details" element={<ChangePassword />} />
                     </Routes>
                 </article>
             </section>
         </section>
+            </section>
     );
 }
 

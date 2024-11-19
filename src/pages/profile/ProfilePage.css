@@ -1,6 +1,19 @@
-.profile-container {
-    display: flex;
+/*.profile-container {*/
+/*    display: flex;*/
+/*    background-color: white;*/
+/*}*/
+
+.outer-profile-container {
     background-color: white;
+    display: flex;
+    flex-direction: row;
+
+}
+
+.sidebar-container {
+    display: flex;
+    flex-direction: column;
+
 }
 
 .sidebar {
