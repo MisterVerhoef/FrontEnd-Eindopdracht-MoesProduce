@@ -15,6 +15,7 @@ function MyProfile({ profile }) {
     return (
         <section className='inner-form-container'>
             <h2>{profile.username}</h2>
+            <img src={profile.profileImageUrl} alt="Profielafbeelding" className='profile-image'  />
             <p><strong>Naam:</strong> {profile.name || 'Niet ingesteld'}</p>
             <p><strong>E-mail:</strong> {profile.email}</p>
             <p><strong>Geboortedatum:</strong> {formatDateForDisplay(profile.doB)}</p>

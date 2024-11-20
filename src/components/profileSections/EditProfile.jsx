@@ -22,8 +22,10 @@ function EditProfile({ profile, setProfile, setSuccessMessage, setError }) {
         name: profile?.name || '',
         doB: profile?.doB ? formatDateForDisplay(profile.doB) : '',
         address: profile?.address || '',
+        profileImage: null,
     });
     const [isLoading, setIsLoading] = useState(false);
+    const [previewImage, setPreviewImage] = useState(null);
 
     useEffect(() => {
         if (profile) {
@@ -33,13 +35,21 @@ function EditProfile({ profile, setProfile, setSuccessMessage, setError }) {
                 name: profile.name,
                 doB: profile.doB ? formatDateForDisplay(profile.doB) : '',
                 address: profile.address,
+                profileImage: null,
             });
         }
     }, [profile]);
 
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
+    };
+
+    const handleFileSelect = (e) => {
+        const file = e.target.files[0];
+        setFormData((prev) => ({ ...prev, profileImage: file }));
+        setPreviewImage(URL.createObjectURL(file));
     };
 
     const handleSubmit = async (e) => {
@@ -55,8 +65,19 @@ function EditProfile({ profile, setProfile, setSuccessMessage, setError }) {
 
         try {
             const response = await api.put('/api/users/profile', formattedFormData);
+
             setProfile(response.data);
             setSuccessMessage('Profiel succesvol bijgewerkt');
+
+            if (formData.profileImage) {
+                const formDataForImage = new FormData();
+                formDataForImage.append('file', formData.profileImage);
+                await api.post('/api/uploads/profile', formDataForImage, {
+                    headers: { 'Content-Type': 'multipart/form-data' },
+                });
+                setSuccessMessage('Profiel en profielfoto succesvol bijgewerkt');
+            }
+
         } catch (err) {
             if (err.response && err.response.data) {
                 setError(err.response.data);
@@ -125,6 +146,25 @@ function EditProfile({ profile, setProfile, setSuccessMessage, setError }) {
                             value={formData.address}
                             onChange={handleInputChange}
                         />
+                    </div>
+                    <div>
+                        <label htmlFor="profileImage">Profielfoto:</label>
+                        <input
+                            type="file"
+                            id="profileImage"
+                            name="profileImage"
+                            onChange={handleFileSelect}
+                            accept="image/*"
+                        />
+                        {previewImage && (
+                            <div className="preview-image-container">
+                                <img
+                                    src={previewImage}
+                                    alt="Preview Profielfoto"
+                                    style={{width: '150px', height: '150px', objectFit: 'cover', marginTop: '10px'}}
+                                />
+                            </div>
+                        )}
                     </div>
                     <button type="submit" disabled={isLoading}>
                         {isLoading ? 'Bijwerken...' : 'Profiel Bijwerken'}
