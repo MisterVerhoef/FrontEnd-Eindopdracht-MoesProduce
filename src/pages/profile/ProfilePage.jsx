@@ -7,6 +7,7 @@ import MyProfile from '../../components/profileSections/MyProfile.jsx';
 import ChangePassword from "../../components/profileSections/ChangePassword.jsx";
 import EditProfile from "../../components/profileSections/EditProfile.jsx";
 import UserAdverts from "../../components/profileSections/UserAdverts.jsx";
+import SavedAds from "../../components/profileSections/SavedAds.jsx";
 // import ProfileSectionsStyle from '../../components/profileSections/ProfileSectionsStyle.css'
 
 function ProfilePage() {
@@ -92,6 +93,7 @@ function ProfilePage() {
                                 setError={setError}
                             />} />
                         <Route path="/user-adverts" element={<UserAdverts />} />
+                        <Route path="/saved-ads" element={<SavedAds />} />
                         <Route path="/account-details" element={<ChangePassword />} />
                     </Routes>
                 </article>

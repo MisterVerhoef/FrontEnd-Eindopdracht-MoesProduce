@@ -1,12 +1,41 @@
+import './AdvertCard.css';
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import api from '../../services/api.js';
 
-import './AdvertCard.css'
-import {Link} from "react-router-dom";
+function AdvertCard({ advert }) {
+    const [isSaved, setIsSaved] = useState(false);
 
-function AdvertCard({advert}) {
-    console.log('Advert in AdvertCard:', advert);
-    console.log('Advert ID:', advert.id);
+    useEffect(() => {
+        // Controleer of de advertentie al is opgeslagen
+        const fetchSavedStatus = async () => {
+            try {
+                const response = await api.get(`/api/adverts/saved`);
+                const savedAdverts = response.data;
+                const saved = savedAdverts.some(savedAdvert => savedAdvert.id === advert.id);
+                setIsSaved(saved);
+            } catch (error) {
+                console.error('Fout bij ophalen van opgeslagen status:', error);
+            }
+        };
 
+        fetchSavedStatus();
+    }, [advert.id]);
 
+    const handleSave = async () => {
+        try {
+            if (isSaved) {
+                // Verwijder advertentie uit opgeslagen lijst
+                await api.post(`/api/adverts/${advert.id}/unsave`);
+            } else {
+                // Sla advertentie op
+                await api.post(`/api/adverts/${advert.id}/save`);
+            }
+            setIsSaved(!isSaved);
+        } catch (error) {
+            console.error('Fout bij het opslaan/verwijderen van de advertentie:', error);
+        }
+    };
 
     return (
         <article className="advert-card">
@@ -29,6 +58,9 @@ function AdvertCard({advert}) {
                     <p>Deze advertentie is {advert.viewCount} keer bekeken.</p>
                 </footer>
             </Link>
+            <button onClick={handleSave} className={`save-button ${isSaved ? 'saved' : ''}`}>
+                {isSaved ? '💖 Opgeslagen' : '🤍 Opslaan'}
+            </button>
         </article>
     );
 }
