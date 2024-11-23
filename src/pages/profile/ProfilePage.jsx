@@ -73,8 +73,7 @@ function ProfilePage() {
                             <li><Link to="/profile/saved-ads">Opgeslagen Advertenties</Link></li>
                             <li><Link to="/profile/user-adverts">Mijn Advertenties</Link></li>
                             <li><Link to="/profile/account-details">Inloggegevens</Link></li>
-                            <li>
-                                <button onClick={logout} className="logout-button">Uitloggen</button>
+                            <li><Link to={logout} onClick={logout}>Uitloggen</Link>
                             </li>
                         </ul>
                     </nav>
