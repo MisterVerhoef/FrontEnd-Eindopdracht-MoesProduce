@@ -4,19 +4,70 @@
 }
 
 .sidebar nav li {
-    margin: 10px 0; /* Ruimte tussen items */
+    margin: 10px 0;
 }
 
 .sidebar nav a {
     text-decoration: none;
-    color: #fff; /* Witte kleur voor link om beter zichtbaar te zijn */
+    color: #fff;
     font-weight: bold;
     padding: 5px 10px;
-    background-color: green; /* Maak dit consistent met je header */
+    background-color: green;
     border-radius: 5px;
     transition: background-color 0.3s;
 }
 
 .sidebar nav a:hover {
-    background-color: darkgreen; /* Verander kleur bij hover */
+    background-color: darkgreen;
+}
+
+
+.profile-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+}
+
+.inner-form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border: 2px solid #ddd;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    background-color: #fff;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.sidebar-container {
+    display: flex;
+    align-items: flex-start;
+}
+
+.sidebar {
+    width: 20%;
+    margin-right: 20px;
+}
+
+.inner-profile-container {
+    width: 75%;
+}
+
+@media (max-width: 768px) {
+    .sidebar-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .inner-profile-container {
+        width: 100%;
+    }
 }

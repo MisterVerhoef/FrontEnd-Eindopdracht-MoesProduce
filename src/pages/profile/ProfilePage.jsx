@@ -8,7 +8,7 @@ import ChangePassword from "../../components/profileSections/ChangePassword.jsx"
 import EditProfile from "../../components/profileSections/EditProfile.jsx";
 import UserAdverts from "../../components/profileSections/UserAdverts.jsx";
 import SavedAds from "../../components/profileSections/SavedAds.jsx";
-// import ProfileSectionsStyle from '../../components/profileSections/ProfileSectionsStyle.css'
+
 
 function ProfilePage() {
     const [profile, setProfile] = useState(null);

@@ -35,7 +35,7 @@ function Login() {
     };
 
     return (
-        <article className="inner-loginForm-container" id="login-container">
+        <article className="input-form-container" id="login-container">
             <header>
                 <h1>Login</h1>
             </header>

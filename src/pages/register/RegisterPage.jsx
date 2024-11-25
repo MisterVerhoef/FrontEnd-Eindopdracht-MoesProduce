@@ -34,7 +34,7 @@ function RegisterPage() {
 
     return (
         <section className='inner-container'>
-            <section className='register-form-container'>
+            <section className='input-form-container'>
             <header>
                 <h2>Registreer je hier voor een MoesProduce account</h2>
             </header>
@@ -100,6 +100,9 @@ function RegisterPage() {
                         {errors.confirmPassword && <span className="error-message">{errors.confirmPassword.message}</span>}
                     </div>
                     <div className='form-group checkbox-group'>
+                        <label htmlFor="termsAccepted">
+                            Ik ga akkoord met de voorwaarden
+                        </label>
                         <input
                             type="checkbox"
                             id="termsAccepted"
@@ -107,9 +110,7 @@ function RegisterPage() {
                                 required: "Je moet akkoord gaan met de voorwaarden"
                             })}
                         />
-                        <label htmlFor="termsAccepted">
-                            Ik ga akkoord met de voorwaarden
-                        </label>
+
                         {errors.termsAccepted && <span className="error-message">{errors.termsAccepted.message}</span>}
                     </div>
                     <button type="submit" className="submit-button" disabled={isLoading}>
