@@ -90,7 +90,7 @@ function EditProfile({ profile, setProfile, setSuccessMessage, setError }) {
     };
 
     return (
-        <section className='inner-form-container'>
+        <section className='input-form-container'>
             <form onSubmit={handleSubmit} className="edit-profile-form">
                 <fieldset>
                     <legend>Profiel Bewerken</legend>

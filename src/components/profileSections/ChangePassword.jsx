@@ -40,7 +40,7 @@ function ChangePassword() {
     };
 
     return (
-        <article className="inner-form-container">
+        <article className="input-form-container">
             <header>
                 <h3>Wachtwoord Wijzigen</h3>
             </header>

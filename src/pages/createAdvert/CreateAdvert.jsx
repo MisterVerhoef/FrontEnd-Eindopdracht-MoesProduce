@@ -116,7 +116,7 @@ function CreateAdvert() {
             </header>
 
             {message && <div className="message">{message}</div>}
-            <section className="inner-form-container" id="create-advert-container">
+            <section className="inner-create-advert-container" id="create-advert-container">
                 <form onSubmit={handleSubmit}>
                     <div className="advert-container">
                         <div className="left-section">

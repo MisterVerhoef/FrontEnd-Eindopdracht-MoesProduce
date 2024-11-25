@@ -54,12 +54,14 @@ function AdvertCard({ advert }) {
                         <figcaption>{advert.title}</figcaption>
                     </figure>
                 )}
-                <footer>
-                    <p>Deze advertentie is {advert.viewCount} keer bekeken.</p>
+                <footer className="advert-footer">
+                    <span>👁️  {advert.viewCount} x gezien</span>
+                    <span> 🖤 1 x bewaard</span>
+                    <span>🕒  {advert.createdDate}</span>
                 </footer>
             </Link>
             <button onClick={handleSave} className={`save-button ${isSaved ? 'saved' : ''}`}>
-                {isSaved ? '💖 Opgeslagen' : '🤍 Opslaan'}
+                {isSaved ? '♥️ Opgeslagen' : '🤍 Opslaan'}
             </button>
         </article>
     );

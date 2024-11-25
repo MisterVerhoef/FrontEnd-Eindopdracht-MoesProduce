@@ -32,24 +32,25 @@ function AllAdvertsPage() {
 
     return (
 
-        <section className="inner-form-container">
+        <section className="inner-container">
             <header>
                 <h1>Aangeboden Produce</h1>
             </header>
+            <section className="inner-form-container">
+                {adverts.length > 0 ? (
+                    <section className="advert-list">
+                        {adverts.map((advert) => (
+                            <article key={advert.id} className="advert-card">
+                                <AdvertCard advert={advert}/>
+                            </article>
+                        ))}
+                    </section>
+                ) : (
+                    <p>Geen advertenties beschikbaar.</p>
+                )}
+            </section>
+        </section>
+    );
+}
 
-            {adverts.length > 0 ? (
-                      <section className="advert-list">
-                                    {adverts.map((advert) => (
-                                        <article key={advert.id} className="advert-card">
-                                            <AdvertCard advert={advert} />
-                                        </article>
-                                    ))}
-                                </section>
-                            ) : (
-                                <p>Geen advertenties beschikbaar.</p>
-                            )}
-                        </section>
-            );
-            }
-
-            export default AllAdvertsPage;
+export default AllAdvertsPage;
