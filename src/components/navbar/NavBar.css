@@ -1,95 +1,4 @@
-/*.navbar {*/
-/*    display: flex;*/
-/*    flex-direction: row;*/
-/*    background-color: forestgreen;*/
-/*    border: 2px blue dotted; /*/
-/*    justify-content: space-between;*/
-/*    align-items: center;*/
-/*    position: fixed;*/
-/*    top: 0;*/
-/*    left: 0;*/
-/*    right: 0;*/
-/*    z-index: 1000;*/
-/*    width: 100%;*/
-/*    box-sizing: border-box;*/
-/*    height: 80px;*/
-/*    padding: 0 20px;*/
-/*}*/
 
-/*.navbar-logo {*/
-/*    display: flex;*/
-/*    align-items: center;*/
-/*    flex: 0 1 auto;*/
-/*}*/
-
-/*.home-icon {*/
-/*    width: 50px;*/
-/*    height: auto;*/
-/*margin-right: 20px;*/
-/*    cursor: pointer;*/
-/*}*/
-
-/*.navSearchBar {*/
-/*    flex: 1;*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*    align-items: center;*/
-/*    margin: 0 20px;*/
-/*}*/
-
-/*.navbar-links {*/
-/*    display: flex;*/
-/*    list-style-type: none;*/
-/*    margin: 0;*/
-/*    padding: 0;*/
-/*    flex: 0 1 auto;*/
-/*}*/
-
-/*.navbar-links li {*/
-/*    margin-left: 20px;*/
-/*}*/
-
-/*.navbar-links a {*/
-/*    color: white;*/
-/*    text-decoration: none;*/
-/*    font-size: 16px;*/
-/*}*/
-
-/*.navbar-links button {*/
-/*    background: none;*/
-/*    border: none;*/
-/*    color: white;*/
-/*    cursor: pointer;*/
-/*    font-size: 16px;*/
-/*    padding: 0;*/
-/*}*/
-
-/*.navSearchBar form {*/
-/*    display: flex;*/
-/*    align-items: center;*/
-/*    width: 100%;*/
-/*    max-width: 500px;*/
-/*    margin: 0 auto;*/
-/*}*/
-
-/*.navSearchBar input[type="text"] {*/
-/*    flex: 1;*/
-/*    padding: 8px;*/
-/*    border: 1px solid #ccc;*/
-/*    border-radius: 4px 0 0 4px;*/
-/*    font-size: 14px;*/
-/*}*/
-
-/*.navSearchBar button {*/
-/*    padding: 8px 12px;*/
-/*    background-color: #4CAF50;*/
-/*    color: white;*/
-/*    border: none;*/
-/*    border-radius: 0 4px 4px 0;*/
-/*    cursor: pointer;*/
-/*    font-size: 14px;*/
-/*    white-space: nowrap;*/
-/*}*/
 * {
     margin: 0;
     padding: 0;
@@ -108,13 +17,13 @@
     box-sizing: border-box;
 }
 
-/* Logo styling */
+
 .navbar-logo .home-icon {
     width: 50px;
     height: auto;
 }
 
-/* Zoekbalk styling */
+
 .navbar-search {
     flex: 1;
     display: flex;
@@ -153,7 +62,7 @@
     background-color: #45A049;
 }
 
-/* Navigatielinks styling */
+
 .navbar-links ul {
     display: flex;
     list-style: none;
@@ -179,7 +88,7 @@
     font-size: 16px;
 }
 
-/* Responsieve layout voor mobiel */
+
 @media (max-width: 768px) {
     .navbar {
         flex-direction: column;
@@ -192,7 +101,7 @@
         margin-top: 10px;
     }
 
-    /* Zorg ervoor dat de zoekknop onder het zoekveld komt op kleine schermen */
+
     .search-form {
         flex-direction: column;
     }
