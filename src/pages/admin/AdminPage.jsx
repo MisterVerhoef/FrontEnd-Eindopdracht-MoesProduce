@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext.jsx';
 import api from '../../services/api.js';
 import './AdminPage.css';
@@ -81,25 +81,28 @@ function AdminPage() {
     if (error) return <div className="error">Error: {error}</div>;
 
     return (
-        <div className="admin-page">
+        <section className="admin-page">
             <header className="admin-header">
                 <h1>User Management</h1>
             </header>
-            <div className="admin-content">
-                <div className="user-list">
+            <section className="admin-content">
+                <article className="user-list">
                     {users.map(user => (
-                        <div key={user.id} className="user-card">
-                            <div className="user-info">
+                        <article key={user.id} className="user-card">
+                            <header className="user-info">
                                 <h3>{user.username}</h3>
                                 <p>{user.email}</p>
                                 <p>Roles: {user.roles.map(getRoleName).join(', ')}</p>
-                            </div>
-                            <div className="user-actions">
+                            </header>
+                            <section className="user-actions">
+                                <label htmlFor={`role-select-${user.id}`} className="visually-hidden">Select role
+                                    for {user.username}</label>
                                 <select
+                                    id={`role-select-${user.id}`}
                                     value={user.roles[0]}
                                     onChange={(e) => handleRoleChange(user.id, e.target.value, user.roles[0])}
                                 >
-                                    <option>Kies een User Role:</option>
+                                    <option disabled>Kies een User Role:</option>
                                     <option value="ROLE_USER">User</option>
                                     <option value="ROLE_SELLER">Seller</option>
                                     <option value="ROLE_ADMIN">Admin</option>
@@ -110,12 +113,12 @@ function AdminPage() {
                                 >
                                     Delete User
                                 </button>
-                            </div>
-                        </div>
+                            </section>
+                        </article>
                     ))}
-                </div>
-            </div>
-        </div>
+                </article>
+            </section>
+        </section>
     );
 }
 

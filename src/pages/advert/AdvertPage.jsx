@@ -29,36 +29,38 @@ function AdvertPage(){
     }, [id]);
 
     if(isLoading){
-        return <div>advertentie aan het laden...</div>;
+        return <section>advertentie aan het laden...</section>;
     }
     if(!advert) {
-        return <div>Advertentie bestaat niet meer.</div>;
+        return <section>Advertentie bestaat niet meer.</section>;
     }
 
     return (
 
-        <div className="outer-form-container">
-            <h1>Advertentie Details</h1>
-            <div className="inner-form-container">
-                    <AdvertCard advert={advert} />
+
+        <article className="inner-form-container">
+            <header>
+                <h1>Advertentie Details</h1>
+            </header>
+
+            <AdvertCard advert={advert}/>
 
 
-                    <div className="additional-images-container">
-                        <h2>Meer afbeeldingen</h2>
-
-                        <div className="images-container">
-
-                            {advert.imageUrls.map((imageUrl, index) => (
-                                <img key={index} src={imageUrl} alt={`Advert image ${index + 1}`}
-                                     className="advert-image"/>
-                            ))}
-                        </div>
-                        </div>
+            <section className="additional-images-container">
+                <header>
+                    <h2>Meer afbeeldingen</h2>
+                </header>
 
 
-                    </div>
+                <div className="images-container">
 
-                    </div>
+                    {advert.imageUrls.map((imageUrl, index) => (
+                        <img key={index} src={imageUrl} alt={`Advert image ${index + 1}`}
+                             className="advert-image"/>
+                    ))}
+                </div>
+            </section>
+</article>
                     );
 
                 }

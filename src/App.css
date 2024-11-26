@@ -1,20 +1,60 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 
-#root {
 
-  display: flex;
-  flex-direction: column;
+body {
   min-height: 100vh;
   width: 100%;
 }
 
-main {
-  flex: 1;
+
+
+.outer-container {
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 100vh;
+  background-color:blue;
+}
+
+main {
+  background-image: url('src/assets/images/achtergrond-login-register.jpeg');
+  flex: 1;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  /*min-height: 100vh;*/
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 2rem;
-  background-color: white;
-  color: #1a1a1a;
-  border: 2px green dotted;
+  padding: 20px;
+  box-sizing: border-box;
+  /*min-height: calc(100vh - 80px)*/
 }
+
+
+.inner-container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  border-radius: 8px;
+  border: 2px solid #ddd;
+  padding: 20px;
+  text-align: center;
+  /*background-color: white;*/
+
+}
+.header {
+  background-color: green;
+  padding: 1rem;
+  z-index: 1000;
+}
+

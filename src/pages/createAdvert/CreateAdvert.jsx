@@ -1,14 +1,17 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import api from "../../services/api.js";
+import '../../App.css';
+import './CreateAdvert.css';
 
 function CreateAdvert() {
     const [advertTitle, setAdvertTitle] = useState('');
     const [advertDescription, setAdvertDescription] = useState('');
     const [message, setMessage] = useState('');
     const [vegetables, setVegetables] = useState([]);
-    const [selectedVegetables, setSelectedVegetables] = useState({});
+    const [selectedVegetables, setSelectedVegetables] = useState([]);
     const [selectedImages, setSelectedImages] = useState([]);
     const [previewImages, setPreviewImages] = useState([]);
+    const [expandedCategory, setExpandedCategory] = useState('');
 
     useEffect(() => {
         const fetchVegetables = async () => {
@@ -18,7 +21,6 @@ function CreateAdvert() {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
                     }
                 });
-                console.log('Fetched vegetables:', response.data);
                 setVegetables(response.data);
             } catch (error) {
                 console.error("Error fetching vegetables:", error);
@@ -27,7 +29,6 @@ function CreateAdvert() {
         fetchVegetables();
     }, []);
 
-    // Categorieën van groenten
     const vegetableCategories = {
         Bladgroenten: ['Andijvie', 'Boerenkool', 'Spinazie', 'Sla', 'Snijbiet', 'Rucola'],
         Koolsoorten: ['Bloemkool', 'Broccoli', 'Savooiekool', 'Spruitjes', 'Witte kool'],
@@ -40,17 +41,32 @@ function CreateAdvert() {
         "Exotische gewassen": ['Aubergine', 'Okra', 'Paksoi'],
     };
 
-    // Functie om de geselecteerde groenten op te slaan als objecten met name en category
+    const handleCategoryClick = (category) => {
+        if (expandedCategory === category) {
+            setExpandedCategory(''); // Collapse if already open
+        } else {
+            setExpandedCategory(category); // Expand the selected category
+        }
+    };
+
     const handleVegetableChange = (category, event) => {
         const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
-        const vegetableObjects = selectedOptions.map(option => ({
-            name: option,
-            category: category
-        }));
-        setSelectedVegetables(prevState => ({
-            ...prevState,
-            [category]: vegetableObjects
-        }));
+        setSelectedVegetables(prevState => {
+            const otherVegetables = prevState.filter(v => v.category !== category);
+            const newVegetables = selectedOptions.map(option => ({ name: option, category }));
+            return [...otherVegetables, ...newVegetables];
+        });
+    };
+
+    const handleCheckboxChange = (category, vegetable) => {
+        setSelectedVegetables(prevState => {
+            const exists = prevState.find(v => v.name === vegetable && v.category === category);
+            if (exists) {
+                return prevState.filter(v => !(v.name === vegetable && v.category === category));
+            } else {
+                return [...prevState, { name: vegetable, category }];
+            }
+        });
     };
 
     const handleImageChange = (e) => {
@@ -59,35 +75,31 @@ function CreateAdvert() {
 
         const previews = files.map(file => URL.createObjectURL(file));
         setPreviewImages(previews);
-    }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const allSelectedVegetables = Object.values(selectedVegetables).flat();
-
         const formData = new FormData();
         formData.append('title', advertTitle);
         formData.append('description', advertDescription);
-        formData.append('vegetables', JSON.stringify(allSelectedVegetables));
+        formData.append('vegetables', JSON.stringify(selectedVegetables));
 
         selectedImages.forEach((image, index) => {
             formData.append(`images`, image);
         });
 
         try {
-            const response = await api.post('/api/adverts', formData, {
+            await api.post('/api/adverts', formData, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            console.log('Advert created:', response.data);
             setMessage('Advertentie succesvol geplaatst!');
-            // Reset form
             setAdvertTitle('');
             setAdvertDescription('');
-            setSelectedVegetables({});
+            setSelectedVegetables([]);
             setSelectedImages([]);
             setPreviewImages([]);
             setTimeout(() => setMessage(''), 3000);
@@ -98,83 +110,116 @@ function CreateAdvert() {
     };
 
     return (
-        <div className="outer-form-container">
-            <h2>Plaats een advertentie</h2>
+        <section className="inner-container">
+            <header>
+                <h2>Plaats een advertentie</h2>
+            </header>
+
             {message && <div className="message">{message}</div>}
-            <div className="inner-form-container" id="create-advert-container">
+            <section className="inner-create-advert-container" id="create-advert-container">
                 <form onSubmit={handleSubmit}>
-                    <input
-                        type="text"
-                        placeholder="Titel"
-                        value={advertTitle}
-                        onChange={(e) => setAdvertTitle(e.target.value)}
-                    />
-                    <textarea
-                        placeholder="Omschrijving"
-                        maxLength="255"
-                        value={advertDescription}
-                        onChange={(e) => setAdvertDescription(e.target.value)}
-                        style={{
-                            width: '100%',
-                            height: '150px',
-                            padding: '10px',
-                            resize: 'vertical'
-                        }}
-                    />
-                    <div className="image-upload-section">
-                        <input
-                            type="file"
-                            multiple
-                            accept="image/*"
-                            onChange={handleImageChange}
-                        />
-                        <div className="image-previews">
-                            {previewImages.map((preview, index) => (
-                                <img
-                                    key={index}
-                                    src={preview}
-                                    alt={`Preview ${index + 1}`}
-                                    style={{width: '100px', height: '100px', objectFit: 'cover', margin: '5px'}}
-                                />
-                            ))}
+                    <div className="advert-container">
+                        <div className="left-section">
+                            <section className="card advert-card">
+                                <header className="card-header">
+                                    <h3>Advertentiegegevens</h3>
+                                </header>
+                                <div className="card-content">
+                                    <label htmlFor="title">Titel</label>
+                                    <input
+                                        type="text"
+                                        id="title"
+                                        placeholder="Titel"
+                                        value={advertTitle}
+                                        onChange={(e) => setAdvertTitle(e.target.value)}
+                                        required
+                                    />
+                                    <label htmlFor="description">Omschrijving</label>
+                                    <textarea
+                                        id="description"
+                                        placeholder="Omschrijving"
+                                        maxLength="255"
+                                        value={advertDescription}
+                                        onChange={(e) => setAdvertDescription(e.target.value)}
+                                        required
+                                        style={{
+                                            width: '100%',
+                                            height: '150px',
+                                            padding: '10px',
+                                            resize: 'vertical'
+                                        }}
+                                    />
+                                </div>
+                            </section>
+
+                            <section className="card advert-card">
+                                <header className="card-header">
+                                    <h3>Afbeeldingen</h3>
+                                </header>
+                                <div className="card-content">
+                                    <label htmlFor="images">Upload afbeeldingen</label>
+                                    <input
+                                        type="file"
+                                        id="images"
+                                        multiple
+                                        accept="image/*"
+                                        onChange={handleImageChange}
+                                    />
+                                    <div className="image-previews">
+                                        {previewImages.map((preview, index) => (
+                                            <figure key={index} className="image-preview">
+                                                <img
+                                                    src={preview}
+                                                    alt={`Preview ${index + 1}`}
+                                                    style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+                                                />
+                                                <figcaption>Afbeelding {index + 1}</figcaption>
+                                            </figure>
+                                        ))}
+                                    </div>
+                                </div>
+                            </section>
                         </div>
-                    </div>
-                    {/* Dropdowns per categorie */}
-                    <div className="vegetable-categories">
-                        {Object.keys(vegetableCategories).map(category => (
-                            <div key={category} className="category-section">
-                                <label style={{
-                                    fontWeight: 'bold',
-                                    color: 'orange',
-                                    display: 'block',
-                                    marginBottom: '10px'
-                                }}>
-                                    {category}
-                                </label>
-                                <select
-                                    multiple
-                                    onChange={(e) => handleVegetableChange(category, e)}
-                                    value={selectedVegetables[category]?.map(v => v.name) || []}
-                                    style={{
-                                        width: '100%',
-                                        height: '100px',
-                                        marginBottom: '20px'
-                                    }}
-                                >
-                                    {vegetableCategories[category].map(vegetable => (
-                                        <option key={vegetable} value={vegetable}>
-                                            {vegetable}
-                                        </option>
-                                    ))}
-                                </select>
+
+                        <section className="card vegetable-section advert-card">
+                            <header className="card-header">
+                                <h3>Selecteer groenten</h3>
+                            </header>
+                            <div className="card-content">
+                                {Object.keys(vegetableCategories).map(category => (
+                                    <div key={category} className="category-dropdown">
+                                        <button
+                                            type="button"
+                                            className="category-button"
+                                            onClick={() => handleCategoryClick(category)}
+                                        >
+                                            {category}
+                                        </button>
+                                        {expandedCategory === category && (
+                                            <div className="vegetable-checkboxes">
+                                                {vegetableCategories[category].map(vegetable => (
+                                                    <div key={vegetable} className="vegetable-option">
+                                                        <input
+                                                            type="checkbox"
+                                                            id={`${category}-${vegetable}`}
+                                                            checked={selectedVegetables.some(v => v.name === vegetable && v.category === category)}
+                                                            onChange={() => handleCheckboxChange(category, vegetable)}
+                                                        />
+                                                        <label htmlFor={`${category}-${vegetable}`}>{vegetable}</label>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
                             </div>
-                        ))}
+                        </section>
                     </div>
 
-                    <button type="submit">Plaats advertentie</button>
+                    <button type="submit" className="submit-button">Plaats advertentie</button>
                 </form>
-            </div>
-        </div>
+            </section>
+        </section>
     );
 }
 

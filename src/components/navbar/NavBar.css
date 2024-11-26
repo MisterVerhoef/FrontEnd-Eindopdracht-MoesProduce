@@ -1,56 +1,120 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 .navbar {
     display: flex;
-    flex-direction: row;
-    background-color: forestgreen;
-    border: 2px blue dotted;
+    align-items: center;
     justify-content: space-between;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
+    background-color: #228B22;
+    padding: 10px 20px;
+    height: auto;
     width: 100%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     box-sizing: border-box;
-
 }
 
-.navbar a {
+
+.navbar-logo .home-icon {
+    width: 50px;
+    height: auto;
+}
+
+
+.navbar-search {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    max-width: 500px;
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+    max-width: 100%;
+    width: 100%;
+}
+
+.search-input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px;
+    font-size: 16px;
+    min-width: 0;
+}
+
+.search-button {
+    padding: 8px 16px;
+    background-color: #4CAF50;
     color: white;
-    padding: 8px;
-
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    font-size: 16px;
+    white-space: nowrap;
 }
 
-.navbar a:hover {
-    color: yellow;
+.search-button:hover {
+    background-color: #45A049;
 }
 
-.navbar-links {
+
+.navbar-links ul {
     display: flex;
-    flex-direction: row-reverse;
-    list-style-type: none;
-
+    list-style: none;
+    gap: 20px;
 }
 
-.home-icon {
-    height: 80px;
-    width: auto;
-    object-fit: contain;
-}
-
-.navbar-logo{
-    display: flex;
-    align-items: center;
-}
-
-.navbar-logo a {
-    display: flex;
-    align-items: center;
+.navbar-links a, .logout-button {
+    color: white;
     text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s ease;
 }
 
-.navSearchBar {
-    display: flex;
-    align-items: center;
-    border: yellow;
+.navbar-links a:hover, .logout-button:hover {
+    color: #FFD700;
+}
 
+.logout-button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        height: auto;
+        padding: 15px;
+    }
+
+    .navbar-search {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+
+    .search-form {
+        flex-direction: column;
+    }
+
+    .search-button {
+        width: 100%;
+        border-radius: 4px;
+        margin-top: 5px;
+    }
+
+    .navbar-links ul {
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+    }
 }
