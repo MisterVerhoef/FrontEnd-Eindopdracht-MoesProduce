@@ -5,6 +5,7 @@ import api from '../../services/api.js';
 
 function AdvertCard({ advert }) {
     const [isSaved, setIsSaved] = useState(false);
+    const [saveCount, setSaveCount] = useState(advert.saveCount || 0);
 
     useEffect(() => {
         // Controleer of de advertentie al is opgeslagen
@@ -25,11 +26,13 @@ function AdvertCard({ advert }) {
     const handleSave = async () => {
         try {
             if (isSaved) {
-                // Verwijder advertentie uit opgeslagen lijst
+
                 await api.post(`/api/adverts/${advert.id}/unsave`);
+                setSaveCount(saveCount - 1);
             } else {
-                // Sla advertentie op
+
                 await api.post(`/api/adverts/${advert.id}/save`);
+                setSaveCount(saveCount + 1);
             }
             setIsSaved(!isSaved);
         } catch (error) {
@@ -56,7 +59,7 @@ function AdvertCard({ advert }) {
                 )}
                 <footer className="advert-footer">
                     <span>👁️  {advert.viewCount} x gezien</span>
-                    <span> 🖤 1 x bewaard</span>
+                    <span> 🖤 {saveCount} x bewaard</span>
                     <span>🕒  {advert.createdDate}</span>
                 </footer>
             </Link>

@@ -1,9 +1,9 @@
 
-footer {
+.home-page-footer {
     /*display: flex;*/
     /*margin-top: auto;*/
     text-align: center;
     justify-content: center;
     border: 2px red dotted;
-    background-color: green;
+    background-color: #28a745;
 }
