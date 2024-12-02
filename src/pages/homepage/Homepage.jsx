@@ -42,13 +42,13 @@ function Homepage() {
 
             <section className="inner-form-container">
                 {adverts.length > 0 ? (
-                    adverts.map((advert) => (
-                        <article key={advert.id} className="advert-card">
-                            <AdvertCard advert={advert}/>
-                        </article>
-                    ))
+                    <section className="advert-list">
+                        {adverts.map((advert) => (
+                            <AdvertCard key={advert.id} advert={advert}/>
+                        ))}
+                    </section>
                 ) : (
-                    <p>Geen advertenties beschikbaar</p>
+                    <p>Geen advertenties beschikbaar.</p>
                 )}
             </section>
         </section>

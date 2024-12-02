@@ -10,25 +10,25 @@ function NavBar() {
 
     return (
         <header className="navbar">
-            {/* Home Button */}
+
             <section className="navbar-section navbar-logo">
                 <Link to="/">
                     <img src={homeIcon} alt="Home" className="home-icon" />
                 </Link>
             </section>
 
-            {/* Search Bar */}
+
             <section className="navbar-section navbar-search">
                 <SearchBar />
             </section>
 
-            {/* Menu Toggle Button */}
+
             <input id="menu-toggle" type="checkbox" />
             <label className="menu-button-container" htmlFor="menu-toggle">
                 <div className="menu-button"></div>
             </label>
 
-            {/* Menu Items */}
+
             <ul className="menu">
                 <li><Link to="/creeradvert">Plaats Advertentie</Link></li>
                 <li><Link to="/adverts">Advertenties</Link></li>

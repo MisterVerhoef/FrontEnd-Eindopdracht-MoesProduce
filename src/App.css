@@ -37,17 +37,15 @@ main {
 
 }
 
-
 .inner-container {
   width: 100%;
-  max-width: 1000px;
+  max-width: 1400px;
   margin: 0 auto;
   border-radius: 8px;
   border: 2px solid #ddd;
   padding: 20px;
   text-align: center;
-
-
+  box-sizing: border-box;
 }
 .header {
   background-color: green;

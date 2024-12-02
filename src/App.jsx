@@ -11,14 +11,14 @@ function App() {
     return (
         <div className="outer-container">
             <ErrorBoundary>
-                <NavBar />
+                <header>
+                    <NavBar/>
+                </header>
             </ErrorBoundary>
             <main>
                 <AppRoutes/>
             </main>
-            <footer>
                 <FooterBar/>
-            </footer>
         </div>
     )
 

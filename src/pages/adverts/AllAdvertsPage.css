@@ -1,17 +1,22 @@
+/* Advertenties Grid-styling */
 .advert-list {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    width: 100%;
+    padding: 20px;
+    justify-items: center;
 }
 
-.advert-card {
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+/* Responsieve aanpassingen */
+@media (min-width: 1024px) {
+    .advert-list {
+        grid-template-columns: repeat(5, 1fr);
+    }
 }
 
-.advert-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+@media (max-width: 768px) {
+    .advert-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
