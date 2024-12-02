@@ -1,14 +1,15 @@
-/* Advertenties Grid-styling */
+
 .advert-list {
     display: grid;
     gap: 20px;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    width: 100%;
-    padding: 20px;
-    justify-items: center;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 10px;
+  box-sizing: border-box;
 }
 
-/* Responsieve aanpassingen */
+
 @media (min-width: 1024px) {
     .advert-list {
         grid-template-columns: repeat(5, 1fr);
