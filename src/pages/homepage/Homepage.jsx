@@ -1,7 +1,6 @@
 import moesProduceLogo from '/src/assets/images/moesProduceLogo.png';
 import {useEffect, useState} from "react";
 import api from "../../services/api.js";
-// import {Link} from "react-router-dom";
 import AdvertCard from "../../components/AdvertCard/AdvertCard.jsx";
 import "./Homepage.css"
 
@@ -42,13 +41,13 @@ function Homepage() {
 
             <section className="inner-form-container">
                 {adverts.length > 0 ? (
-                    adverts.map((advert) => (
-                        <article key={advert.id} className="advert-card">
-                            <AdvertCard advert={advert}/>
-                        </article>
-                    ))
+                    <section className="advert-list">
+                        {adverts.map((advert) => (
+                            <AdvertCard key={advert.id} advert={advert}/>
+                        ))}
+                    </section>
                 ) : (
-                    <p>Geen advertenties beschikbaar</p>
+                    <p>Geen advertenties beschikbaar.</p>
                 )}
             </section>
         </section>

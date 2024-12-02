@@ -14,8 +14,6 @@ body {
 .outer-container {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  box-sizing: border-box;
   width: 100%;
   min-height: 100vh;
   background-color:blue;
@@ -37,17 +35,16 @@ main {
 
 }
 
-
 .inner-container {
   width: 100%;
-  max-width: 1000px;
+  max-width: 1600px;
   margin: 0 auto;
   border-radius: 8px;
   border: 2px solid #ddd;
   padding: 20px;
   text-align: center;
-
-
+  box-sizing: border-box;
+  overflow: hidden;
 }
 .header {
   background-color: green;

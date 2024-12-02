@@ -43,9 +43,9 @@ function CreateAdvert() {
 
     const handleCategoryClick = (category) => {
         if (expandedCategory === category) {
-            setExpandedCategory(''); // Collapse if already open
+            setExpandedCategory(''); 
         } else {
-            setExpandedCategory(category); // Expand the selected category
+            setExpandedCategory(category); 
         }
     };
 
@@ -70,11 +70,17 @@ function CreateAdvert() {
     };
 
     const handleImageChange = (e) => {
-        const files = Array.from(e.target.files);
-        setSelectedImages(files);
+    const newFiles = Array.from(e.target.files);
+    setSelectedImages(prevImages => [...prevImages, ...newFiles]);
 
-        const previews = files.map(file => URL.createObjectURL(file));
-        setPreviewImages(previews);
+    const newPreviews = newFiles.map(file => URL.createObjectURL(file));
+    setPreviewImages(prevPreviews => [...prevPreviews, ...newPreviews]);
+
+};
+
+    const removeImage = (index) => {
+        setSelectedImages(prevImages => prevImages.filter((_, i) => i !== index));
+        setPreviewImages(prevPreviews => prevPreviews.filter((_, i) => i !== index));
     };
 
     const handleSubmit = async (e) => {
@@ -171,9 +177,11 @@ function CreateAdvert() {
                                                 <img
                                                     src={preview}
                                                     alt={`Preview ${index + 1}`}
-                                                    style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+                                                    style={{width: '100px', height: '100px', objectFit: 'cover'}}
                                                 />
                                                 <figcaption>Afbeelding {index + 1}</figcaption>
+                                                <button type="button" onClick={() => removeImage(index)}>Verwijder
+                                                </button>
                                             </figure>
                                         ))}
                                     </div>

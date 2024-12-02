@@ -40,9 +40,7 @@ function AllAdvertsPage() {
                 {adverts.length > 0 ? (
                     <section className="advert-list">
                         {adverts.map((advert) => (
-                            <article key={advert.id} className="advert-card">
-                                <AdvertCard advert={advert}/>
-                            </article>
+                            <AdvertCard key={advert.id} advert={advert}/>
                         ))}
                     </section>
                 ) : (
