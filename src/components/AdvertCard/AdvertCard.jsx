@@ -1,37 +1,37 @@
 import './AdvertCard.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../services/api.js';
+import { AuthContext } from '../../context/AuthContext.jsx';
 
 function AdvertCard({ advert }) {
+    const { isAuth } = useContext(AuthContext); // Access authentication context
     const [isSaved, setIsSaved] = useState(false);
     const [saveCount, setSaveCount] = useState(advert.saveCount || 0);
 
-
     useEffect(() => {
-
         const fetchSavedStatus = async () => {
             try {
-                const response = await api.get(`/api/adverts/saved`);
-                const savedAdverts = response.data;
-                const saved = savedAdverts.some(savedAdvert => savedAdvert.id === advert.id);
-                setIsSaved(saved);
+                if (isAuth) {
+                    const response = await api.get(`/api/adverts/saved`);
+                    const savedAdverts = response.data;
+                    const saved = savedAdverts.some(savedAdvert => savedAdvert.id === advert.id);
+                    setIsSaved(saved);
+                }
             } catch (error) {
                 console.error('Fout bij ophalen van opgeslagen status:', error);
             }
         };
 
         fetchSavedStatus();
-    }, [advert.id]);
+    }, [advert.id, isAuth]);
 
     const handleSave = async () => {
         try {
             if (isSaved) {
-
                 await api.post(`/api/adverts/${advert.id}/unsave`);
                 setSaveCount(saveCount - 1);
             } else {
-
                 await api.post(`/api/adverts/${advert.id}/save`);
                 setSaveCount(saveCount + 1);
             }
@@ -64,9 +64,11 @@ function AdvertCard({ advert }) {
                     <span>🕒  {advert.createdDate}</span>
                 </footer>
             </Link>
-            <button onClick={handleSave} className={`save-button ${isSaved ? 'saved' : ''}`}>
-                {isSaved ? '♥️ Opgeslagen' : '🤍 Opslaan'}
-            </button>
+            {isAuth && (
+                <button onClick={handleSave} className={`save-button ${isSaved ? 'saved' : ''}`}>
+                    {isSaved ? '♥️ Opgeslagen' : '🤍 Opslaan'}
+                </button>
+            )}
         </article>
     );
 }

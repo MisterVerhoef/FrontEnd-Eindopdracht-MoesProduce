@@ -7,11 +7,9 @@ function SearchResultsPage() {
     const [searchResults, setSearchResults] = useState([]);
     const location = useLocation();
 
-
     const query = new URLSearchParams(location.search).get('query');
 
     useEffect(() => {
-
         const fetchSearchResults = async () => {
             try {
                 if (query) {
@@ -19,11 +17,11 @@ function SearchResultsPage() {
                     if (Array.isArray(response.data)) {
                         setSearchResults(response.data);
                     } else {
-                        console.error("Verwachte een array als zoekresultaat, maar kreeg:", response.data);
+                        console.error("Expected an array for search results but received:", response.data);
                     }
                 }
             } catch (error) {
-                console.error("Fout bij het ophalen van zoekresultaten", error);
+                console.error("Error fetching search results", error);
             }
         };
         fetchSearchResults();
@@ -31,7 +29,7 @@ function SearchResultsPage() {
 
     return (
         <div className="search-results-page">
-            <h1>Zoekresultaten voor "{query}"</h1>
+            <h1>Zoekresultaten voor "<span style={{ color: '#2e8b57', fontWeight: 'bold' }}>{query}</span>"</h1>
 
             {Array.isArray(searchResults) && searchResults.length > 0 ? (
                 <ul className="search-results-list">
@@ -45,7 +43,7 @@ function SearchResultsPage() {
                     ))}
                 </ul>
             ) : (
-                <p>Geen resultaten gevonden voor "{query}".</p>
+                <p className="no-results">Geen resultaten gevonden voor "{query}".</p>
             )}
         </div>
     );
