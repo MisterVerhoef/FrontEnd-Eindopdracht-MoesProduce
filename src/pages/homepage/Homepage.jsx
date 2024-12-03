@@ -1,16 +1,14 @@
 import moesProduceLogo from '/src/assets/images/moesProduceLogo.png';
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import api from "../../services/api.js";
 import AdvertCard from "../../components/AdvertCard/AdvertCard.jsx";
-import "./Homepage.css"
+import "./Homepage.css";
 
 function Homepage() {
-
-    const [adverts, setAdverts] = useState([])
-    const [loading, setLoading] = useState(true)
+    const [adverts, setAdverts] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-
         const fetchAdverts = async () => {
             try {
                 const response = await api.get('/api/adverts');
@@ -24,13 +22,11 @@ function Homepage() {
         };
 
         fetchAdverts();
-
     }, []);
 
     if (loading) {
         return <section className="loading-section"><p>Advertenties aan het laden...</p></section>;
     }
-
 
     return (
         <section className='inner-container'>
@@ -43,7 +39,7 @@ function Homepage() {
                 {adverts.length > 0 ? (
                     <section className="advert-list">
                         {adverts.map((advert) => (
-                            <AdvertCard key={advert.id} advert={advert}/>
+                            <AdvertCard key={advert.id} advert={advert} />
                         ))}
                     </section>
                 ) : (

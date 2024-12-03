@@ -1,24 +1,75 @@
-.sidebar nav ul {
-    list-style: none;
-    padding: 0;
+.sidebar-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 12px;
 }
 
-.sidebar nav li {
-    margin: 10px 0;
+
+.sidebar {
+    flex: 1;
+    min-width: 200px;
+    max-width: 300px;
+    background: #4CAF50;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    color: #fff;
+    text-align: left;
+    transition: transform 0.3s ease;
 }
 
 .sidebar nav a {
     text-decoration: none;
     color: #fff;
     font-weight: bold;
-    padding: 5px 10px;
-    background-color: green;
-    border-radius: 5px;
-    transition: background-color 0.3s;
+    padding: 10px 15px;
+    display: block;
+    background-color: #3e8e41;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.sidebar nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar nav li {
+    margin-bottom: 15px;
+}
+
+.sidebar:hover {
+    transform: translateY(-5px);
 }
 
 .sidebar nav a:hover {
-    background-color: darkgreen;
+    background-color: #2e7d32;
+    transform: scale(1.05);
+}
+
+.inner-profile-container {
+    flex: 2;
+    min-width: 280px;
+    max-width: 800px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    text-align: left;
+}
+
+.inner-profile-container:hover {
+    transform: translateY(-5px);
 }
 
 
@@ -28,34 +79,10 @@
     border-radius: 50%;
     object-fit: cover;
     margin-bottom: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    border: 3px solid #4CAF50;
 }
 
-/*.inner-form-container {*/
-/*    display: flex;*/
-/*    flex-direction: column;*/
-/*    align-items: center;*/
-/*    padding: 20px;*/
-/*    border: 2px solid #ddd;*/
-/*    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
-/*    border-radius: 10px;*/
-/*    background-color: #fff;*/
-/*    max-width: 400px;*/
-/*    margin: 0 auto;*/
-/*}*/
-
-.sidebar-container {
-    display: flex;
-    align-items: flex-start;
-}
-
-.sidebar {
-    width: 20%;
-    margin-right: 20px;
-}
-
-.inner-profile-container {
-    width: 75%;
-}
 
 @media (max-width: 768px) {
     .sidebar-container {

@@ -1,5 +1,5 @@
 import "./SearchBar.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function SearchBar() {

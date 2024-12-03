@@ -1,11 +1,4 @@
 
-.profile-image {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 20px;
-}
 
 .inner-form-container {
     display: flex;
@@ -14,36 +7,10 @@
     padding: 20px;
     border-radius: 10px;
     width: 100%;
-    max-width: 1200px;
     margin: 0 auto;
     box-sizing: border-box;
 }
 
-.sidebar-container {
-    display: flex;
-    align-items: flex-start;
-}
 
-.sidebar {
-    width: 20%;
-    margin-right: 20px;
-}
 
-.inner-profile-container {
-    width: 75%;
-}
 
-@media (max-width: 768px) {
-    .sidebar-container {
-        flex-direction: column;
-    }
-
-    .sidebar {
-        width: 100%;
-        margin-bottom: 20px;
-    }
-
-    .inner-profile-container {
-        width: 100%;
-    }
-}
