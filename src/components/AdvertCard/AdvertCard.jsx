@@ -5,7 +5,7 @@ import api from '../../services/api.js';
 import { AuthContext } from '../../context/AuthContext.jsx';
 
 function AdvertCard({ advert }) {
-    const { isAuth } = useContext(AuthContext); // Access authentication context
+    const { isAuth } = useContext(AuthContext);
     const [isSaved, setIsSaved] = useState(false);
     const [saveCount, setSaveCount] = useState(advert.saveCount || 0);
 
