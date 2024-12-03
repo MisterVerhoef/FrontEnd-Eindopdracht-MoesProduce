@@ -7,8 +7,9 @@ function AdvertCard({ advert }) {
     const [isSaved, setIsSaved] = useState(false);
     const [saveCount, setSaveCount] = useState(advert.saveCount || 0);
 
+
     useEffect(() => {
-        // Controleer of de advertentie al is opgeslagen
+
         const fetchSavedStatus = async () => {
             try {
                 const response = await api.get(`/api/adverts/saved`);
