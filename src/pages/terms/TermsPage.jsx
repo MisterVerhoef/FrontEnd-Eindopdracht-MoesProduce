@@ -2,7 +2,8 @@ import "./TermsPage.css";
 
 function TermsPage() {
     return (
-        <div>
+        <section className="inner-container">
+            <section className="terms-page">
             <header>
                 <h1>Algemene Voorwaarden MoesProduce</h1>
             </header>
@@ -143,7 +144,8 @@ function TermsPage() {
                 Deze algemene voorwaarden zijn opgesteld voor testdoeleinden en hebben geen juridische geldigheid. Voor
                 daadwerkelijk gebruik wordt geadviseerd juridisch advies in te winnen.
             </p>
-        </div>
+        </section>
+            </section>
     );
 }
 
