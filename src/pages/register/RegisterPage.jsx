@@ -5,6 +5,7 @@ import { registerUser } from "../../services/api.js";
 import '../../App.css';
 import './RegisterPage.css';
 
+
 function RegisterPage() {
     const { register, handleSubmit, formState: { errors }, watch } = useForm();
     const [error, setError] = useState('');
@@ -101,7 +102,8 @@ function RegisterPage() {
                     </div>
                     <div className='form-group checkbox-group'>
                         <label htmlFor="termsAccepted">
-                            Ik ga akkoord met de voorwaarden
+                            Ik ga akkoord met de <a href="/algemenevoorwaarden" target="_blank" rel="noopener noreferrer">algemene
+                            voorwaarden</a>
                         </label>
                         <input
                             type="checkbox"
