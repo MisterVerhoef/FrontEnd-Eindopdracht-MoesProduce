@@ -29,6 +29,10 @@ function UserAdverts() {
         }
     };
 
+    const handleDelete = (deletedAdvertId) => {
+        setAdverts(adverts.filter(advert => advert.id !== deletedAdvertId));
+    };
+
     if (isLoading) {
         return <section className="loading">Advertenties worden geladen...</section>;
     }
@@ -46,7 +50,7 @@ function UserAdverts() {
             <h1>Mijn Advertenties</h1>
             <div className="adverts-list">
                 {adverts.map((advert) => (
-                    <AdvertCard key={advert.id} advert={advert} />
+                    <AdvertCard key={advert.id} advert={advert} onDelete={handleDelete} />
                 ))}
             </div>
         </section>
