@@ -50,7 +50,11 @@ function UserAdverts() {
             <h1>Mijn Advertenties</h1>
             <div className="adverts-list">
                 {adverts.map((advert) => (
-                    <AdvertCard key={advert.id} advert={advert} onDelete={handleDelete} />
+                    <AdvertCard key={advert.id}
+                                advert={advert}
+                                onDelete={handleDelete}
+                                showDeleteButton={true}
+                    />
                 ))}
             </div>
         </section>

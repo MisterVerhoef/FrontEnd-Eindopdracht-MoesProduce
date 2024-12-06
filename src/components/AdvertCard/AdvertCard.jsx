@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import api from '../../services/api.js';
 import { AuthContext } from '../../context/AuthContext.jsx';
 
-function AdvertCard({ advert, onDelete }) {
+function AdvertCard({ advert, onDelete, showDeleteButton = false }) {
     const { isAuth,user } = useContext(AuthContext);
     const [isSaved, setIsSaved] = useState(false);
     const [saveCount, setSaveCount] = useState(advert.saveCount || 0);
@@ -50,13 +50,13 @@ function AdvertCard({ advert, onDelete }) {
         }
     };
 
-    const handleDelete = async () => {
+    const handleDeleteClick = async () => {
         if (window.confirm(`Weet je zeker dat je advertentie "${advert.title}" wilt verwijderen?`)) {
             try {
                 await api.delete(`/api/adverts/${advert.id}`);
                 alert(`Advertentie "${advert.title}" is succesvol verwijderd.`);
                 if (onDelete) {
-                    onDelete(advert.id); // Verwijder de advertentie uit de lijst
+                    onDelete(advert.id);
                 }
             } catch (error) {
                 console.error('Fout bij het verwijderen van de advertentie:', error);
@@ -93,8 +93,8 @@ function AdvertCard({ advert, onDelete }) {
                     <button onClick={handleSave} className={`save-button ${isSaved ? 'saved' : ''}`}>
                         {isSaved ? '♥️ Opgeslagen' : '🤍 Opslaan'}
                     </button>
-                    {isUserOwner && (
-                        <button onClick={handleDelete} className="delete-button">
+                    {isUserOwner && showDeleteButton && (
+                        <button onClick={handleDeleteClick} className="delete-button">
                             Verwijderen
                         </button>
                     )}
