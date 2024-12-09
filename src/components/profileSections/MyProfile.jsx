@@ -1,7 +1,6 @@
 import './ProfileSectionsStyle.css';
 
 function MyProfile({ profile }) {
-    // Functie om ISO-datum naar dd-mm-yyyy te formatteren voor weergave
     const formatDateForDisplay = (dateString) => {
         if (!dateString) return 'Niet ingesteld';
         const [year, month, day] = dateString.split('-');

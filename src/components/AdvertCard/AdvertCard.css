@@ -84,3 +84,7 @@
 .save-button.saved:hover {
     background-color: #218838;
 }
+
+.delete-button {
+    display: block;
+}
