@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 import "./AdvertPage.css"
 import AdvertCard from "../../components/AdvertCard/AdvertCard.jsx";
 
-function AdvertPage(){
+function AdvertPage() {
 
     const {id} = useParams();
     const [advert, setAdvert] = useState(null);
@@ -28,10 +28,10 @@ function AdvertPage(){
 
     }, [id]);
 
-    if(isLoading){
+    if (isLoading) {
         return <section>advertentie aan het laden...</section>;
     }
-    if(!advert) {
+    if (!advert) {
         return <section>Advertentie bestaat niet meer.</section>;
     }
 
@@ -60,9 +60,9 @@ function AdvertPage(){
                     ))}
                 </div>
             </section>
-</article>
-                    );
+        </article>
+    );
 
-                }
+}
 
-                export default AdvertPage;
+export default AdvertPage;
