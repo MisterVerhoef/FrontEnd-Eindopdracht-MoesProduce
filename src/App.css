@@ -22,6 +22,11 @@ body {
   background-color:blue;
 }
 
+.inner-container h1, h2 {
+  font-family: 'Lobster', cursive;
+
+}
+
 main {
   background-image: url('src/assets/images/achtergrond-login-register.jpeg');
   flex: 1;
