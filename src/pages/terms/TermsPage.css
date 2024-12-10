@@ -16,11 +16,13 @@
 
 .terms-page h1 {
     font-size: 2rem;
+    font-family: 'Lobster', cursive;
     color: #2e8b57;
 }
 
 .terms-page h2 {
     margin-top: 30px;
+    font-family: 'Lobster', cursive;
     color: #333;
     font-size: 1.5rem;
     border-bottom: 2px solid #2e8b57;
@@ -29,6 +31,7 @@
 
 .terms-page h3 {
     margin-top: 20px;
+    font-family: 'Lobster', cursive;
     color: #555;
     font-size: 1.2rem;
 }
@@ -36,6 +39,7 @@
 .terms-page p {
     margin-top: 15px;
     color: #333;
+    font-family: 'Roboto', sans-serif;
 }
 
 .terms-page ul {
@@ -50,5 +54,6 @@
 
 .terms-page em {
     color: #555;
+    font-family: 'Roboto', sans-serif;
     font-style: italic;
 }
