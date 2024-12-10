@@ -1,3 +1,4 @@
+
 import moesProduceLogo from '/src/assets/images/moesProduceLogo.png';
 import { useEffect, useState } from "react";
 import api from "../../services/api.js";
@@ -29,8 +30,9 @@ function Homepage() {
     }
 
     return (
-        <section className='inner-container'>
+        <section className="inner-container">
             <header className="homepage-header">
+
                 <img src={moesProduceLogo} id="logo" className="logo" alt="MoesProduce logo"/>
                 <h2>De plek voor al uw Moes overproduce.</h2>
             </header>

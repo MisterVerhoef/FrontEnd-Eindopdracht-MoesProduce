@@ -68,10 +68,12 @@ html, body {
     font-size: 16px;
     border-radius: 0;
     outline: none;
+    font-family: 'Lobster', cursive;
 }
 
 .search-button {
     background: #66bb6a;
+    font-family: 'Lobster', cursive;
     border: none;
     cursor: pointer;
     padding: 8px;
@@ -110,6 +112,7 @@ html, body {
 .menu {
     display: flex;
     flex-direction: row;
+    font-family: 'Lobster', cursive;
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -141,6 +144,7 @@ html, body {
 
 .logout-button {
     background: none;
+    font-family: 'Lobster', cursive;
     border: none;
     color: white;
     cursor: pointer;

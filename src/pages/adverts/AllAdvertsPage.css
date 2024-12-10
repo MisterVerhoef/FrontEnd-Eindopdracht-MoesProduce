@@ -9,6 +9,14 @@
   box-sizing: border-box;
 }
 
+.advert-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    justify-items: center;
+    align-items: stretch;
+}
+
 
 @media (min-width: 1024px) {
     .advert-list {
