@@ -18,11 +18,14 @@ html, body {
     background: linear-gradient(90deg, #4caf50, #2e7d32);
     color: #FFF;
     height: 60px;
-    padding: 0 1em;
+    padding: 10px 1em;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    position: sticky;
+    /*position: sticky;*/
     top: 0;
-    z-index: 1000;
+    left: 0;
+right: 0;
+    z-index: 2000;
+    position: fixed;
 }
 
 

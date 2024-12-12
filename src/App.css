@@ -10,6 +10,7 @@
 body {
   min-height: 100vh;
   width: 100%;
+  padding-top: 60px;
 }
 
 
@@ -20,6 +21,7 @@ body {
   width: 100%;
   min-height: 100vh;
   background-color:blue;
+  position: relative;
 }
 
 .inner-container h1, h2 {
@@ -38,7 +40,7 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  /*padding: 20px;*/
   box-sizing: border-box;
 
 }
@@ -50,10 +52,12 @@ main p{
 }
 
 .inner-container {
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  max-width: 1600px;
+  /*max-width: 1600px;*/
   margin: 0 auto;
-  padding: 20px;
+  /*padding: 20px;*/
   text-align: center;
   box-sizing: border-box;
   overflow: hidden;

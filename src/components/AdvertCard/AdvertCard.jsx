@@ -53,7 +53,7 @@ function AdvertCard({ advert }) {
                 </section>
                 {advert.imageUrls && advert.imageUrls.length > 0 && (
                     <figure>
-                        <img src={advert.imageUrls[0]} alt={advert.title} />
+                        <img src={advert.imageUrls[0]} alt={advert.title} loading="lazy" />
                         <figcaption>{advert.title}</figcaption>
                     </figure>
                 )}
