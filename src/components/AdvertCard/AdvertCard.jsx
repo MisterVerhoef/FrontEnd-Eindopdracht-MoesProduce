@@ -8,6 +8,8 @@ function AdvertCard({ advert }) {
     const { isAuth } = useContext(AuthContext);
     const [isSaved, setIsSaved] = useState(false);
     const [saveCount, setSaveCount] = useState(advert.saveCount || 0);
+    const [showModal, setShowModal] = useState(false);
+    const [selectedImage, setSelectedImage] = useState(null);
 
     useEffect(() => {
         const fetchSavedStatus = async () => {
@@ -41,6 +43,11 @@ function AdvertCard({ advert }) {
         }
     };
 
+    const handleImageClick = (imageUrl) => {
+        setSelectedImage(imageUrl);
+        setShowModal(true);
+    }
+
     return (
         <article className="advert-card">
             <Link to={`/adverts/${advert.id}`} className="advert-card-link">
@@ -53,9 +60,15 @@ function AdvertCard({ advert }) {
                 </section>
                 {advert.imageUrls && advert.imageUrls.length > 0 && (
                     <figure>
-                        <img src={advert.imageUrls[0]} alt={advert.title} loading="lazy" />
+                        <img
+                            src={advert.imageUrls[0]}
+                            alt={advert.title}
+                            loading="lazy"
+                            onClick={() => handleImageClick(advert.imageUrls[0])}
+                            />
                         <figcaption>{advert.title}</figcaption>
                     </figure>
+
                 )}
                 <footer className="advert-footer">
                     <span>👁️  {advert.viewCount} x gezien</span>
@@ -67,6 +80,28 @@ function AdvertCard({ advert }) {
                 <button onClick={handleSave} className={`save-button ${isSaved ? 'saved' : ''}`}>
                     {isSaved ? '♥️ Opgeslagen' : '🤍 Opslaan'}
                 </button>
+            )}
+            {showModal && selectedImage && (
+                <div className="overlay"
+                     onClick={() => setShowModal(false)}
+                     style={{
+                         position: 'fixed',
+                         top: 0,
+                         left: 0,
+                         width: '100vw',
+                         height: '100vh',
+                         backgroundColor: 'rgba(0,0,0,0.8)',
+                         display: 'flex',
+                         alignItems: 'center',
+                         justifyContent: 'center',
+                         cursor: 'zoom-out'
+                     }}>
+                    <img
+                        src={selectedImage}
+                        alt="Vergrote weergave"
+                        style={{ maxWidth: '90%', maxHeight: '90%' }}
+                    />
+                </div>
             )}
         </article>
     );
