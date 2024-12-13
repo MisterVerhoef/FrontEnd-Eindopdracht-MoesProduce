@@ -1,21 +1,15 @@
 
 
 .homepage-header {
-    /*position: fixed;*/
     display: flex;
     top: 60px;
     left: 0;
     right: 0;
     z-index: 1000;
-    /*text-align: center;*/
     margin-bottom: 40px;
     padding: 20px;
     align-items: center;
     justify-content: space-evenly;
-
-    /*background: linear-gradient(90deg, #4caf50, #2e7d32);*/
-    /*border-radius: 12px;*/
-    /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
     width: 100%;
     box-sizing: border-box;
     background: white;
@@ -48,7 +42,6 @@ margin-right: 40px;
 .hero-text {
     display: flex;
     flex-direction: column;
-    /*justify-content: space-between;*/
     align-items: center;
     max-width: 600px;
     gap: 20px;
