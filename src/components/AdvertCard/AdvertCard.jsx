@@ -1,11 +1,11 @@
 import './AdvertCard.css';
-import { useState, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import {useState, useEffect, useContext} from 'react';
+import {Link} from 'react-router-dom';
 import api from '../../services/api.js';
-import { AuthContext } from '../../context/AuthContext.jsx';
+import {AuthContext} from '../../context/AuthContext.jsx';
 
-function AdvertCard({ advert }) {
-    const { isAuth } = useContext(AuthContext);
+function AdvertCard({advert}) {
+    const {isAuth} = useContext(AuthContext);
     const [isSaved, setIsSaved] = useState(false);
     const [saveCount, setSaveCount] = useState(advert.saveCount || 0);
     const [showModal, setShowModal] = useState(false);
@@ -65,15 +65,15 @@ function AdvertCard({ advert }) {
                             alt={advert.title}
                             loading="lazy"
                             onClick={() => handleImageClick(advert.imageUrls[0])}
-                            />
+                        />
                         <figcaption>{advert.title}</figcaption>
                     </figure>
 
                 )}
                 <footer className="advert-footer">
-                    <span>👁️  {advert.viewCount} x gezien</span>
+                    <span>👁️ {advert.viewCount} x gezien</span>
                     <span> 🖤 {saveCount} x bewaard</span>
-                    <span>🕒  {advert.createdDate}</span>
+                    <span>🕒 {advert.createdDate}</span>
                 </footer>
             </Link>
             {isAuth && (
@@ -84,22 +84,10 @@ function AdvertCard({ advert }) {
             {showModal && selectedImage && (
                 <div className="overlay"
                      onClick={() => setShowModal(false)}
-                     style={{
-                         position: 'fixed',
-                         top: 0,
-                         left: 0,
-                         width: '100vw',
-                         height: '100vh',
-                         backgroundColor: 'rgba(0,0,0,0.8)',
-                         display: 'flex',
-                         alignItems: 'center',
-                         justifyContent: 'center',
-                         cursor: 'zoom-out'
-                     }}>
+                >
                     <img
                         src={selectedImage}
                         alt="Vergrote weergave"
-                        style={{ maxWidth: '90%', maxHeight: '90%' }}
                     />
                 </div>
             )}

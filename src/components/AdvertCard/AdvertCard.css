@@ -86,3 +86,21 @@
 .save-button.saved:hover {
     background-color: #218838;
 }
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: zoom-out;
+}
+
+.overlay img {
+    max-width: 90%;
+    max-height: 90%;
+}
