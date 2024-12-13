@@ -1,3 +1,8 @@
+.outer-profile-container h2 {
+    color: white;
+    font-family: 'Lobster', cursive;
+}
+
 .sidebar-container {
     display: flex;
     flex-wrap: wrap;

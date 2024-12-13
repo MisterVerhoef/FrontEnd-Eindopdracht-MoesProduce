@@ -1,4 +1,6 @@
 
+
+
 .advert-container {
     display: flex;
     flex-wrap: wrap;
@@ -9,6 +11,10 @@
     margin: 0 auto;
     padding: 20px;
     box-sizing: border-box;
+}
+
+.advert-container h3{
+    font-family: 'Lobster', cursive;
 }
 
 .card, .vegetable-section {
@@ -125,6 +131,8 @@
 }
 
 .submit-button {
+    font-family: 'Lobster', cursive;
+    font-size: 1.4em;
     margin-top: 20px;
     padding: 10px 20px;
     background: #32cd32;
@@ -141,6 +149,7 @@
 .card-content input,
 .card-content textarea {
     width: 100%;
+    font-family: 'Roboto', sans-serif;
     padding: 10px;
     margin-bottom: 15px;
     border-radius: 8px;
@@ -157,6 +166,7 @@
 
 .card-content label {
     display: block;
+    font-family: 'Lobster', cursive;
     font-weight: bold;
     margin-bottom: 5px;
     color: #333;

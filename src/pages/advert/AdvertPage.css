@@ -1,6 +1,16 @@
 .inner-form-container header h1 {
     color: white;
-    padding-bottom: 20px;
+    font-family: 'Lobster', cursive;
+    font-size: 36px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+}
+
+.additional-images-container h2 {
+    color: whitesmoke;
+    margin: 20px;
+    font-size: 24px;
+    font-family: 'Lobster', cursive;
 }
 
 .images-container {
