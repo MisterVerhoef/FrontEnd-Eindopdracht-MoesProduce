@@ -1,13 +1,15 @@
 import './AdvertCard.css';
-import { useState, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import {useState, useEffect, useContext} from 'react';
+import {Link} from 'react-router-dom';
 import api from '../../services/api.js';
-import { AuthContext } from '../../context/AuthContext.jsx';
+import {AuthContext} from '../../context/AuthContext.jsx';
 
-function AdvertCard({ advert }) {
-    const { isAuth } = useContext(AuthContext);
+function AdvertCard({advert}) {
+    const {isAuth} = useContext(AuthContext);
     const [isSaved, setIsSaved] = useState(false);
     const [saveCount, setSaveCount] = useState(advert.saveCount || 0);
+    const [showModal, setShowModal] = useState(false);
+    const [selectedImage, setSelectedImage] = useState(null);
 
     useEffect(() => {
         const fetchSavedStatus = async () => {
@@ -41,8 +43,13 @@ function AdvertCard({ advert }) {
         }
     };
 
+    const handleImageClick = (imageUrl) => {
+        setSelectedImage(imageUrl);
+        setShowModal(true);
+    }
+
     return (
-        <article className="advert-card">
+        <article className={`advert-card ${showModal ? "modal-open" : ""}`}>
             <Link to={`/adverts/${advert.id}`} className="advert-card-link">
                 <header>
                     <h2>{advert.title}</h2>
@@ -53,14 +60,20 @@ function AdvertCard({ advert }) {
                 </section>
                 {advert.imageUrls && advert.imageUrls.length > 0 && (
                     <figure>
-                        <img src={advert.imageUrls[0]} alt={advert.title} loading="lazy" />
+                        <img
+                            src={advert.imageUrls[0]}
+                            alt={advert.title}
+                            loading="lazy"
+                            onClick={() => handleImageClick(advert.imageUrls[0])}
+                        />
                         <figcaption>{advert.title}</figcaption>
                     </figure>
+
                 )}
                 <footer className="advert-footer">
-                    <span>👁️  {advert.viewCount} x gezien</span>
+                    <span>👁️ {advert.viewCount} x gezien</span>
                     <span> 🖤 {saveCount} x bewaard</span>
-                    <span>🕒  {advert.createdDate}</span>
+                    <span>🕒 {advert.createdDate}</span>
                 </footer>
             </Link>
             {isAuth && (
@@ -68,8 +81,23 @@ function AdvertCard({ advert }) {
                     {isSaved ? '♥️ Opgeslagen' : '🤍 Opslaan'}
                 </button>
             )}
+            {showModal && selectedImage && (
+                <>
+                    <style>{"body { overflow: hidden; }"}</style>
+                    <div className="overlay"
+                         onClick={() => setShowModal(false)}
+                    >
+                        <img
+                            src={selectedImage}
+                            alt="Vergrote weergave"
+                        />
+                    </div>
+                </>
+            )
+            }
         </article>
-    );
+    )
+        ;
 }
 
 export default AdvertCard;
