@@ -12,9 +12,16 @@
     aspect-ratio: 1;
 }
 
-.advert-card:hover {
+
+.advert-card:hover:not(.modal-open) {
     transform: translateY(-5px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+
+.advert-card.modal-open:hover {
+    transform: none;
+    box-shadow: none;
 }
 
 

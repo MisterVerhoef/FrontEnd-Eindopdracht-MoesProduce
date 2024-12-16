@@ -60,7 +60,7 @@ main p{
   /*padding: 20px;*/
   text-align: center;
   box-sizing: border-box;
-  overflow: hidden;
+  /*overflow: hidden;*/
 }
 .header {
   background-color: green;

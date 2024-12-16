@@ -49,7 +49,7 @@ function AdvertCard({advert}) {
     }
 
     return (
-        <article className="advert-card">
+        <article className={`advert-card ${showModal ? "modal-open" : ""}`}>
             <Link to={`/adverts/${advert.id}`} className="advert-card-link">
                 <header>
                     <h2>{advert.title}</h2>
@@ -82,17 +82,22 @@ function AdvertCard({advert}) {
                 </button>
             )}
             {showModal && selectedImage && (
-                <div className="overlay"
-                     onClick={() => setShowModal(false)}
-                >
-                    <img
-                        src={selectedImage}
-                        alt="Vergrote weergave"
-                    />
-                </div>
-            )}
+                <>
+                    <style>{"body { overflow: hidden; }"}</style>
+                    <div className="overlay"
+                         onClick={() => setShowModal(false)}
+                    >
+                        <img
+                            src={selectedImage}
+                            alt="Vergrote weergave"
+                        />
+                    </div>
+                </>
+            )
+            }
         </article>
-    );
+    )
+        ;
 }
 
 export default AdvertCard;
