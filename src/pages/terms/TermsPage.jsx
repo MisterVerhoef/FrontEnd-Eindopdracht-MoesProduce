@@ -41,7 +41,7 @@ function TermsPage() {
 
             <h3>3.2 Gegevensverzameling</h3>
             <p>
-                Bij registratie worden de volgende gegevens verzameld: naam, e-mailadres en woonplaats.
+                Bij registratie worden de volgende gegevens verzameld: naam, emailadres en woonplaats.
             </p>
 
             <h3>3.3 Waarheidsgetrouwheid</h3>

@@ -94,6 +94,25 @@
     background-color: #218838;
 }
 
+.delete-button {
+    background-color: #ff3b3b;
+    font-family: 'Lobster', cursive;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-left: 10px;
+}
+
+.delete-button:hover {
+    background-color: #d32f2f;
+    transform: translateY(-3px);
+}
+
 .overlay {
     position: fixed;
     top: 0;
