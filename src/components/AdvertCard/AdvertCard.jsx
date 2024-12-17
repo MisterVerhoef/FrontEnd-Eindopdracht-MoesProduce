@@ -4,12 +4,15 @@ import {Link} from 'react-router-dom';
 import api from '../../services/api.js';
 import {AuthContext} from '../../context/AuthContext.jsx';
 
-function AdvertCard({advert}) {
-    const {isAuth} = useContext(AuthContext);
+function AdvertCard({advert, onDelete, showDeleteButton = false}) {
+    const {isAuth, user} = useContext(AuthContext);
     const [isSaved, setIsSaved] = useState(false);
     const [saveCount, setSaveCount] = useState(advert.saveCount || 0);
     const [showModal, setShowModal] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
+
+    const isUserOwner = isAuth && user && user.sub && advert.username &&
+        user.sub.toLowerCase() === advert.username.toLowerCase();
 
     useEffect(() => {
         const fetchSavedStatus = async () => {
@@ -48,6 +51,24 @@ function AdvertCard({advert}) {
         setShowModal(true);
     }
 
+    const handleDeleteClick = async () => {
+        if (window.confirm(`Weet je zeker dat je advertentie "${advert.title}" wilt verwijderen?`)) {
+            try {
+
+                await api.delete(`/api/adverts/${advert.id}`);
+                alert(`Advertentie "${advert.title}" is succesvol verwijderd.`);
+
+
+                if (onDelete) {
+                    onDelete(advert.id);
+                }
+            } catch (error) {
+                console.error('Fout bij het verwijderen van de advertentie:', error);
+                alert('Er is een fout opgetreden bij het verwijderen van de advertentie. Probeer het opnieuw.');
+            }
+        }
+    };
+
     return (
         <article className={`advert-card ${showModal ? "modal-open" : ""}`}>
             <Link to={`/adverts/${advert.id}`} className="advert-card-link">
@@ -81,6 +102,11 @@ function AdvertCard({advert}) {
                     {isSaved ? '♥️ Opgeslagen' : '🤍 Opslaan'}
                 </button>
             )}
+            {isUserOwner && showDeleteButton && (
+                <button onClick={handleDeleteClick} className="delete-button">
+            Verwijderen
+        </button>
+            )}
             {showModal && selectedImage && (
                 <>
                     <style>{"body { overflow: hidden; }"}</style>
@@ -93,11 +119,9 @@ function AdvertCard({advert}) {
                         />
                     </div>
                 </>
-            )
-            }
+            )}
         </article>
-    )
-        ;
+    );
 }
 
 export default AdvertCard;

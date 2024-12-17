@@ -41,12 +41,22 @@ function UserAdverts() {
         return <section className="no-adverts">Geen advertenties gevonden.</section>;
     }
 
+    const handleDelete = (advertId) => {
+        setAdverts(adverts.filter(advert => advert.id !== advertId));
+        console.log(`Advertentie met id ${advertId} lokaal uit de state verwijderd`);
+    };
+
     return (
         <section className="user-adverts-container">
             <h1>Mijn Advertenties</h1>
             <div className="adverts-list">
                 {adverts.map((advert) => (
-                    <AdvertCard key={advert.id} advert={advert} />
+                    <AdvertCard
+                        key={advert.id}
+                        advert={advert}
+                        onDelete={handleDelete}
+                        showDeleteButton={true}
+                    />
                 ))}
             </div>
         </section>
