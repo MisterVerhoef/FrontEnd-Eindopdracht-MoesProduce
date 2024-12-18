@@ -77,7 +77,7 @@ function AdvertCard({advert, onDelete, showDeleteButton = false}) {
                 </header>
                 <section className="advert-details">
                     <p>{advert.description}</p>
-                    <p><strong>Aangemaakt door:</strong> {advert.username}</p>
+                    <p><strong>Geplaatst door:</strong> {advert.username}</p>
                 </section>
                 {advert.imageUrls && advert.imageUrls.length > 0 && (
                     <figure>
