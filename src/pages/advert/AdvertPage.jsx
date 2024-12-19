@@ -10,6 +10,14 @@ function AdvertPage(){
     const [advert, setAdvert] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
+    const [showModal, setShowModal] = useState(false);
+    const [selectedImage, setSelectedImage] = useState(null);
+
+    const handleImageClick = (imageUrl) => {
+        setSelectedImage(imageUrl);
+        setShowModal(true);
+    }
+
     useEffect(() => {
 
         const fetchAdvert = async () => {
@@ -45,22 +53,36 @@ function AdvertPage(){
 
             <AdvertCard advert={advert}/>
 
+            {advert.imageUrls && advert.imageUrls.length > 1 && (
+                <section className="additional-images-container">
+                    <header>
+                        <h2>Meer afbeeldingen</h2>
+                    </header>
+                    <div className="images-container">
+                        {advert.imageUrls.map((imageUrl, index) => (
+                            <img
+                                key={index}
+                                src={imageUrl}
+                                alt={`Advert image ${index + 1}`}
+                                className="advert-image"
+                                onClick={() => handleImageClick(imageUrl)} // Klikbaar maken
+                                style={{ cursor: 'pointer' }}
+                            />
+                        ))}
+                    </div>
+                </section>
+            )}
 
-            <section className="additional-images-container">
-                <header>
-                    <h2>Meer afbeeldingen</h2>
-                </header>
 
-
-                <div className="images-container">
-
-                    {advert.imageUrls.map((imageUrl, index) => (
-                        <img key={index} src={imageUrl} alt={`Advert image ${index + 1}`}
-                             className="advert-image"/>
-                    ))}
-                </div>
-            </section>
-</article>
+            {showModal && selectedImage && (
+                <>
+                    <style>{"body { overflow: hidden; }"}</style>
+                    <div className="overlay" onClick={() => setShowModal(false)}>
+                        <img src={selectedImage} alt="Vergrote weergave" />
+                    </div>
+                </>
+            )}
+        </article>
                     );
 
                 }
