@@ -138,7 +138,7 @@ function EditProfile({ profile, setProfile, setSuccessMessage, setError }) {
                         />
                     </div>
                     <div>
-                        <label htmlFor="address">Adres:</label>
+                        <label htmlFor="address">Woonplaats:</label>
                         <input
                             type="text"
                             id="address"

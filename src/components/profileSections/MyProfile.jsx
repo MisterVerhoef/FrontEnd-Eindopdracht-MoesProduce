@@ -19,7 +19,7 @@ function MyProfile({ profile }) {
             <p><strong>Naam:</strong> {profile.name || 'Niet ingesteld'}</p>
             <p><strong>E-mail:</strong> {profile.email}</p>
             <p><strong>Geboortedatum:</strong> {formatDateForDisplay(profile.doB)}</p>
-            <p><strong>Adres:</strong> {profile.address || 'Niet ingesteld'}</p>
+            <p><strong>Woonplaats:</strong> {profile.address || 'Niet ingesteld'}</p>
         </section>
     );
 }
