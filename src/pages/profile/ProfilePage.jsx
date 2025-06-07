@@ -32,7 +32,7 @@ function ProfilePage() {
 
         if (successMessage)
             timer = setTimeout(() => {
-                setSuccessMessage('Het profiel is succesvol bijgewerkt.');
+                setSuccessMessage('');
             }, 5000);
 
 
