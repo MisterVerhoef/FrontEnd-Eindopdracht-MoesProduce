@@ -14,6 +14,7 @@ function ProfilePage() {
     const [profile, setProfile] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
     const { isAuth, logout } = useContext(AuthContext);
     const navigate = useNavigate();
 
@@ -24,6 +25,25 @@ function ProfilePage() {
             navigate('/login');
         }
     }, [isAuth, navigate]);
+
+    useEffect(() => {
+
+        let timer;
+
+        if (successMessage)
+            timer = setTimeout(() => {
+                setSuccessMessage('Het profiel is succesvol bijgewerkt.');
+            }, 5000);
+
+
+        return () => clearTimeout(timer);
+    }, [successMessage]);
+
+    useEffect(() => {
+        if (error) {
+            setSuccessMessage('');
+        }
+    }, [error]);
 
     const fetchProfile = async () => {
         setIsLoading(true);
@@ -81,6 +101,8 @@ function ProfilePage() {
 
                 <article className="inner-profile-container">
                     {error && <div className="error-message">{error}</div>}
+                    {successMessage && <div className="success-message">{successMessage}</div>}
+
 
                     <Routes>
                         <Route path="/" element={<MyProfile profile={profile} />} />
@@ -88,7 +110,7 @@ function ProfilePage() {
                             <EditProfile
                                 profile={profile}
                                 setProfile={setProfile}
-                                setSuccessMessage={(message) => console.log(message)}
+                                setSuccessMessage={setSuccessMessage}
                                 setError={setError}
                             />} />
                         <Route path="/user-adverts" element={<UserAdverts />} />
