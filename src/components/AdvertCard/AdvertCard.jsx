@@ -95,7 +95,7 @@ function AdvertCard({advert, onDelete, showDeleteButton = false}) {
                 <footer className="advert-footer">
                     <span>👁️ {advert.viewCount} x gezien</span>
                     <span> 🖤 {saveCount} x bewaard</span>
-                    <span>🕒 {advert.formattedCreatedDate}</span>
+                    <time dateTime={advert.createdDate}>🕒 {advert.formattedCreatedDate}</time>
                 </footer>
             </Link>
             {isAuth && (
