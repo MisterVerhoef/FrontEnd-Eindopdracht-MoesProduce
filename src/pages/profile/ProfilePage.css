@@ -88,6 +88,29 @@
     border: 3px solid #4CAF50;
 }
 
+.success-message {
+    background-color: #d4edda; /* Lichtgroene achtergrond */
+    color: #155724; /* Donkergroene tekst */
+    border: 1px solid #c3e6cb; /* Groene rand */
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.error-message {
+    background-color: #f8d7da; /* Lichtrode achtergrond */
+    color: #721c24; /* Donkerrode tekst */
+    border: 1px solid #f5c6cb; /* Rode rand */
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 16px;
+}
+
+
 
 @media (max-width: 768px) {
     .sidebar-container {
