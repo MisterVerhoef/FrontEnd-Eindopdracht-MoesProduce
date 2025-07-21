@@ -25,7 +25,7 @@
     background: #4CAF50;
     border-radius: 12px;
     padding: 20px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     color: #fff;
     text-align: left;
     transition: transform 0.3s ease;
@@ -68,7 +68,7 @@
     background: #fff;
     border-radius: 12px;
     padding: 30px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
     text-align: left;
 }
@@ -84,9 +84,32 @@
     border-radius: 50%;
     object-fit: cover;
     margin-bottom: 20px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border: 3px solid #4CAF50;
 }
+
+.success-message {
+    background-color: #d4edda; /* Lichtgroene achtergrond */
+    color: #155724; /* Donkergroene tekst */
+    border: 1px solid #c3e6cb; /* Groene rand */
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.error-message {
+    background-color: #f8d7da; /* Lichtrode achtergrond */
+    color: #721c24; /* Donkerrode tekst */
+    border: 1px solid #f5c6cb; /* Rode rand */
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 16px;
+}
+
 
 
 @media (max-width: 768px) {
